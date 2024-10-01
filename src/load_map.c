@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/09/28 15:26:58 by cmateos-         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:05:18 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/cub3d.h"
 
+#include <cub3d.h>
 
 //     char *dir;
 //     int     i;

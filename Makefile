@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmateos- <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/09/26 17:47:01 by cmateos-         ###   ########.fr        #
+#    Updated: 2024/10/01 21:17:55 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,21 +25,28 @@ COLOR_PURPLE_N = \033[1;35m
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -Werror -Wextra -Wall -g3
+CFLAGS = -g3 #-Werror -Wextra -Wall 
+LIBMLX42_FLAGS = -I include -ldl -lglfw -lm
 RM = rm -f
-LIBFT_DIR = libft/
+LIBFT_DIR = ./libft/
 LIBFT = $(LIBFT_DIR)libft.a
-SRC_DIR = src
-OBJ_DIR = obj
-INCLUDE = include/cub3d.h
-SRC = $(shell find $(SRC_DIR) -name '*.c')
-OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+LIBMLX42 = ./include/MLX42/libmlx42.a
+COMPS = $(LIBFT) $(LIBMLX42)
+SRC_DIR = ./src/
+OBJ_DIR = ./obj/
+INCLUDE = -I include - I ./include/headers/ -I ./include/MLX42/include/MLX42/
+#SRC = $(shell find $(SRC_DIR) -name '*.c')
+#OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+
+SRCNAMES	= $(shell ls $(SRC_DIR) | grep -E ".+\.c")
+SRC	= $(addprefix $(SRC_DIR), $(SRCNAMES))
+OBJ	= $(addprefix $(OBJ_DIR), $(SRCNAMES:.c=.o))
 CHANGES_MADE = 0
 CHARS_LEN := 0
 CHARS := 0
 progress := 2
 
-all: $(NAME)
+all: obj $(COMPS) $(NAME)
 	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
 		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
 	fi
@@ -50,12 +57,21 @@ all: $(NAME)
 	$(call print_progress)
 	@echo ""
 
-$(NAME):$(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a -Iinclude -ldl -lglfw -pthread -lm $(LIBFT) -o $(NAME)
+obj:
+	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	@echo $(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+$(NAME):$(OBJ)
+	@echo $(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX_FLAGS)
 	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) > /dev/null
+
+$(LIBMLX42):
+	@$(MAKE) -C $(dir $(LIBMLX42))
 
 define print_progress
 	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
@@ -63,7 +79,7 @@ endef
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 	$(eval progress=$(shell echo $$(($(progress) + 1))))
 	$(call print_progress)
 

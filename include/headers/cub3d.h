@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:00:09 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/09/26 18:00:17 by cmateos-         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:54:43 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string.h> 
 # include <stdlib.h> 
 # include <fcntl.h>
-//# include <mlx.h>
+# include <MLX42.h>
 # include <stdarg.h> 
 # include <limits.h> 
 # include <errno.h>
