@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_freematrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: daviles- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/12 15:26:31 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/03/22 19:42:29 by cmateos-         ###   ########.fr       */
+/*   Created: 2023/08/31 18:23:20 by daviles-          #+#    #+#             */
+/*   Updated: 2023/08/31 18:48:22 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_freearray(char **array)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	if (array)
+	{
+		while (array[i])
+			free(array[i++]);
+	}
+	free (array);
 }

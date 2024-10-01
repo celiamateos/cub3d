@@ -6,10 +6,10 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/10/30 18:15:17 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:36:16 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../libft.h"
+#include "get_next_line.h"
 
 char	*auxupdater(char *aux)
 {
@@ -19,7 +19,7 @@ char	*auxupdater(char *aux)
 
 	i = 0;
 	j = 0;
-	temp = malloc((ft_strlen_gnl(aux) + 1) * sizeof(char));
+	temp = malloc((ft_strlen(aux) + 1) * sizeof(char));
 	if (!temp)
 		return (free(aux), NULL);
 	while (aux[i] != '\0')
@@ -79,7 +79,7 @@ char	*read_line(int fd, char *aux)
 	if (!buffer)
 		return (free(aux), NULL);
 	while (i > 0 && !ft_strchr_gnl(aux, '\n'))
-	{
+	{		
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
 		{
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
-	{
+	{	
 		free(aux);
 		aux = 0;
 		return (0);

@@ -50,6 +50,7 @@ SRC = ft_isalpha.c \
 	  ft_putendl_fd.c \
 	  ft_putnbr_fd.c \
 	  ft_isspace.c \
+	  ft_freearray.c \
 	  ./get_next_line/get_next_line.c \
 	  ./get_next_line/get_next_line_utils.c
 SRC_BONUS = ft_lstnew_bonus.c \

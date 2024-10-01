@@ -77,11 +77,11 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 size_t	ft_strlen_gnl(char *str);
 int		check_emptyorspace(char *str);
 int		ft_isspace(int c);
+void	ft_freearray(char **array);
 
 
 // int		ft_strposchr(const char *s, int c);
 // void	ft_print_strarray(char **array);
-// void	ft_freematrix(char ***matrix);
 // char	**ft_sarrcpy(char **arr);
 // void	ft_putstr_fd_noquotes(char *s, int fd);
 // char	*ft_arrtostr(char **arr);

@@ -9,19 +9,19 @@
 /*   Updated: 2023/05/15 17:31:51 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../libft.h"
+#include "get_next_line.h"
 
-size_t	ft_strlen_gnl(char *str)
-{
-	size_t	i;
+// size_t	ft_strlen(char *str)
+// {
+// 	size_t	i;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (!str)
+// 		return (0);
+// 	while (str[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
 
 char	*ft_strchr_gnl(char *s, int c)
 {
@@ -31,7 +31,7 @@ char	*ft_strchr_gnl(char *s, int c)
 	if (!s)
 		return (NULL);
 	while (s[i] != '\0')
-	{
+	{	
 		if (s[i] == (char)c)
 			return ((char *)&s[i]);
 		i++;
@@ -81,7 +81,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 			dst[i] = src[i];
 			i++;
 		}
-		dst[i] = '\0';
+	dst[i] = '\0';
 	}
 	return (ft_strlen((char *)src));
 }

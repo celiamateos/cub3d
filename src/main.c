@@ -66,7 +66,8 @@ void load_data(t_data *data)
     if (!data)
         exit(1);
     data->map = (t_map *)malloc(sizeof(t_map));
-    data->map->line = ft_calloc(1, sizeof(data->map->line));
+    // data->map->line = ft_calloc(1, sizeof(data->map->line));
+    data->map->elements = 0;
 }
 
 int check_name_file(char *av)
@@ -82,10 +83,25 @@ int main(int ac, char **av)
 {
     t_data  data;
 
+    (void)ac;
     if (ac != 2 || check_name_file(av[1]))
         err("Bad arguments. Enter a .cub file\n"), exit(1);
     printf("Bienvenido a Cub3d\n");
     load_data(&data);
     load_map(&data, av[1]);
+    // char *line;
+    // int fd;
+
+    // fd = open(av[1], O_RDONLY);
+    // if (fd == -1 || !av[1])
+    //     return 1;
+    // while (1)
+    // {
+    //     line = get_next_line(fd);
+    //     printf("line:%s\n", line);
+    //     if (!line)
+    //         break ;
+    // }
+    // close (fd);
     return (0);
 }

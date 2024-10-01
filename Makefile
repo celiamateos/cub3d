@@ -51,7 +51,7 @@ all: $(NAME)
 	@echo ""
 
 $(NAME):$(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Ilmx_linux -lmlx -lXext -lX11 -lm -lz -lbsd $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a -Iinclude -ldl -lglfw -pthread -lm $(LIBFT) -o $(NAME)
 	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):

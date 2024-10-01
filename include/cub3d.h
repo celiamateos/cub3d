@@ -31,6 +31,16 @@ typedef struct map
 {
     int     fd;
     char    *line;
+    int     num_elem;
+    char    *north_route;
+    char    *south_route;
+    char    *east_route;
+    char    *west_route;
+    char    *ceiling_route;
+    char    *floor_route;
+    char    **map;
+    int     x;
+    int     y;
 }   t_map;
 
 typedef struct  s_data
