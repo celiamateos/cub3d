@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/01 21:05:03 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:18:25 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void load_data(t_data *data)
         exit(1);
     data->map = (t_map *)malloc(sizeof(t_map));
     // data->map->line = ft_calloc(1, sizeof(data->map->line));
-    data->map->elements = 0;
+    //data->map->elements = 0;
 }
 
 int check_name_file(char *av)
