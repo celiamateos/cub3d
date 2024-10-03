@@ -38,13 +38,12 @@ char *ft_search_element(char *line, char *elem)
     element = ft_split(line, ' ');
     if (!element)
         return NULL;
-    printf("element[0]:%s|\n", element[0]);
-    printf("element[1]:%s|\n", element[1]);
-    if (ft_strncmp(element[0], elem, ft_strlen(element[0])))
+
+    if (!ft_strncmp(element[0], elem, ft_strlen(element[0])))
     {
-        printf("ei");
-        dir = ft_substr(element[1], 0, ft_strlen(element[1]));
-        fd = open(element[1], O_RDONLY);
+        dir = ft_substr(element[1], 0, (ft_strlen(element[1]) - 1));
+        printf("dir:%s.\n", dir);
+        fd = open(dir, O_RDONLY);
         ft_freearray(element);
         if (fd < 0)
             err("error: fd: invalid map\n"), exit(1);
@@ -92,7 +91,7 @@ void readmap(t_data *data, char *file)
             printf("line:%s", line);
             save_data_map(data, line);
             data->map->num_elem++;
-            if (data->map->num_elem  > 3)
+            if (data->map->num_elem > 0)
                 break ;
         }
         free(line);

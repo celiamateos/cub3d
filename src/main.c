@@ -67,7 +67,7 @@ void load_data(t_data *data)
         exit(1);
     data->map = (t_map *)malloc(sizeof(t_map));
     // data->map->line = ft_calloc(1, sizeof(data->map->line));
-    data->map->elements = 0;
+    data->map->num_elem = 0;
 }
 
 int check_name_file(char *av)

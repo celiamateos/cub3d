@@ -34,7 +34,7 @@ LIBMLX42 = ./include/MLX42/libmlx42.a
 COMPS = $(LIBFT) $(LIBMLX42)
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
-INCLUDE = -I include - I ./include/headers/ -I ./include/MLX42/include/MLX42/
+INCLUDE = -I include -I ./include/headers/ -I ./include/MLX42/include/MLX42/
 #SRC = $(shell find $(SRC_DIR) -name '*.c')
 #OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
@@ -61,10 +61,10 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
-	@echo $(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(NAME):$(OBJ)
-	@echo $(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX_FLAGS)
+	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX_FLAGS)
 	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
