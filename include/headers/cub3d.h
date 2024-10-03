@@ -25,7 +25,15 @@
 # include <limits.h> 
 # include <errno.h>
 
+# define RED "\033[31m"
+# define GREEN "\033[32m"
+# define PURPLE "\033[1m\033[35m"
+# define YELLOW "\033[33m"
+# define BLUE "\033[34m"
+# define RESET "\033[0m" 
 
+# define WIDTH_WIN 1500
+# define HEIGHT_WIN 1500
 
 typedef struct map
 {
@@ -36,16 +44,25 @@ typedef struct map
     char    *south_route;
     char    *east_route;
     char    *west_route;
-    char    *ceiling_route;
-    char    *floor_route;
+    int    *ceiling_route;
+    int    *floor_route;
     char    **map;
     int     x;
     int     y;
 }   t_map;
 
+typedef struct t_player
+{
+    char    player_dir; //Direction player (N,S,E,W)
+    int     player_count;
+}   t_player;
+
 typedef struct  s_data
 {
-	t_map   *map;
+	t_map       *map;
+	t_player    *player;
+    void		*mlx;
+	void		*mlx_win;
 
 }   t_data;
 
@@ -54,5 +71,7 @@ typedef struct  s_data
 void err(char *str);
 void load_map(t_data *data, char *file);
 void readmap(t_data *data, char *file);
+int ft_arraylen(char **array);
+void ft_printarray(char **arr);
 
 #endif

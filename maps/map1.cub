@@ -1,4 +1,17 @@
 NO ./textures/north_texture.png
+        EA ./textures/north_texture.png
+
+
+
+
+WE      ./textures/north_texture.png
+SO             ./textures/north_texture.png
+
+C 42,15,9
+F 65,42,6
+
+
 111111111
 100000001
+10000W001
 111111111
