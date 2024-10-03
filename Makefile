@@ -26,7 +26,7 @@ COLOR_PURPLE_N = \033[1;35m
 NAME = cub3d
 CC = gcc
 CFLAGS = -g3 #-Werror -Wextra -Wall 
-LIBMLX42_FLAGS = -I include -ldl -lglfw -lm
+LIBMLX42_FLAGS = -I include -ldl -lglfw -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 RM = rm -f
 LIBFT_DIR = ./libft/
 LIBFT = $(LIBFT_DIR)libft.a
@@ -64,7 +64,7 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(NAME):$(OBJ)
-	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX_FLAGS)
+	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
 #	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
