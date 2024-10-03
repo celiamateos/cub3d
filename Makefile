@@ -47,15 +47,15 @@ CHARS := 0
 progress := 2
 
 all: obj $(COMPS) $(NAME)
-#	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
-#		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
-#	fi
-#	$(call print_progress)
-#	$(eval progress := 50)
-#	$(call print_progress)
-#	$(eval progress := 100)
-#	$(call print_progress)
-#	@echo ""
+	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
+		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
+	fi
+	$(call print_progress)
+	$(eval progress := 50)
+	$(call print_progress)
+	$(eval progress := 100)
+	$(call print_progress)
+	@echo ""
 
 obj:
 	@mkdir -p $(OBJ_DIR)
@@ -65,7 +65,7 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 
 $(NAME):$(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
-#	@$(eval CHANGES_MADE=1)
+	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) > /dev/null
@@ -73,9 +73,9 @@ $(LIBFT):
 #$(LIBMLX42):
 #	@$(MAKE) -C $(dir $(LIBMLX42))
 
-#define print_progress
-#	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
-#endef
+define print_progress
+	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
+endef
 
 #$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 #	@mkdir -p $(dir $@)
