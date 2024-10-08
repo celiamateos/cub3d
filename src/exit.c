@@ -13,13 +13,6 @@
 
 void err(char *str)
 {
-    while(*str)
-        write(2, str++, 1);
+	while(*str)
+		write(2, str++, 1);
 }
-
-// clean_data()
-
-// int exit(t_map *map, char *err)
-// {
-//     clean_data()
-// }

@@ -44,17 +44,20 @@ typedef struct map
     char    *south_route;
     char    *east_route;
     char    *west_route;
-    int    *ceiling_route;
-    int    *floor_route;
+    int    *ceiling_route; //RGB Format
+    int    *floor_route; //RGB Format
     char    **map;
-    int     x;
-    int     y;
+    int     height;
+    int     width;
+
 }   t_map;
 
 typedef struct t_player
 {
     char    player_dir; //Direction player (N,S,E,W)
     int     player_count;
+    int     y;
+    int     x;
 }   t_player;
 
 typedef struct  s_data
@@ -67,11 +70,16 @@ typedef struct  s_data
 }   t_data;
 
 
-
-void err(char *str);
+//PARSE
 void load_map(t_data *data, char *file);
 void readmap(t_data *data, char *file);
+
+// UTILS
+void err(char *str);
 int ft_arraylen(char **array);
 void ft_printarray(char **arr);
+void ft_printintarray(int *nb, int size);
+int	ft_free_error_arr(char **mem, long row);
+void save_map(t_data *data, char *str);
 
 #endif
