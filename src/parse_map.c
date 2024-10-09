@@ -28,7 +28,6 @@ size_t	double_pointer_len(char **double_pointer)
 	return (len);
 }
 
-
 bool	map_closed(char **m, size_t x, size_t y)
 {
 	bool	valid;
@@ -54,42 +53,26 @@ bool	map_closed(char **m, size_t x, size_t y)
 	return (valid);
 }
 
-bool	valid_map_char(char c)
-{
-    // if (c == '0')
-    //     return (false);
-	if (c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == '.' || c == '1')
-		return (true);
-	return (false);
-}
-
-
 bool check_valid_map(t_data *data)
 {
-    int row;
-    int i;
-    char **m;
+    int     row;
+    int     i;
+    char    **m;
 
-    row = 0;
-    i = 0;
+    row = -1;
+    i = -1;
     m = data->map->map;
-    while (row != ft_arraylen(m))
+    while (++row != ft_arraylen(m))
     { 
-        while (i != (ft_strlen(m[row])))
+        while (++i != (ft_strlen(m[row])))
         {
-            // printf("\nm[%d][%d]:%c\n", row, i, m[row][i]);
             if (m[row][i] == '0')
             {
                 if (!map_closed(data->map->map, i, row))
                     return false;
             }
             m = data->map->map;
-            // if (!valid_map_char(m[row][i]))
-            //     return printf("\nm[%d][%d]:%c\n", row, i, m[row][i]), false;
-            i += 1;
         }
-        row += 1;
         i = 0;
     }
     return (true);
