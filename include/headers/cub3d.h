@@ -72,7 +72,7 @@ typedef struct  s_data
 
 //PARSE
 void    load_map(t_data *data, char *file);
-void    readmap(t_data *data, char *file);
+void    readmap(t_data *data);
 bool    check_valid_map(t_data *data);
 bool    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);

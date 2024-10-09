@@ -75,28 +75,28 @@ void save_element_map(t_data *data, char ***elements)
     char **element;
 
     element = *elements;
-    if (!data->map->north_route && !ft_strncmp(element[0], "NO", ft_strlen(element[0])))
+    if (!data->map->north_route && !ft_strncmp(element[0], "NO", ft_strlen("NO")))
     {
-        if ((data->map->north_route = ft_search_element(element)) && !data->map->north_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
+        if ((data->map->north_route = ft_search_element(element)) == NULL)
+            ft_freearray(element), exit(1); //free..
         printf(GREEN"north_route:%s\n"RESET, data->map->north_route);
     }
-    else if (!data->map->south_route && !ft_strncmp(element[0], "SO", ft_strlen(element[0])))
+    else if (!data->map->south_route && !ft_strncmp(element[0], "SO", ft_strlen("SO")))
     {
-        if ((data->map->south_route = ft_search_element(element)) && !data->map->south_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
+        if ((data->map->south_route = ft_search_element(element)) == NULL)
+            ft_freearray(element), exit(1); //free..
         printf(GREEN"south_route:%s\n"RESET, data->map->south_route);
     }
-    else if (!data->map->east_route && !ft_strncmp(element[0], "EA", ft_strlen(element[0])))
+    else if (!data->map->east_route && !ft_strncmp(element[0], "EA", ft_strlen("EA")))
     {
-        if ((data->map->east_route = ft_search_element(element)) && !data->map->east_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
+        if ((data->map->east_route = ft_search_element(element)) == NULL)
+            ft_freearray(element), exit(1); //free..
         printf(GREEN"east_route:%s\n"RESET, data->map->east_route);
     }
-    else if (!data->map->west_route && !ft_strncmp(element[0], "WE", ft_strlen(element[0])))
+    else if (!data->map->west_route && !ft_strncmp(element[0], "WE", ft_strlen("WE")))
     {
-        if ((data->map->west_route = ft_search_element(element)) && !data->map->west_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
+        if ((data->map->west_route = ft_search_element(element)) == NULL)
+            ft_freearray(element), exit(1); //free..
         printf(GREEN"west_route:%s\n"RESET, data->map->west_route);
     }
     else

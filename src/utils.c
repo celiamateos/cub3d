@@ -71,36 +71,3 @@ int	ft_free_error_arr(char **mem, long row)
 	return (0);
 }
 
-void	save_map(t_data *data, char *str)
-{
-	int i;
-	int len;
-	char **aux;
-
-	i = 0;
-
-	if (data->map->map)
-		len = ft_arraylen(data->map->map);
-	else
-		len = 0;
-	aux = ft_calloc(len + 2, sizeof(char *));
-	if (!aux)
-		exit(1); //Free
-	while (i != len)
-	{
-		aux[i] = ft_strdup(data->map->map[i]);
-		// printf("aux[i]:%s, len: %d", aux[i], ft_strlen(aux[i]));
-		if (!aux[i])
-			ft_free_error_arr(aux, i), exit(1); //Free
-		i++;
-	}
-	// len = ft_strlen(str);
-	// aux[i] = ft_substr(str, 0, len - 1);
-	aux[i] = ft_strdup(str);
-	if (!aux[i])
-		ft_free_error_arr(aux, i), exit(1); //Free
-	aux[++i] = NULL;
-	if (data->map->map)
-		ft_freearray(data->map->map);
-	data->map->map = aux;
-}

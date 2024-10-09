@@ -25,7 +25,7 @@ COLOR_PURPLE_N = \033[1;35m
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -g3 #-Werror -Wextra -Wall 
+CFLAGS = -g3 -Werror -Wextra -Wall 
 LIBMLX42_FLAGS = -I include -ldl -lglfw -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 RM = rm -f
 LIBFT_DIR = ./libft/

@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 #include <cub3d.h>
 
-
-
 int check_player_direction(t_data *data, char c, int row, int i)
 {
     if (c != 'N' && c != 'S' && c != 'E' && c != 'W')
@@ -28,7 +26,7 @@ int check_player_direction(t_data *data, char c, int row, int i)
 }
 
 
-void check_content_map_and_save_player_dir(t_data *data, char *line, int row)
+void    check_content_map_and_save_player_dir(t_data *data, char *line, int row)
 {
     int i;
 
@@ -49,8 +47,36 @@ void check_content_map_and_save_player_dir(t_data *data, char *line, int row)
         data->map->width = i - 1;
 }
 
+void	save_map(t_data *data, char *str)
+{
+	int     i;
+	int     len;
+	char    **aux;
 
-void readmap(t_data *data, char *file)
+	i = -1;
+	if (data->map->map)
+		len = ft_arraylen(data->map->map);
+	else
+		len = 0;
+	aux = ft_calloc(len + 2, sizeof(char *));
+	if (!aux)
+		exit(1); //Free
+	while (++i != len)
+	{
+		aux[i] = ft_strdup(data->map->map[i]);
+		if (!aux[i])
+			ft_free_error_arr(aux, i), exit(1); //Free
+	}
+	aux[i] = ft_strdup(str);
+	if (!aux[i])
+		ft_free_error_arr(aux, i), exit(1); //Free
+	aux[++i] = NULL;
+	if (data->map->map)
+		ft_freearray(data->map->map);
+	data->map->map = aux;
+}
+
+void readmap(t_data *data)
 {
     char    *line;
     int     i;
@@ -84,8 +110,8 @@ void load_map(t_data *data, char *file)
 {
     data->map->fd = open(file, O_RDONLY);
     if (data->map->fd < 0)
-        exit(1);
-    readmap(data, file);
+        err(RED"error: fd: cannot open\n"RESET), exit(1);
+    readmap(data);
     close(data->map->fd);
     if (data->map->num_elem != 6)
         err(RED"error: map: invalid elements count\n"RESET), exit(1); //free

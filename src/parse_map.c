@@ -56,7 +56,7 @@ bool	map_closed(char **m, size_t x, size_t y)
 bool check_valid_map(t_data *data)
 {
     int     row;
-    int     i;
+    long unsigned int     i;
     char    **m;
 
     row = -1;
