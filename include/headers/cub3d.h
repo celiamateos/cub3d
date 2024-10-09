@@ -74,10 +74,14 @@ typedef struct  s_data
 void    load_map(t_data *data, char *file);
 void    readmap(t_data *data, char *file);
 bool    check_valid_map(t_data *data);
-bool    valid_map_char(char c);
 bool    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
 bool    cover_char(char c);
+void save_data_map(t_data *data, char *line);
+void save_element_map(t_data *data, char ***elements);
+void save_colors_map(t_data *data, char ***elements);
+int *load_data_color_map(char *str);
+char *ft_search_element(char **element);
 
 // UTILS
 void    err(char *str);
