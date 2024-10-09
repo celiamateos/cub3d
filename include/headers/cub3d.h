@@ -40,13 +40,13 @@ typedef struct map
     int     fd;
     char    *line;
     int     num_elem;
-    char    *north_route;
+    char    *north_route; //Route textures
     char    *south_route;
     char    *east_route;
     char    *west_route;
     int    *ceiling_route; //RGB Format
     int    *floor_route; //RGB Format
-    char    **map;
+    char    **map; //Only map content
     int     height;
     int     width;
 
@@ -56,8 +56,8 @@ typedef struct t_player
 {
     char    player_dir; //Direction player (N,S,E,W)
     int     player_count;
-    int     y;
-    int     x;
+    int     y; //Coord. y player
+    int     x; //Coord. x player
 }   t_player;
 
 typedef struct  s_data
