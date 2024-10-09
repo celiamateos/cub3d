@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:00:09 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/01 20:54:43 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:28:33 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <limits.h> 
 # include <errno.h>
 
-
+# include <structs.h>
 
 typedef struct map
 {
