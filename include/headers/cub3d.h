@@ -71,15 +71,20 @@ typedef struct  s_data
 
 
 //PARSE
-void load_map(t_data *data, char *file);
-void readmap(t_data *data, char *file);
+void    load_map(t_data *data, char *file);
+void    readmap(t_data *data, char *file);
+bool    check_valid_map(t_data *data);
+bool    valid_map_char(char c);
+bool    map_closed(char **m, size_t x, size_t y);
+size_t  double_pointer_len(char **double_pointer);
+bool    cover_char(char c);
 
 // UTILS
-void err(char *str);
-int ft_arraylen(char **array);
-void ft_printarray(char **arr);
-void ft_printintarray(int *nb, int size);
-int	ft_free_error_arr(char **mem, long row);
-void save_map(t_data *data, char *str);
+void    err(char *str);
+int     ft_arraylen(char **array);
+void    ft_printarray(char **arr);
+void    ft_printintarray(int *nb, int size);
+int     ft_free_error_arr(char **mem, long row);
+void    save_map(t_data *data, char *str);
 
 #endif

@@ -89,10 +89,13 @@ void	save_map(t_data *data, char *str)
 	while (i != len)
 	{
 		aux[i] = ft_strdup(data->map->map[i]);
+		// printf("aux[i]:%s, len: %d", aux[i], ft_strlen(aux[i]));
 		if (!aux[i])
 			ft_free_error_arr(aux, i), exit(1); //Free
 		i++;
 	}
+	// len = ft_strlen(str);
+	// aux[i] = ft_substr(str, 0, len - 1);
 	aux[i] = ft_strdup(str);
 	if (!aux[i])
 		ft_free_error_arr(aux, i), exit(1); //Free

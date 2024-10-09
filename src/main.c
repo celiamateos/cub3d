@@ -43,8 +43,8 @@ void load_data(t_data *data)
     data->map->south_route = NULL;
     data->map->east_route = NULL;
     data->map->west_route = NULL;
-    data->map->ceiling_route = 0,0,0;
-    data->map->floor_route = 0,0,0;
+    data->map->ceiling_route = 0;
+    data->map->floor_route = 0;
     data->player->player_count = 0;
     data->mlx = NULL;
 }
@@ -117,7 +117,7 @@ int32_t main(int ac, char **av)
 	load_data(&data);
 	load_map(&data, av[1]);
 
-	// Gotta error check this stuff
+	// // Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
 		puts(mlx_strerror(mlx_errno));

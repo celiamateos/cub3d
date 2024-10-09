@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include <cub3d.h>
 
-char *ft_search_element(char **element, char *elem)
+char *ft_search_element(char **element)
 {
     char    *dir;
     int     fd;
@@ -27,11 +27,16 @@ char *ft_search_element(char **element, char *elem)
 
 int *load_data_color_map(char *str)
 {
-    int *result;
+    int     *result;
+    char    **tmp;
 
-    char **tmp = ft_split(str, ',');
+    result = 0;
+    tmp = ft_split(str, ',');
     if (!tmp || (ft_arraylen(tmp) != 3))
         err(RED"error: element map: ceiling or floor\n"RESET), exit(1); //free y tal
+    result = ft_calloc(3, sizeof(int));
+    if (!result)
+        err(RED"error: element map: malloc\n"RESET), exit(1); //free y tal    
     result[0] = ft_atoi(tmp[0]);
     result[1] = ft_atoi(tmp[1]);
     result[2] = ft_atoi(tmp[2]);
@@ -45,14 +50,14 @@ int *load_data_color_map(char *str)
 void save_colors_map(t_data *data, char ***elements)
 {
     char **element = *elements;
-    if (!data->map->ceiling_route && !ft_strncmp(element[0], "C", ft_strlen(element[0])))
+    if (!ft_strncmp(element[0], "C", ft_strlen(element[0])))
     {
         if ((data->map->ceiling_route = load_data_color_map(element[1])) && !data->map->ceiling_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"ceiling_route:"RESET);
         ft_printintarray(data->map->ceiling_route, 3);
     }
-    else if (!data->map->floor_route && !ft_strncmp(element[0], "F", ft_strlen(element[0])))
+    else if (!ft_strncmp(element[0], "F", ft_strlen(element[0])))
     {
         if ((data->map->floor_route = load_data_color_map(element[1])) && !data->map->floor_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
@@ -70,25 +75,25 @@ void save_element_map(t_data *data, char ***elements)
 
     if (!data->map->north_route && !ft_strncmp(element[0], "NO", ft_strlen(element[0])))
     {
-        if ((data->map->north_route = ft_search_element(element, "NO")) && !data->map->north_route)
+        if ((data->map->north_route = ft_search_element(element)) && !data->map->north_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"north_route:%s\n"RESET, data->map->north_route);
     }
     else if (!data->map->south_route && !ft_strncmp(element[0], "SO", ft_strlen(element[0])))
     {
-        if ((data->map->south_route = ft_search_element(element, "SO")) && !data->map->south_route)
+        if ((data->map->south_route = ft_search_element(element)) && !data->map->south_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"south_route:%s\n"RESET, data->map->south_route);
     }
     else if (!data->map->east_route && !ft_strncmp(element[0], "EA", ft_strlen(element[0])))
     {
-        if ((data->map->east_route = ft_search_element(element, "EA")) && !data->map->east_route)
+        if ((data->map->east_route = ft_search_element(element)) && !data->map->east_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"east_route:%s\n"RESET, data->map->east_route);
     }
     else if (!data->map->west_route && !ft_strncmp(element[0], "WE", ft_strlen(element[0])))
     {
-        if ((data->map->west_route = ft_search_element(element, "WE")) && !data->map->west_route)
+        if ((data->map->west_route = ft_search_element(element)) && !data->map->west_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"west_route:%s\n"RESET, data->map->west_route);
     }
@@ -124,93 +129,24 @@ int check_player_direction(t_data *data, char c, int row, int i)
     return (0);
 }
 
-bool	cover_char(char c)
+
+
+void check_content_map_and_save_player_dir(t_data *data, char *line, int row)
 {
-	return (c == '1' || c == '0' || c == '.');
-}
-
-size_t	double_pointer_len(char **double_pointer)
-{
-	size_t	len;
-
-	if (!double_pointer)
-		return (0);
-	len = 0;
-	while (double_pointer[len])
-		len++;
-	return (len);
-}
-
-
-bool	covered(char **m, size_t x, size_t y)
-{
-	bool	valid;
-
-	valid = true;
-	if (x == 0 || y == 0 || y == double_pointer_len(m) - 1
-		|| x == ft_strlen(m[0]) - 1 || !cover_char(m[y - 1][x])
-		|| !cover_char(m[y + 1][x]) || !cover_char(m[y][x - 1])
-		|| !cover_char(m[y][x + 1]))
-		valid = false;
-	if (valid && (m[y - 1][x] == '0' || m[y + 1][x] == '0' || m[y][x - 1] == '0'
-		|| m[y][x + 1] == '0'))
-		m[y][x] = '.';
-	if (valid && m[y - 1][x] == '0')
-		valid = covered(m, x, y - 1);
-	if (valid && m[y + 1][x] == '0')
-		valid = covered(m, x, y + 1);
-	if (valid && m[y][x - 1] == '0')
-		valid = covered(m, x - 1, y);
-	if (valid && m[y][x + 1] == '0')
-		valid = covered(m, x + 1, y);
-	m[y][x] = '.';
-	return (valid);
-}
-bool	valid_map_char(char c)
-{
-	if (c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == '.' || c == '1')
-		return (true);
-	return (false);
-}
-
-
-int check_valid_map(t_data *data)
-{
-    int row;
     int i;
-    char **m;
 
-    row = 0;
     i = 0;
-    m = data->map->map;
-    while (m[row])
-    { 
-        while (m[row][i])
+    if (line && line[i])
+    {
+        while (line[i])
         {
-            if (m[row][i] == '0')
-                return (0);
+            if (line[i] && line[i] != '0' && line[i] != '1' && line[i] != ' ' && line[i] != '\n')
+            {
+                if (check_player_direction(data, line[i], row, i))
+                    err(RED"error: invalid map: Bad character\n"RESET), exit(1); //freee
+            }
             i++;
         }
-        row++;
-    }
-    return (1);
-}
-
-
-int check_content_map_and_save_player_dir(t_data *data, char *line, int row)
-{
-    int i;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i] && line[i] != '0' && line[i] != '1' && line[i] != ' ' && line[i] != '\n')
-        {
-            if (check_player_direction(data, line[i], row, i))
-                err(RED"error: invalid map: Bad character\n"RESET), exit(1); //freee
-        }
-        i++;
     }
     if (data->map->width < i)
         data->map->width = i - 1;
@@ -249,6 +185,7 @@ void readmap(t_data *data, char *file)
     free(line);
     close(data->map->fd);
     data->map->height = i;
+    // exit(1);
 }
 
 
@@ -260,10 +197,10 @@ void load_map(t_data *data, char *file)
     if (data->player->player_count != 1)
         err(RED"error: invalid map: Enter a player\n"RESET), exit(1); //freee 
     printf(YELLOW"\nplayer_direction:%c\n\n"RESET, data->player->player_dir);
-    covered(data->map->map, data->player->x, data->player->y);
+    if (!map_closed(data->map->map, data->player->x, data->player->y) || !check_valid_map(data))
+        printf(RED"error: Map is not closed\n"RESET), exit(1);
     ft_printarray(data->map->map); //PRINT data->map-> char **map
-    if (check_valid_map(data) == 0)
-        printf(RED"error: Mapa no rodeado\n"RESET);
+    // if (check_valid_map(data) == 0)
     printf(BLUE"\nPlayer position: [%d][%d]\n"RESET, data->player->y, data->player->x);
     printf(GREEN"\nMap height: %d\n"RESET, data->map->height);
     printf(GREEN"Map width: %d\n"RESET, data->map->width);
