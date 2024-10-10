@@ -6,18 +6,13 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/10 20:43:19 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/10 22:36:53 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <cub3d.h>
 
-
-#define WIDTH 512
-#define HEIGHT 512
-
 static mlx_image_t* image;
-
 
 // void	*ft_init(t_data *data)
 // {

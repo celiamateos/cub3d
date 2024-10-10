@@ -6,9 +6,10 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/01 21:05:18 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/10 22:36:31 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
 
 int check_player_direction(t_data *data, char c, int row, int i)

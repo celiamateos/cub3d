@@ -31,7 +31,8 @@
 # include <limits.h>
 # include <errno.h>
 # include <stdbool.h>
-# include <MLX42.h>
+# include <stddef.h>
+# include <structs.h>
 
 # define RED "\033[31m"
 # define GREEN "\033[32m"
@@ -43,39 +44,39 @@
 # define WIDTH_WIN 1500
 # define HEIGHT_WIN 1500
 
-typedef struct map
-{
-    int     fd;
-    char    *line;
-    int     num_elem;
-    char    *north_route; //Route textures
-    char    *south_route;
-    char    *east_route;
-    char    *west_route;
-    int    *ceiling_route; //RGB Format
-    int    *floor_route; //RGB Format
-    char    **map; //Only map content
-    int     height;
-    int     width;
+// typedef struct map
+// {
+//     int     fd;
+//     char    *line;
+//     int     num_elem;
+//     char    *north_route; //Route textures
+//     char    *south_route;
+//     char    *east_route;
+//     char    *west_route;
+//     int    *ceiling_route; //RGB Format
+//     int    *floor_route; //RGB Format
+//     char    **map; //Only map content
+//     int     height;
+//     int     width;
 
-}   t_map;
+// }   t_map;
 
-typedef struct t_player
-{
-    char    player_dir; //Direction player (N,S,E,W)
-    int     player_count;
-    int     y; //Coord. y player
-    int     x; //Coord. x player
-}   t_player;
+// typedef struct t_player
+// {
+//     char    player_dir; //Direction player (N,S,E,W)
+//     int     player_count;
+//     int     y; //Coord. y player
+//     int     x; //Coord. x player
+// }   t_player;
 
-typedef struct  s_data
+typedef struct	s_data
 {
-	t_map       *map;
-	t_player    *player;
-    void		*mlx;
+	t_map		*map;
+	t_player	*player;
+	void		*mlx;
 	void		*mlx_win;
 
-}   t_data;
+}	t_data;
 
 
 //PARSE

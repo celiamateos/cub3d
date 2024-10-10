@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   structs.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 00:33:50 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/10 19:19:38 by iostancu         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   structs.h										  :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: iostancu <iostancu@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/10/10 00:33:50 by iostancu		  #+#	#+#			 */
+/*   Updated: 2024/10/10 22:32:24 by iostancu		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
@@ -16,10 +16,10 @@
 
 # include <MLX42.h>
 
-typedef struct s_vec2
+typedef struct	s_vec2
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
 }	t_vec2;
 
 /**
@@ -43,8 +43,22 @@ typedef struct	s_wall
  * @param wall Array of walls
  * @param grid Raw info taked from the .cub file
  */
-typedef struct s_map
+typedef struct	s_map
 {
+	// celia's params
+	int			fd;
+	char		*line;
+	int			num_elem;
+	char		*north_route;	//Route textures
+	char		*south_route;
+	char		*east_route;
+	char		*west_route;
+	int			*ceiling_route;	//RGB Format
+	int			*floor_route;	//RGB Format
+	char		**map;			//Only map content
+	int			height;
+	int			width;
+	// rox params
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;
@@ -66,13 +80,31 @@ typedef struct s_map
  */
 typedef struct	s_player
 {
+	// celia's params
+	char	player_dir;	//Direction player (N,S,E,W)
+	int		player_count;
+	int		y;			//Coord. y player
+	int		x;			//Coord. x player
+	// rox params
 	t_vec2	position;
-	int		speed;
+	float	speed;
+	float	looking_angle;
 	t_vec2	direction;
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
-	t_vec2	init_dir;
+	int		init_dir;
 }	t_player;
+
+/**
+ * @brief Camera
+ * 
+ * @param direction 
+ */
+typedef struct	s_game
+{
+	mlx_t		*mlx;
+	mlx_image_t	*screen;
+}	t_game;
 
 /**
  * @brief Camera
