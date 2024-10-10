@@ -6,13 +6,15 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 00:33:50 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/10 00:44:04 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:19:38 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 
 # define STRUCTS_H
+
+# include <MLX42.h>
 
 typedef struct s_vec2
 {
@@ -43,9 +45,12 @@ typedef struct	s_wall
  */
 typedef struct s_map
 {
-	t_vec2	position;
-	t_wall	**wall;
-	int		**grid;
+	t_vec2		position;
+	t_wall		**wall;
+	int			**grid;
+	mlx_image_t	*floor;
+	mlx_image_t	*ceiling;
+	
 }	t_map;
 
 /**
