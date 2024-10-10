@@ -1,29 +1,37 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 18:00:09 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/01 20:54:43 by iostancu         ###   ########.fr       */
-/*                                                                            */
+/*																														 */
+/*																						 :::		 ::::::::	*/
+/*	cub3d.h																	:+:		 :+:	:+:	*/
+/*																				  +:+ +:+			+:+		*/
+/*	By: iostancu <iostancu@student.42.fr>				+#+  +:+		  +#+			*/
+/*																			+#+#+#+#+#+	+#+				 */
+/*	Created: 2024/09/26 18:00:09 by cmateos-				#+#	#+#					*/
+/*	Updated: 2024/10/10 19:11:40 by iostancu			###	########.fr		  */
+/*																														 */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 
 # define CUB3D_H
 
-# include "../libft/libft.h" 
+# define HEIGHT 720
+# define WIDTH 1280
+
+#ifndef FOV
+# define FOV 120
+#endif
+
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
-# include <string.h> 
-# include <stdlib.h> 
+# include <string.h>
+# include <stdlib.h>
 # include <fcntl.h>
-# include <MLX42.h>
-# include <stdarg.h> 
-# include <limits.h> 
+# include <stdarg.h>
+# include <limits.h>
 # include <errno.h>
+# include <stdbool.h>
+# include <MLX42.h>
 
 # define RED "\033[31m"
 # define GREEN "\033[32m"

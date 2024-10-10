@@ -6,7 +6,7 @@
 #    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/02 20:16:04 by iostancu         ###   ########.fr        #
+#    Updated: 2024/10/10 20:13:27 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ COLOR_PURPLE_N = \033[1;35m
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -g3 -Werror -Wextra -Wall 
+CFLAGS = -g3 #-Werror -Wextra -Wall 
 LIBMLX42_FLAGS = -I include -ldl -lglfw -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 RM = rm -f
 LIBFT_DIR = ./libft/
@@ -47,15 +47,15 @@ CHARS := 0
 progress := 2
 
 all: obj $(COMPS) $(NAME)
-#       @if [ "$(CHANGES_MADE)" -eq "0" ]; then \
-#               echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
-#       fi
-#       $(call print_progress)
-#       $(eval progress := 50)
-#       $(call print_progress)
-#       $(eval progress := 100)
-#       $(call print_progress)
-#       @echo ""
+	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
+		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
+	fi
+	$(call print_progress)
+	$(eval progress := 50)
+	$(call print_progress)
+	$(eval progress := 100)
+	$(call print_progress)
+	@echo ""
 
 obj:
 	@mkdir -p $(OBJ_DIR)
@@ -64,8 +64,8 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 		$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(NAME):$(OBJ)
-		$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
-#       @$(eval CHANGES_MADE=1)
+	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
+	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
 		@make -C $(LIBFT_DIR) > /dev/null
@@ -73,9 +73,9 @@ $(LIBFT):
 #$(LIBMLX42):
 #       @$(MAKE) -C $(dir $(LIBMLX42))
 
-#define print_progress
-#       @printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
-#endef
+define print_progress
+	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
+endef
 
 #$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 #       @mkdir -p $(dir $@)
