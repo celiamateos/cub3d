@@ -9,16 +9,10 @@
 /*   Updated: 2024/10/01 20:54:25 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <cub3d.h>
 
 void err(char *str)
 {
-    while(*str)
-        write(2, str++, 1);
+	while(*str)
+		write(2, str++, 1);
 }
-
-// clean_data()
-
-// int exit(t_map *map, char *err)
-// {
-//     clean_data()
-// }

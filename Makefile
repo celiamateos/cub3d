@@ -6,7 +6,7 @@
 #    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/02 20:16:04 by iostancu         ###   ########.fr        #
+#    Updated: 2024/10/10 20:13:27 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,9 @@ INCLUDE = -I include -I ./include/headers/ -I ./include/MLX42/include/MLX42/
 #SRC = $(shell find $(SRC_DIR) -name '*.c')
 #OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
-SRCNAMES	= $(shell ls $(SRC_DIR) | grep -E ".+\.c")
-SRC	= $(addprefix $(SRC_DIR), $(SRCNAMES))
-OBJ	= $(addprefix $(OBJ_DIR), $(SRCNAMES:.c=.o))
+SRCNAMES        = $(shell ls $(SRC_DIR) | grep -E ".+\.c")
+SRC     = $(addprefix $(SRC_DIR), $(SRCNAMES))
+OBJ     = $(addprefix $(OBJ_DIR), $(SRCNAMES:.c=.o))
 CHANGES_MADE = 0
 CHARS_LEN := 0
 CHARS := 0
@@ -61,41 +61,41 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
-	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+		$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(NAME):$(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
 	@$(eval CHANGES_MADE=1)
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) > /dev/null
+		@make -C $(LIBFT_DIR) > /dev/null
 
 #$(LIBMLX42):
-#	@$(MAKE) -C $(dir $(LIBMLX42))
+#       @$(MAKE) -C $(dir $(LIBMLX42))
 
 define print_progress
 	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
 endef
 
 #$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-#	@mkdir -p $(dir $@)
-#	$(CC) $(CFLAGS) -c -o $@ $<
-#	$(eval progress=$(shell echo $$(($(progress) + 1))))
-#	$(call print_progress)
+#       @mkdir -p $(dir $@)
+#       $(CC) $(CFLAGS) -c -o $@ $<
+#       $(eval progress=$(shell echo $$(($(progress) + 1))))
+#       $(call print_progress)
 
 
 clean:
-	@rm -rf $(OBJ_DIR) $(LIBFT) > /dev/null
-	@make clean -C $(LIBFT_DIR) > /dev/null
+		@rm -rf $(OBJ_DIR) $(LIBFT) > /dev/null
+		@make clean -C $(LIBFT_DIR) > /dev/null
 
 fclean: clean
-	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR) > /dev/null
-	@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
+		@rm -f $(NAME)
+		@make fclean -C $(LIBFT_DIR) > /dev/null
+		@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
 
 normi:
-	norminette
+		norminette
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all, clean, fclean, re%   
