@@ -22,6 +22,13 @@ typedef struct	s_vec2
 	float	y;
 }	t_vec2;
 
+typedef struct	s_ray
+{
+	t_vec2	start;
+	t_vec2	end;
+	t_vec2	offset;
+}	t_ray;
+
 /**
  * @brief Info of a individual wall
  * 

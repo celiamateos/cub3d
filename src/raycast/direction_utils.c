@@ -3,11 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   direction_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 22:12:30 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/10 22:12:35 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:02:15 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+// having player spawn position, set FOV
+

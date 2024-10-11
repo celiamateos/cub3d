@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
+#    By: settes <settes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/10 22:42:38 by iostancu         ###   ########.fr        #
+#    Updated: 2024/10/11 19:33:09 by settes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LWHITE	= \033[2;37m
 RESET	= \033[2;33m
 
 G_CHECK = ${LGREEN}✓$(RESET)
-G_OK = ${GREEN}[OK]$(RESET)
+G_OK = ${COLOR_GREEN_N}[OK]$(RESET)
 
 NAME = cub3d
 CC = gcc
@@ -51,7 +51,8 @@ INCLUDE = -I include -I ./include/headers/ -I ./include/MLX42/include/MLX42/
 CHANGES_MADE = 0
 CHARS_LEN := 0
 CHARS := 0
-progress := 2
+progress := 9
+progress_var := 14
 
 SRC_DIR = ./src/
 SRCNAMES        = $(shell ls $(SRC_DIR) | grep -E ".+\.c")
@@ -74,35 +75,41 @@ SRC += $(PREF_RAYCAST)
 OBJ += $(addprefix $(OBJ_DIR), $(SRCNAMES_RAYCAST:.c=.o))
 
 all: obj $(COMPS) $(NAME)
-	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
-		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
-	fi
-	$(call print_progress)
-	$(eval progress := 50)
-	$(call print_progress)
-	$(eval progress := 100)
-	$(call print_progress)
-	@echo ""
+#	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
+#		echo "$(COLOR_RED)No hay cambios para hacer. $(COLOR_RESET)"; \
+#	fi
+#	$(call print_progress)
+#	$(eval progress := 50)
+#	$(call print_progress)
+#	$(eval progress := 100)
+#	$(call print_progress)
+#	@echo ""
 
 obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	$(call print_progress)
+	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
 	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"
 	@$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(OBJ_DIR)%.o:$(SRCDIR_MAPPARSE)%.c
+	$(call print_progress)
+	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
 	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"
 	@$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(OBJ_DIR)%.o:$(SRCDIR_RAYCAST)%.c
+	$(call print_progress)
+	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
 	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"
 	@$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 $(NAME):$(OBJ)
-	@$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
-	@echo "${LWHITE}\n$(NAME) ${LGREEN}✓$(RESET)"
 	@$(eval CHANGES_MADE=1)
+	@$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(COMPS) $(LIBMLX42_FLAGS)
+	@echo "${WHITE}\n$(NAME) $(G_OK)"
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR) > /dev/null
@@ -111,15 +118,9 @@ $(LIBFT):
 #       @$(MAKE) -C $(dir $(LIBMLX42))
 
 define print_progress
-	@printf "\r$(COLOR_GREEN)[$(COLOR_GREEN_N) %d%%%*.*s $(COLOR_GREEN)] $(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
+	@printf "\r$(COLOR_GREEN_N)%d%%%*.*s $(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
 endef
-
-#$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-#       @mkdir -p $(dir $@)
-#       $(CC) $(CFLAGS) -c -o $@ $<
-#       $(eval progress=$(shell echo $$(($(progress) + 1))))
-#       $(call print_progress)
-
+#$(COLOR_PURPLE_N)* * * - ¡CUB3D! - * * *$(COLOR_PURPLE)Compiling 🛠️  😸$(COLOR_RESET)" $(progress) $(CHARS_LEN) $(CHARS)
 
 clean:
 	@rm -rf $(OBJ_DIR) $(LIBFT) > /dev/null
@@ -128,7 +129,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -C $(LIBFT_DIR) > /dev/null
-	@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
+	@echo "$(COLOR_RED_N)Cleaned all! 🧹 \n$(COLOR_RESET)"
 
 normi:
 	norminette
