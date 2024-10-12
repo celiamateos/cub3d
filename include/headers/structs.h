@@ -44,11 +44,14 @@ typedef struct	s_wall
 }	t_wall;
 
 /**
- * @brief Map
+ * @brief Map. All of the data included in the file, will be extracted here
  * 
  * @param position Position of the map
  * @param wall Array of walls
  * @param grid Raw info taked from the .cub file
+ * @param floor Floor texture
+ * @param ceiling Ceiling texture
+ * @param player_dir Player spawn direction
  */
 typedef struct	s_map
 {
@@ -65,25 +68,28 @@ typedef struct	s_map
 	char		**map;			//Only map content
 	int			height;
 	int			width;
+	
 	// rox params
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
-	
+	char		player_dir;
 }	t_map;
 
 /**
-  @brief Player struct.
+  @brief Player struct. 
 
   Player will be the camera too (?) maybe not. Thinking about it
   @param position Player position in the map.
   @param speed Moving speed
-  @param direction Player direction
+  @param looking_angle Initialized with the direction spawn value and setted
+  with the rotation movement
+  @param fov Field of view. Area that will be visible in the screen
+  //@param direction Player direction
   @param dist_pplane Distance to the projection plane
   @param dist_wall Distance to the wall
-  @param init_dir Which direction the player is facing when program starts
  */
 typedef struct	s_player
 {
@@ -95,11 +101,11 @@ typedef struct	s_player
 	// rox params
 	t_vec2	position;
 	float	speed;
-	float	looking_angle;
-	t_vec2	direction;
+	float	looking_angle;	//direction
+	float	fov;
+	//t_vec2	direction;
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
-	int		init_dir;
 }	t_player;
 
 /**

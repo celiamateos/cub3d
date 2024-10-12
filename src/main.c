@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/11 01:56:24 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/12 22:45:44 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,53 @@ void ft_hook(void* param)
 		image->instances[0].x += 5;
 }
 
+t_player	*init_player()
+{
+	t_player	*p;
+	p = ft_calloc(1, sizeof(t_player));
+	if (!p)
+		err("Error: malloc\n"), exit(1);
+	p->player_dir = '/0';
+	p->player_count = 0;
+	p->y = 0;
+	p->x = 0;
+	p->position.x = 0;
+	p->position.y = 0;
+	p->speed = 1;
+	p->looking_angle = 0;
+	p->fov = 60;
+	p->dist_pplane.x = 0;
+	p->dist_pplane.y = 0;
+	p->dist_wall.x = 0;
+	p->dist_wall.y = 0;
+	return (p);
+}
+
+t_map	*init_map()
+{
+	t_map	*map;
+	map = ft_calloc(1, sizeof(t_map));
+	if (!map)
+		err("Error: malloc\n"), exit(1);
+	map->map = NULL;
+    map->num_elem = 0;
+    map->north_route = NULL;
+    map->south_route = NULL;
+    map->east_route = NULL;
+    map->west_route = NULL;
+    map->ceiling_route = 0;
+    map->floor_route = 0;
+	
+	map->position.x = 0;
+	map->position.y = 0;
+	return (map);
+}
+
+void	init_cub3d(t_player *p, t_map *m)
+{
+	m = init_map();
+	p = init_player();
+}
 // -----------------------------------------------------------------------------
 
 int32_t main(int ac, char **av)
