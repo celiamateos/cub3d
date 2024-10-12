@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/12 22:45:44 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/12 22:48:59 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,6 @@ void ft_hook(void* param)
 {
 	mlx_t* mlx = param;
 
-    // ft_init(&data);
-
-    // return (0);
-
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
@@ -145,7 +141,6 @@ void	init_cub3d(t_player *p, t_map *m)
 	m = init_map();
 	p = init_player();
 }
-// -----------------------------------------------------------------------------
 
 int32_t main(int ac, char **av)
 {
