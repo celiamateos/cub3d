@@ -6,7 +6,7 @@
 #    By: settes <settes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/12 13:24:49 by settes           ###   ########.fr        #
+#    Updated: 2024/10/13 20:30:01 by settes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ G_OK = ${COLOR_GREEN_N}[OK]$(RESET)
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -g3 #-Werror -Wextra -Wall 
+CFLAGS = -g3 #-fsanitize=leak #-Werror -Wextra -Wall 
 LIBMLX42_FLAGS = -I include -ldl -lglfw -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 RM = rm -f
 LIBFT_DIR = ./libft/

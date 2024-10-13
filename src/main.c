@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/12 22:48:59 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/13 20:28:37 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_player	*init_player()
 	p = ft_calloc(1, sizeof(t_player));
 	if (!p)
 		err("Error: malloc\n"), exit(1);
-	p->player_dir = '/0';
+	p->player_dir = 0;
 	p->player_count = 0;
 	p->y = 0;
 	p->x = 0;
@@ -119,7 +119,8 @@ t_player	*init_player()
 t_map	*init_map()
 {
 	t_map	*map;
-	map = ft_calloc(1, sizeof(t_map));
+	//map = ft_calloc(1, sizeof(t_map));
+	map = malloc(sizeof(t_map));
 	if (!map)
 		err("Error: malloc\n"), exit(1);
 	map->map = NULL;
@@ -142,9 +143,37 @@ void	init_cub3d(t_player *p, t_map *m)
 	p = init_player();
 }
 
+void	free_cub3D(t_map *map, t_player *player)
+{
+	if (map)
+	{
+		if (map->map)
+			ft_freearray(map->map);
+		if (map->north_route)
+			free(map->north_route);
+		if (map->south_route)
+			free(map->south_route);
+		if (map->east_route)
+			free(map->east_route);
+		if (map->west_route)
+			free(map->west_route);
+		if (map->ceiling_route)
+			free(map->ceiling_route);
+		if (map->floor_route)
+			free(map->floor_route);
+		
+		free(map);
+	}
+	if (player)
+		free(player);
+}
+
 int32_t main(int ac, char **av)
 {
 	t_data  data;
+	t_map		*map;
+	t_player	*player;
+	t_game		*game;
 
 	(void)ac;
 	mlx_t* mlx;
@@ -152,8 +181,11 @@ int32_t main(int ac, char **av)
     if (ac != 2 || check_name_file(av[1]))
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
 	printf("Bienvenido a Cub3d\n");
-	load_data(&data);
-	load_map(&data, av[1]);
+	//init_cub3d(player, map);
+	map = init_map();
+	player = init_player();
+	//load_data(&data);
+	load_map(map, player, av[1]);
 
 	// // Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
@@ -179,5 +211,6 @@ int32_t main(int ac, char **av)
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	free_cub3D(map, player);
 	return (EXIT_SUCCESS);
 }

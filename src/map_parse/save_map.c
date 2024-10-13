@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:23:33 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/09 12:23:46 by cmateos-         ###   ########.fr       */
+/*   Updated: 2024/10/13 20:10:36 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
+
 char *ft_search_element(char **element)
 {
     char    *dir;
@@ -46,75 +48,75 @@ int *load_data_color_map(char *str)
     return (result);
 }
 
-void save_colors_map(t_data *data, char ***elements)
+void save_colors_map(t_map *map, char ***elements)
 {
     char **element;
 
     element = *elements;
     if (!ft_strncmp(element[0], "C", ft_strlen(element[0])))
     {
-        if ((data->map->ceiling_route = load_data_color_map(element[1])) && !data->map->ceiling_route)
+        if ((map->ceiling_route = load_data_color_map(element[1])) && !map->ceiling_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"ceiling_route:"RESET);
-        ft_printintarray(data->map->ceiling_route, 3);
+        ft_printintarray(map->ceiling_route, 3);
     }
     else if (!ft_strncmp(element[0], "F", ft_strlen(element[0])))
     {
-        if ((data->map->floor_route = load_data_color_map(element[1])) && !data->map->floor_route)
+        if ((map->floor_route = load_data_color_map(element[1])) && !map->floor_route)
             err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
         printf(GREEN"floor_route:"RESET);
-        ft_printintarray(data->map->floor_route, 3);
+        ft_printintarray(map->floor_route, 3);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1);
-    data->map->num_elem += 1;
+    map->num_elem += 1;
 }
 
-void save_element_map(t_data *data, char ***elements)
+void save_element_map(t_map *map, char ***elements)
 {
     char **element;
 
     element = *elements;
-    if (!data->map->north_route && !ft_strncmp(element[0], "NO", ft_strlen("NO")))
+    if (!map->north_route && !ft_strncmp(element[0], "NO", ft_strlen("NO")))
     {
-        if ((data->map->north_route = ft_search_element(element)) == NULL)
+        if ((map->north_route = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"north_route:%s\n"RESET, data->map->north_route);
+        printf(GREEN"north_route:%s\n"RESET, map->north_route);
     }
-    else if (!data->map->south_route && !ft_strncmp(element[0], "SO", ft_strlen("SO")))
+    else if (!map->south_route && !ft_strncmp(element[0], "SO", ft_strlen("SO")))
     {
-        if ((data->map->south_route = ft_search_element(element)) == NULL)
+        if ((map->south_route = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"south_route:%s\n"RESET, data->map->south_route);
+        printf(GREEN"south_route:%s\n"RESET, map->south_route);
     }
-    else if (!data->map->east_route && !ft_strncmp(element[0], "EA", ft_strlen("EA")))
+    else if (!map->east_route && !ft_strncmp(element[0], "EA", ft_strlen("EA")))
     {
-        if ((data->map->east_route = ft_search_element(element)) == NULL)
+        if ((map->east_route = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"east_route:%s\n"RESET, data->map->east_route);
+        printf(GREEN"east_route:%s\n"RESET, map->east_route);
     }
-    else if (!data->map->west_route && !ft_strncmp(element[0], "WE", ft_strlen("WE")))
+    else if (!map->west_route && !ft_strncmp(element[0], "WE", ft_strlen("WE")))
     {
-        if ((data->map->west_route = ft_search_element(element)) == NULL)
+        if ((map->west_route = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"west_route:%s\n"RESET, data->map->west_route);
+        printf(GREEN"west_route:%s\n"RESET, map->west_route);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1); //free..
-    data->map->num_elem += 1;
+    map->num_elem += 1;
 }
 
-void save_data_map(t_data *data, char *line)
+void save_data_map(t_map *map, char *line)
 {
     char    **element;
 
     element = ft_split(line, ' ');
     if (!element)
         exit(1); //Free data
-    printf(BLUE"data->map->num_elem:%d\n"RESET, data->map->num_elem);
-    if (data->map->num_elem < 4)
-        save_element_map(data, &element);
-    else if (data->map->num_elem < 6)
-        save_colors_map(data, &element);
+    printf(BLUE"map->num_elem:%d\n"RESET, map->num_elem);
+    if (map->num_elem < 4)
+        save_element_map(map, &element);
+    else if (map->num_elem < 6)
+        save_colors_map(map, &element);
     ft_freearray(element);
 }

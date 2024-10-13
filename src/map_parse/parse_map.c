@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:32:24 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/09 11:32:27 by cmateos-         ###   ########.fr       */
+/*   Updated: 2024/10/13 20:09:52 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# include <cub3d.h>
+
+#include <cub3d.h>
 
 bool	cover_char(char c)
 {
@@ -53,7 +54,7 @@ bool	map_closed(char **m, size_t x, size_t y)
 	return (valid);
 }
 
-bool check_valid_map(t_data *data)
+bool check_valid_map(char **map)
 {
     int     row;
     long unsigned int     i;
@@ -61,17 +62,17 @@ bool check_valid_map(t_data *data)
 
     row = -1;
     i = -1;
-    m = data->map->map;
+    m = map;
     while (++row != ft_arraylen(m))
     { 
         while (++i != (ft_strlen(m[row])))
         {
             if (m[row][i] == '0')
             {
-                if (!map_closed(data->map->map, i, row))
+                if (!map_closed(map, i, row))
                     return false;
             }
-            m = data->map->map;
+            m = map;
         }
         i = 0;
     }
