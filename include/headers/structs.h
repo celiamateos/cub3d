@@ -59,10 +59,14 @@ typedef struct	s_map
 	int			fd;
 	char		*line;
 	int			num_elem;
-	char		*north_route;	//Route textures
-	char		*south_route;
-	char		*east_route;
-	char		*west_route;
+	mlx_image_t	*north_tx;
+	mlx_image_t	*south_tx;
+	mlx_image_t	*east_tx;
+	mlx_image_t	*west_tx;
+	char		*north_route;	//QUIT
+	char		*south_route;	//QUIT
+	char		*east_route; 	//QUIT
+	char		*west_route;	//QUIT
 	int			*ceiling_route;	//RGB Format
 	int			*floor_route;	//RGB Format
 	char		**map;			//Only map content
@@ -72,16 +76,24 @@ typedef struct	s_map
 	// rox params
 	t_vec2		position;
 	t_wall		**wall;
-	int			**grid;
+	int			**grid;	// **map to atoi (-1, 0, 1)
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
 	char		player_dir;
 }	t_map;
 
-/**
-  @brief Player struct. 
+typedef struct s_control
+{
+	/* data */
+}	t_control;
 
-  Player will be the camera too (?) maybe not. Thinking about it
+
+/**
+  @brief Player struct, that works as camera.
+
+  		 pplane
+	P....|    W W
+	..........walls
   @param position Player position in the map.
   @param speed Moving speed
   @param looking_angle Initialized with the direction spawn value and setted
@@ -89,15 +101,14 @@ typedef struct	s_map
   @param fov Field of view. Area that will be visible in the screen
   //@param direction Player direction
   @param dist_pplane Distance to the projection plane
-  @param dist_wall Distance to the wall
+  @param dist_wall Distance of the player to the wall
  */
 typedef struct	s_player
 {
 	// celia's params
 	char	player_dir;	//Direction player (N,S,E,W)
+	int		spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
 	int		player_count;
-	int		y;			//Coord. y player
-	int		x;			//Coord. x player
 	// rox params
 	t_vec2	position;
 	float	speed;
@@ -106,6 +117,7 @@ typedef struct	s_player
 	//t_vec2	direction;
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
+	t_ray	*ray;
 }	t_player;
 
 /**
@@ -119,11 +131,6 @@ typedef struct	s_game
 	mlx_image_t	*screen;
 }	t_game;
 
-/**
- * @brief Camera
- * 
- * @param direction 
- */
 typedef struct	s_camera
 {
 	t_vec2	direction;
@@ -131,3 +138,6 @@ typedef struct	s_camera
 }	t_camera;
 
 #endif
+
+
+

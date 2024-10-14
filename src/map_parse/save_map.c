@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:23:33 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/13 20:10:36 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/14 21:22:10 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ void save_colors_map(t_map *map, char ***elements)
 void save_element_map(t_map *map, char ***elements)
 {
     char **element;
+    char    *north_route;
+    char    *south_route;
+    char    *east_route;
+    char    *west_route;
 
     element = *elements;
     if (!map->north_route && !ft_strncmp(element[0], "NO", ft_strlen("NO")))

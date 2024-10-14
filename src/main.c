@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/13 20:28:37 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/14 20:35:38 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,11 @@ t_player	*init_player()
 		err("Error: malloc\n"), exit(1);
 	p->player_dir = 0;
 	p->player_count = 0;
-	p->y = 0;
-	p->x = 0;
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 1;
 	p->looking_angle = 0;
-	p->fov = 60;
+	p->fov = FOV;
 	p->dist_pplane.x = 0;
 	p->dist_pplane.y = 0;
 	p->dist_wall.x = 0;
@@ -214,3 +212,9 @@ int32_t main(int ac, char **av)
 	free_cub3D(map, player);
 	return (EXIT_SUCCESS);
 }
+
+
+/*
+
+
+*/

@@ -17,8 +17,13 @@
 # define HEIGHT 720
 # define WIDTH 1280
 
+# define NO	1
+# define SO	2
+# define EA 3
+# define WE	4
+
 #ifndef FOV
-# define FOV 120
+# define FOV 60
 #endif
 
 # include "../libft/libft.h"
@@ -44,41 +49,6 @@
 
 # define WIDTH_WIN 1500
 # define HEIGHT_WIN 1500
-
-// typedef struct map
-// {
-//     int     fd;
-//     char    *line;
-//     int     num_elem;
-//     char    *north_route; //Route textures
-//     char    *south_route;
-//     char    *east_route;
-//     char    *west_route;
-//     int    *ceiling_route; //RGB Format
-//     int    *floor_route; //RGB Format
-//     char    **map; //Only map content
-//     int     height;
-//     int     width;
-
-// }   t_map;
-
-// typedef struct t_player
-// {
-//     char    player_dir; //Direction player (N,S,E,W)
-//     int     player_count;
-//     int     y; //Coord. y player
-//     int     x; //Coord. x player
-// }   t_player;
-
-typedef struct	s_data
-{
-	t_map		*map;
-	t_player	*player;
-	void		*mlx;
-	void		*mlx_win;
-
-}	t_data;
-
 
 //PARSE
 void    load_map(t_map *map, t_player *player, char *file);
