@@ -26,6 +26,7 @@ typedef struct	s_ray
 {
 	t_vec2	start;
 	t_vec2	end;
+	float	tan_angle;
 	t_vec2	offset;
 }	t_ray;
 
