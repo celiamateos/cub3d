@@ -114,10 +114,11 @@ typedef struct	s_player
 	t_vec2	position;
 	float	speed;
 	float	looking_angle;	//direction
-	float	fov;
+	float	fov;		// not necessary, its a macro
 	//t_vec2	direction;
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
+	double	angle_between_rays;
 	t_ray	*ray;
 }	t_player;
 
