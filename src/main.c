@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/14 20:35:38 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/16 22:56:10 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ t_player	*init_player()
 	p->position.y = 0;
 	p->speed = 1;
 	p->looking_angle = 0;
-	p->fov = FOV;
 	p->dist_pplane.x = 0;
 	p->dist_pplane.y = 0;
 	p->dist_wall.x = 0;
@@ -168,7 +167,6 @@ void	free_cub3D(t_map *map, t_player *player)
 
 int32_t main(int ac, char **av)
 {
-	t_data  data;
 	t_map		*map;
 	t_player	*player;
 	t_game		*game;
@@ -178,8 +176,6 @@ int32_t main(int ac, char **av)
 	
     if (ac != 2 || check_name_file(av[1]))
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
-	printf("Bienvenido a Cub3d\n");
-	//init_cub3d(player, map);
 	map = init_map();
 	player = init_player();
 	//load_data(&data);
