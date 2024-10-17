@@ -123,7 +123,7 @@ typedef struct	s_player
 	double	looking_angle;	//direction
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
-	t_raycast	*raycast
+	t_raycast	*raycast;
 }	t_player;
 
 /**

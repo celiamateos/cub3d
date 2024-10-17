@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: settes <settes@student.42.fr>              +#+  +:+       +#+         #
+#    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/13 20:30:01 by settes           ###   ########.fr        #
+#    Updated: 2024/10/18 00:22:09 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,12 @@ SRCNAMES        = $(shell ls $(SRC_DIR) | grep -E ".+\.c")
 SRC     = $(addprefix $(SRC_DIR), $(SRCNAMES))
 OBJ     = $(addprefix $(OBJ_DIR), $(SRCNAMES:.c=.o))
 
+############### MAP_DRAW
+SRCDIR_MAPDRAW = ./src/map_draw/
+SRCNAMES_MAPDRAW = $(shell ls $(SRCDIR_MAPDRAW) | grep -E ".+\.c")
+PREF_MAPDRAW = $(addprefix $(SRCDIR_MAPDRAW), $(SRCNAMES_MAPDRAW))
+SRC += $(PREF_MAPDRAW)
+OBJ += $(addprefix $(OBJ_DIR), $(SRCNAMES_MAPDRAW:.c=.o))
 
 ############### MAP_PARSE
 SRCDIR_MAPPARSE = ./src/map_parse/
@@ -73,6 +79,7 @@ SRCNAMES_RAYCAST = $(shell ls $(SRCDIR_RAYCAST) | grep -E ".+\.c")
 PREF_RAYCAST = $(addprefix $(SRCDIR_RAYCAST), $(SRCNAMES_RAYCAST))
 SRC += $(PREF_RAYCAST)
 OBJ += $(addprefix $(OBJ_DIR), $(SRCNAMES_RAYCAST:.c=.o))
+
 
 all: obj $(COMPS) $(NAME)
 #	@if [ "$(CHANGES_MADE)" -eq "0" ]; then \
@@ -89,6 +96,12 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	$(call print_progress)
+	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
+	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"
+	@$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+$(OBJ_DIR)%.o:$(SRCDIR_MAPDRAW)%.c
 	$(call print_progress)
 	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
 	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"

@@ -6,44 +6,17 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/16 22:56:10 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 00:22:54 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 static mlx_image_t* image;
-
-// void	*ft_init(t_data *data)
-// {
-// //  fdf->mlx = mlx_init(WIDTH - 100, HEIGHT - 50, "Wire-frame (fdf)", true);
-// 	data->mlx = mlx_init(WIDTH_WIN - 100, HEIGHT_WIN - 50, "hola que tal", true);
-// 	// data->mlx_win = mlx_new_window(data->mlx, WIDTH_WIN, HEIGHT_WIN, "MEOW!:3");
-	
-// 	return (data->mlx_win);
-// }
-
-void load_data(t_data *data)
-{    
-    ft_bzero(data, sizeof(t_data));
-    if (!data)
-        exit(1);
-    data->map = ft_calloc(1, sizeof(t_map));
-    data->player = ft_calloc(1, sizeof(t_player));
-    // data->map = (t_map *)malloc(sizeof(t_map));
-    // data->map->line = ft_calloc(1, sizeof(data->map->line));
-    // data->map->map = ft_calloc(1, sizeof(char *));
-    data->map->map = NULL;
-    data->map->num_elem = 0;
-    data->map->north_route = NULL;
-    data->map->south_route = NULL;
-    data->map->east_route = NULL;
-    data->map->west_route = NULL;
-    data->map->ceiling_route = 0;
-    data->map->floor_route = 0;
-    data->player->player_count = 0;
-    data->mlx = NULL;
-}
+t_map		*init_map();
+t_player	*init_player();
+void		init_game(t_game *game);
+void		free_cub3D(t_map *map, t_player *player);
 
 int check_name_file(char *av)
 {
@@ -62,10 +35,11 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 void ft_randomize(void* param)
 {
-	(void)param;
-	for (uint32_t i = 0; i < image->width; ++i)
+	t_game *game = param;
+
+	for (uint32_t i = 0; i < game->screen->width; ++i)
 	{
-		for (uint32_t y = 0; y < image->height; ++y)
+		for (uint32_t y = 0; y < game->screen->height; ++y)
 		{
 			uint32_t color = ft_pixel(
 				rand() % 0xFF, // R
@@ -73,7 +47,7 @@ void ft_randomize(void* param)
 				rand() % 0xFF, // B
 				rand() % 0xFF  // A
 			);
-			mlx_put_pixel(image, i, y, color);
+			mlx_put_pixel(game->screen, i, y, color);
 		}
 	}
 }
@@ -94,82 +68,11 @@ void ft_hook(void* param)
 		image->instances[0].x += 5;
 }
 
-t_player	*init_player()
-{
-	t_player	*p;
-	p = ft_calloc(1, sizeof(t_player));
-	if (!p)
-		err("Error: malloc\n"), exit(1);
-	p->player_dir = 0;
-	p->player_count = 0;
-	p->position.x = 0;
-	p->position.y = 0;
-	p->speed = 1;
-	p->looking_angle = 0;
-	p->dist_pplane.x = 0;
-	p->dist_pplane.y = 0;
-	p->dist_wall.x = 0;
-	p->dist_wall.y = 0;
-	return (p);
-}
-
-t_map	*init_map()
-{
-	t_map	*map;
-	//map = ft_calloc(1, sizeof(t_map));
-	map = malloc(sizeof(t_map));
-	if (!map)
-		err("Error: malloc\n"), exit(1);
-	map->map = NULL;
-    map->num_elem = 0;
-    map->north_route = NULL;
-    map->south_route = NULL;
-    map->east_route = NULL;
-    map->west_route = NULL;
-    map->ceiling_route = 0;
-    map->floor_route = 0;
-	
-	map->position.x = 0;
-	map->position.y = 0;
-	return (map);
-}
-
-void	init_cub3d(t_player *p, t_map *m)
-{
-	m = init_map();
-	p = init_player();
-}
-
-void	free_cub3D(t_map *map, t_player *player)
-{
-	if (map)
-	{
-		if (map->map)
-			ft_freearray(map->map);
-		if (map->north_route)
-			free(map->north_route);
-		if (map->south_route)
-			free(map->south_route);
-		if (map->east_route)
-			free(map->east_route);
-		if (map->west_route)
-			free(map->west_route);
-		if (map->ceiling_route)
-			free(map->ceiling_route);
-		if (map->floor_route)
-			free(map->floor_route);
-		
-		free(map);
-	}
-	if (player)
-		free(player);
-}
-
 int32_t main(int ac, char **av)
 {
 	t_map		*map;
 	t_player	*player;
-	t_game		*game;
+	t_game		game;
 
 	(void)ac;
 	mlx_t* mlx;
@@ -178,33 +81,21 @@ int32_t main(int ac, char **av)
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
 	map = init_map();
 	player = init_player();
-	//load_data(&data);
+	init_game(&game);
 	load_map(map, player, av[1]);
-
-	// // Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	draw_2d_map(map, game.screen);
+	if (mlx_image_to_window(game.mlx, game.screen, 0, 0) == -1)
 	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
+		mlx_close_window(game.mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
 	
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
+	// mlx_loop_hook(game.mlx, ft_randomize, game.mlx);
+	// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
 
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
 	free_cub3D(map, player);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/16 23:01:10 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 00:31:55 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ void	set_player_info(t_map map, t_player *p)
 }
 void load_map(t_map *map, t_player *player, char *file)
 {
+	int i;
+	
+	i = 0;
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		err(RED"error: fd: cannot open\n"RESET), exit(1);
@@ -129,4 +132,11 @@ void load_map(t_map *map, t_player *player, char *file)
 	printf(BLUE"\nPlayer position: [%d][%d]\n"RESET, player->position.y, player->position.x); //PRINTF
 	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
 	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
+	map->grid = map_to_int(map->map, map->height, map->width);
+	// print grid to check:
+	while (map->grid[i])
+	{
+		ft_printintarray(map->grid[i], map->width);
+		i++;
+	}
 }

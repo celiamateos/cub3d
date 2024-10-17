@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:32:24 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/13 20:09:52 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/18 00:40:27 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,42 @@ bool check_valid_map(char **map)
         i = 0;
     }
     return (true);
+}
+
+int	**map_to_int(char **map, int h, int w)
+{
+	int	**grid;
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
+	grid = malloc(sizeof(int *) * (w));
+	if (!grid)
+		return (NULL);
+	while (i < h)
+	{
+		grid[i] = malloc(sizeof(int) * w);
+		if (!grid[i])
+		{
+			while (i >= 0)
+				free(grid[i--]);
+			free(grid);
+			return (NULL);
+		}
+		j = 0;
+		while (j < w)
+		{
+			if (map[i][j] == '1')
+				grid[i][j] = 1;
+			else if (map[i][j] == '0' || map[i][j] == '.')
+				grid[i][j] = 0;
+			else 
+				grid[i][j] = -1;
+			j++;
+		}
+		i++;
+	}
+	return (grid);
 }
