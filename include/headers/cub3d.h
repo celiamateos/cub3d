@@ -65,6 +65,8 @@ void   save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
 int     *load_data_color_map(char *str);
 char    *ft_search_element(char **element);
+int    check_map_player_info(t_map *map, t_player *p);
+
 
 // UTILS
 void    err(char *str);

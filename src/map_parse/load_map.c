@@ -15,38 +15,48 @@
 int check_player_direction(t_player *player, char c, int row, int i)
 {
 	if (c != 'N' && c != 'S' && c != 'E' && c != 'W')
-		return (1);
+		return (-1);
 	else
 	{
 		set_looking_angle(c, &player->looking_angle);
 		player->player_dir = c;
-		player->player_count += 1 ;
 		player->position.y = row;
 		player->position.x = i;
 	}
-	return (0);
+	return (1);
 }
 
 
-void    check_content_map_and_save_player_dir(t_map *map, t_player *p, char *line, int row)
+int    check_map_player_info(t_map *map, t_player *p)
 {
 	int i;
-
-	i = 0;
-	if (line && line[i])
+	int row = -1;
+	int player_count = 0;
+	i = -1;
+	if (map->map)
 	{
-		while (line[i])
+		while (map->map[++row])
 		{
-			if (line[i] && line[i] != '0' && line[i] != '1' && line[i] != ' ' && line[i] != '\n')
+			while (map->map[row][++i])
 			{
-				if (check_player_direction(p, line[i], row, i))
-					err(RED"error: invalid map: Bad character\n"RESET), exit(1); //freee
+				if (map->map[row][i] && map->map[row][i] != '0' && map->map[row][i] != '1' && map->map[row][i] != ' ' && map->map[row][i] != '\n')
+				{
+					if (check_player_direction(p, map->map[row][i], row, i) == -1)
+							err(RED"error: invalid map: Bad character\n"RESET), exit(1); //freee
+					else
+						player_count += 1;
+
+				}
 			}
-			i++;
+			if (map->width < i)
+				map->width = i - 1;
+			i = -1;
 		}
 	}
-	if (map->width < i)
-		map->width = i - 1;
+	printf("player_count:%d\n", player_count);
+	if (player_count != 1)
+		return (err(RED"error set a valid player\n"RESET), 1);
+	return (0);
 }
 
 void	save_map(t_map *map, char *str)
@@ -83,6 +93,7 @@ int readmap(t_map *map, t_player *player)
 	char    *line;
 	int     i;
 
+
 	i = 0;
 	if ((line = (char *)malloc(sizeof(char))) == NULL)
 		exit(1);
@@ -95,7 +106,7 @@ int readmap(t_map *map, t_player *player)
 				save_data_map(map, line);
 			else
 			{
-				check_content_map_and_save_player_dir(map, player, line, i);
+				// check_content_map_and_save_player_dir(map, player, line, i);
 				save_map(map, line);
 				i++;
 			}
@@ -107,27 +118,29 @@ int readmap(t_map *map, t_player *player)
 	free(line);
 	map->height = i;
 }
-void	set_player_info(t_map map, t_player *p)
-{
+// void	set_player_info(t_map map, t_player *p)
+// {
 	
-}
-void load_map(t_map *map, t_player *player, char *file)
+// }
+int load_map(t_map *map, t_player *player, char *file)
 {
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		err(RED"error: fd: cannot open\n"RESET), exit(1);
 	readmap(map, player);
 	close(map->fd);
+	if (check_map_player_info(map, player))
+		return (ft_freearray(map->map), 1);
 	if (map->num_elem != 6)
 		err(RED"error: map: invalid elements count\n"RESET), exit(1); //free
-	if (player->player_count != 1)
-		err(RED"error: invalid map: Enter a player\n"RESET), exit(1); //freee 
-	printf(YELLOW"\nplayer_direction:%c\n\n"RESET, player->player_dir);
-	if (!map_closed(map->map,player->position.x, player->position.y) || !check_valid_map(map->map))
-		printf(RED"error: Map is not closed\n"RESET), exit(1);
-	ft_printarray(map->map); //PRINT map-> char **map
-	printf(BLUE"\nPlayer position: [%d][%d]\n"RESET, player->position.y, player->position.x); //PRINTF
-	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
-	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
-
+	// if (player->player_count != 1)
+	// 	err(RED"error: invalid map: Enter a player\n"RESET), exit(1); //freee 
+	// printf(YELLOW"\nplayer_direction:%c\n\n"RESET, player->player_dir);
+	// if (!map_closed(map->map,player->position.x, player->position.y) || !check_valid_map(map->map))
+	// 	printf(RED"error: Map is not closed\n"RESET), exit(1);
+	// ft_printarray(map->map); //PRINT map-> char **map
+	// printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
+	// printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
+	// printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
+	return (0);
 }

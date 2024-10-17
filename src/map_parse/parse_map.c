@@ -79,5 +79,6 @@ bool check_valid_map(char **map)
         i = 0;
     }
 	// return true;
+
     return (ft_freearray(m), true);
 }
