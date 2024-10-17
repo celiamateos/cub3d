@@ -23,27 +23,6 @@ static mlx_image_t* image;
 // 	return (data->mlx_win);
 // }
 
-void load_data(t_data *data)
-{    
-    ft_bzero(data, sizeof(t_data));
-    if (!data)
-        exit(1);
-    data->map = ft_calloc(1, sizeof(t_map));
-    data->player = ft_calloc(1, sizeof(t_player));
-    // data->map = (t_map *)malloc(sizeof(t_map));
-    // data->map->line = ft_calloc(1, sizeof(data->map->line));
-    // data->map->map = ft_calloc(1, sizeof(char *));
-    data->map->map = NULL;
-    data->map->num_elem = 0;
-    data->map->north_route = NULL;
-    data->map->south_route = NULL;
-    data->map->east_route = NULL;
-    data->map->west_route = NULL;
-    data->map->ceiling_route = 0;
-    data->map->floor_route = 0;
-    data->player->player_count = 0;
-    data->mlx = NULL;
-}
 
 int check_name_file(char *av)
 {
@@ -168,7 +147,6 @@ void	free_cub3D(t_map *map, t_player *player)
 
 int32_t main(int ac, char **av)
 {
-	t_data  data;
 	t_map		*map;
 	t_player	*player;
 	t_game		*game;
@@ -183,7 +161,8 @@ int32_t main(int ac, char **av)
 	map = init_map();
 	player = init_player();
 	//load_data(&data);
-	load_map(map, player, av[1]);
+	if (!load_map(map, player, av[1]))
+		return (1); // Free map and player
 
 	// // Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))

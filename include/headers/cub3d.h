@@ -17,6 +17,9 @@
 # define HEIGHT 720
 # define WIDTH 1280
 
+// # define NO	1
+// # define NO	1
+// # define NO	1
 # define NO	1
 # define SO	2
 # define EA 3
@@ -51,14 +54,14 @@
 # define HEIGHT_WIN 1500
 
 //PARSE
-void    load_map(t_map *map, t_player *player, char *file);
-void    readmap(t_map *map, t_player *player);
+int    load_map(t_map *map, t_player *player, char *file);
+int    readmap(t_map *map, t_player *player);
 bool    check_valid_map(char **map);
 bool    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
 bool    cover_char(char c);
-void    save_data_map(t_map *map, char *line);
-void    save_element_map(t_map *map, char ***elements);
+int    save_data_map(t_map *map, char *line);
+void   save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
 int     *load_data_color_map(char *str);
 char    *ft_search_element(char **element);
@@ -70,5 +73,6 @@ void    ft_printarray(char **arr);
 void    ft_printintarray(int *nb, int size);
 int     ft_free_error_arr(char **mem, long row);
 void    save_map(t_map *map, char *str);
+char **ft_arraydup(char **arr);
 
 #endif

@@ -110,7 +110,7 @@ void save_element_map(t_map *map, char ***elements)
     map->num_elem += 1;
 }
 
-void save_data_map(t_map *map, char *line)
+int save_data_map(t_map *map, char *line)
 {
     char    **element;
 
@@ -123,4 +123,5 @@ void save_data_map(t_map *map, char *line)
     else if (map->num_elem < 6)
         save_colors_map(map, &element);
     ft_freearray(element);
+    return (0);
 }

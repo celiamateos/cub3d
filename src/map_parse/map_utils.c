@@ -72,3 +72,21 @@ int	ft_free_error_arr(char **mem, long row)
 	return (0);
 }
 
+char **ft_arraydup(char **arr)
+{
+	char	**new;
+	int		row;
+	int		len;
+
+	len = ft_arraylen(arr) + 1;
+	row = -1;
+	new = ft_calloc(len, sizeof(char *));
+	while (arr[++row])
+	{
+		new[row] = ft_strdup(arr[row]);
+		if (!new[row])
+			return (ft_free_error_arr(new, row), NULL);
+	}
+	new[row] = NULL;
+	return (new);
+}

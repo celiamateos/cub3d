@@ -50,7 +50,7 @@ bool	map_closed(char **m, size_t x, size_t y)
 		valid = map_closed(m, x - 1, y);
 	if (valid && m[y][x + 1] == '0')
 		valid = map_closed(m, x + 1, y);
-	m[y][x] = '.';
+	m[y][x] = '3';
 	return (valid);
 }
 
@@ -62,19 +62,22 @@ bool check_valid_map(char **map)
 
     row = -1;
     i = -1;
-    m = map;
+    m = ft_arraydup(map);
+	if (!m)
+		return (false);
     while (++row != ft_arraylen(m))
     { 
         while (++i != (ft_strlen(m[row])))
         {
             if (m[row][i] == '0')
             {
-                if (!map_closed(map, i, row))
-                    return false;
+                if (!map_closed(m, i, row))
+                    return (ft_freearray(m), false);
             }
-            m = map;
+            // m = map;
         }
         i = 0;
     }
-    return (true);
+	// return true;
+    return (ft_freearray(m), true);
 }
