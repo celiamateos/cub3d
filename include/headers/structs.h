@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   structs.h										  :+:	  :+:	:+:   */
+/*														:::		::::::::	 */
+/*	 structs.h											:+:		:+:	:+:	 */
 /*													+:+ +:+		 +:+	 */
-/*   By: iostancu <iostancu@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/10/10 00:33:50 by iostancu		  #+#	#+#			 */
-/*   Updated: 2024/10/10 22:32:24 by iostancu		 ###   ########.fr	   */
+/*	 By: iostancu <iostancu@student.42.fr>			+#+	+:+		 +#+		*/
+/*												+#+#+#+#+#+	 +#+			 */
+/*	 Created: 2024/10/10 00:33:50 by iostancu			#+#	#+#			 */
+/*	 Updated: 2024/10/10 22:32:24 by iostancu		 ###	 ########.fr		 */
 /*																			*/
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 
 typedef struct	s_vec2
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_vec2;
 
 typedef struct	s_ray
 {
 	t_vec2	start;
 	t_vec2	end;
-	float	tan_angle;
+	double	tan_angle;
 	t_vec2	offset;
 }	t_ray;
 
@@ -56,7 +56,6 @@ typedef struct	s_wall
  */
 typedef struct	s_map
 {
-	// celia's params
 	int			fd;
 	char		*line;
 	int			num_elem;
@@ -73,8 +72,7 @@ typedef struct	s_map
 	char		**map;			//Only map content
 	int			height;
 	int			width;
-	
-	// rox params
+
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;	// **map to atoi (-1, 0, 1)
@@ -88,38 +86,44 @@ typedef struct s_control
 	/* data */
 }	t_control;
 
+/**
+ * @brief Raycast info.
+ * 
+ * @param angle Angle between each ray
+ * @param num_rays 
+ */
+typedef struct	s_raycast
+{
+	double	angle;
+	int		num_rays;
+	t_ray	*ray;	// maybe didnt need save every info of each ray if i only use it for draw
+}	t_raycast;
 
 /**
-  @brief Player struct, that works as camera.
+	@brief Player struct, that works as camera.
 
-  		 pplane
-	P....|    W W
+			 pplane
+	P....|  W W
 	..........walls
-  @param position Player position in the map.
-  @param speed Moving speed
-  @param looking_angle Initialized with the direction spawn value and setted
-  with the rotation movement
-  @param fov Field of view. Area that will be visible in the screen
-  //@param direction Player direction
-  @param dist_pplane Distance to the projection plane
-  @param dist_wall Distance of the player to the wall
+	@param position Player position in the map.
+	@param speed Moving speed
+	@param looking_angle Initialized with the angle where player is looking at init spawn
+	with the rotation movement
+	@param dist_pplane Distance to the projection plane
+	@param dist_wall Distance of the player to the wall
+	@param raycast Struct that contains raycasting info and each rays info
  */
 typedef struct	s_player
 {
-	// celia's params
 	char	player_dir;	//Direction player (N,S,E,W)
 	int		spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
 	int		player_count;
-	// rox params
 	t_vec2	position;
-	float	speed;
-	float	looking_angle;	//direction
-	float	fov;		// not necessary, its a macro
-	//t_vec2	direction;
+	double	speed;
+	double	looking_angle;	//direction
 	t_vec2	dist_pplane;
 	t_vec2	dist_wall;
-	double	angle_between_rays;
-	t_ray	*ray;
+	t_raycast	*raycast
 }	t_player;
 
 /**
