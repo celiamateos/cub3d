@@ -57,10 +57,10 @@
 int     load_map(t_map *map, t_player *player, char *file);
 int     readmap(t_map *map, t_player *player);
 int     save_map(t_map *map, char *str);
-bool    check_valid_map(char **map);
-bool    map_closed(char **m, size_t x, size_t y);
+int    check_valid_map(char **map);
+int    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
-bool    cover_char(char c);
+int    cover_char(char c);
 int     save_data_map(t_map *map, char *line);
 void    save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
@@ -76,5 +76,6 @@ void    ft_printarray(char **arr);
 void    ft_printintarray(int *nb, int size);
 int     ft_free_error_arr(char **mem, long row);
 char    **ft_arraydup(char **arr);
+void ft_print_grid(int **grid, int height, int width);
 
 #endif

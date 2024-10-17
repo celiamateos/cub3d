@@ -119,6 +119,38 @@ int readmap(t_map *map, t_player *player)
 	free(line);
 	map->height = i;
 }
+///Esta funcion no termina de funcionar bien xd cuando el mapa no es cuadrado como map->widht es la longitud de la string más larga pinta cosas raras....
+int	**convert_to_grid(t_map *map)
+{
+	int i = 0;
+	int row = 0;
+	map->grid = malloc(map->height * sizeof(int *));
+	if (!map->grid)
+		return (err("ERROOOORR"), NULL);
+	while(row < map->height)
+	{
+		map->grid[row] = malloc(map->width * sizeof(int));
+		if (!map->grid[row])
+			return (err("ERROOOORR"), NULL);
+
+		while(i < map->width)
+		{
+			if (map->map[row][i] == '0' || map->map[row][i] == 'N' || map->map[row][i] == 'E'
+			 || map->map[row][i] == 'S' || map->map[row][i] == 'W')
+				map->grid[row][i] = 0;
+			else if (map->map[row][i] == '1')
+				map->grid[row][i] = 1;
+			else if (map->map[row][i] == 32)
+				map->grid[row][i] = -1;
+			else
+				break ;
+			i++;
+		}
+		i = 0;
+		row++;
+	}
+	return map->grid;
+}
 
 int load_map(t_map *map, t_player *player, char *file)
 {
@@ -138,9 +170,12 @@ int load_map(t_map *map, t_player *player, char *file)
 	map_cp = ft_arraydup(map->map);
 	if (!map_closed(map_cp,player->position.x, player->position.y) || !check_valid_map(map_cp))
 		return (err(RED"error: Map is not closed\n"RESET), ft_freearray(map->map), ft_freearray(map_cp), 1);
+	ft_freearray(map_cp);
 	ft_printarray(map->map); //PRINT map-> char **map
 	printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
 	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
 	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
+	convert_to_grid(map);
+	ft_print_grid(map->grid, map->height, map->width);
 	return (0);
 }

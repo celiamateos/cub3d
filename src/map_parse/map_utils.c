@@ -90,3 +90,21 @@ char **ft_arraydup(char **arr)
 	new[row] = NULL;
 	return (new);
 }
+
+
+void ft_print_grid(int **grid, int height, int width)
+{
+	int h;
+	int w;
+
+	h = 0;
+	w = -1;
+	while (h != height)
+	{
+		while (++w != width)
+			printf("%d", grid[h][w]);
+		w = -1;
+		h++;
+		printf("\n");
+	}
+}
