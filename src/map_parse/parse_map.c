@@ -62,23 +62,19 @@ bool check_valid_map(char **map)
 
     row = -1;
     i = -1;
-    m = ft_arraydup(map);
-	if (!m)
-		return (false);
+    m = map;
     while (++row != ft_arraylen(m))
     { 
         while (++i != (ft_strlen(m[row])))
         {
             if (m[row][i] == '0')
             {
-                if (!map_closed(m, i, row))
-                    return (ft_freearray(m), false);
+                if (!map_closed(map, i, row))
+                    return false;
             }
-            // m = map;
+            m = map;
         }
         i = 0;
     }
-	// return true;
-
-    return (ft_freearray(m), true);
+    return (true);
 }

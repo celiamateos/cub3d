@@ -80,7 +80,6 @@ t_player	*init_player()
 	if (!p)
 		err("Error: malloc\n"), exit(1);
 	p->player_dir = 0;
-	p->player_count = 0;
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 1;
@@ -158,7 +157,7 @@ int32_t main(int ac, char **av)
 	map = init_map();
 	player = init_player();
 	//load_data(&data);
-	if (!load_map(map, player, av[1]))
+	if (load_map(map, player, av[1]))
 		return (1); // Free map and player
 
 	// // Gotta error check this stuff

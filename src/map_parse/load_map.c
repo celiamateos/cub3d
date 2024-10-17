@@ -59,7 +59,7 @@ int    check_map_player_info(t_map *map, t_player *p)
 	return (0);
 }
 
-void	save_map(t_map *map, char *str)
+int	save_map(t_map *map, char *str)
 {
 	int     i;
 	int     len;
@@ -72,20 +72,21 @@ void	save_map(t_map *map, char *str)
 		len = 0;
 	aux = ft_calloc(len + 2, sizeof(char *));
 	if (!aux)
-		exit(1); //Free
+		return (1); //Free
 	while (++i != len)
 	{
 		aux[i] = ft_strdup(map->map[i]);
 		if (!aux[i])
-			ft_free_error_arr(aux, i), exit(1); //Free
+			return (ft_free_error_arr(aux, i), 1);
 	}
 	aux[i] = ft_strdup(str);
 	if (!aux[i])
-		ft_free_error_arr(aux, i), exit(1); //Free
+		return (ft_free_error_arr(aux, i), 1);
 	aux[++i] = NULL;
 	if (map->map)
 		ft_freearray(map->map);
 	map->map = aux;
+	return (0);
 }
 
 int readmap(t_map *map, t_player *player)
@@ -106,8 +107,8 @@ int readmap(t_map *map, t_player *player)
 				save_data_map(map, line);
 			else
 			{
-				// check_content_map_and_save_player_dir(map, player, line, i);
-				save_map(map, line);
+				if (save_map(map, line))
+					return (free(line), 1);
 				i++;
 			}
 		}
@@ -118,29 +119,28 @@ int readmap(t_map *map, t_player *player)
 	free(line);
 	map->height = i;
 }
-// void	set_player_info(t_map map, t_player *p)
-// {
-	
-// }
+
 int load_map(t_map *map, t_player *player, char *file)
 {
+	char **map_cp;
+
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		err(RED"error: fd: cannot open\n"RESET), exit(1);
-	readmap(map, player);
+	if (!readmap(map, player))
+		return (err("error: readmap\n"), 1);
 	close(map->fd);
 	if (check_map_player_info(map, player))
 		return (ft_freearray(map->map), 1);
 	if (map->num_elem != 6)
 		err(RED"error: map: invalid elements count\n"RESET), exit(1); //free
-	// if (player->player_count != 1)
-	// 	err(RED"error: invalid map: Enter a player\n"RESET), exit(1); //freee 
-	// printf(YELLOW"\nplayer_direction:%c\n\n"RESET, player->player_dir);
-	// if (!map_closed(map->map,player->position.x, player->position.y) || !check_valid_map(map->map))
-	// 	printf(RED"error: Map is not closed\n"RESET), exit(1);
-	// ft_printarray(map->map); //PRINT map-> char **map
-	// printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
-	// printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
-	// printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
+	printf(YELLOW"\nplayer_direction:%c\n\n"RESET, player->player_dir);
+	map_cp = ft_arraydup(map->map);
+	if (!map_closed(map_cp,player->position.x, player->position.y) || !check_valid_map(map_cp))
+		return (err(RED"error: Map is not closed\n"RESET), ft_freearray(map->map), ft_freearray(map_cp), 1);
+	ft_printarray(map->map); //PRINT map-> char **map
+	printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
+	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
+	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
 	return (0);
 }

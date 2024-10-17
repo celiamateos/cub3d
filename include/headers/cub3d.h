@@ -54,18 +54,19 @@
 # define HEIGHT_WIN 1500
 
 //PARSE
-int    load_map(t_map *map, t_player *player, char *file);
-int    readmap(t_map *map, t_player *player);
+int     load_map(t_map *map, t_player *player, char *file);
+int     readmap(t_map *map, t_player *player);
+int     save_map(t_map *map, char *str);
 bool    check_valid_map(char **map);
 bool    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
 bool    cover_char(char c);
-int    save_data_map(t_map *map, char *line);
-void   save_element_map(t_map *map, char ***elements);
+int     save_data_map(t_map *map, char *line);
+void    save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
 int     *load_data_color_map(char *str);
 char    *ft_search_element(char **element);
-int    check_map_player_info(t_map *map, t_player *p);
+int     check_map_player_info(t_map *map, t_player *p);
 
 
 // UTILS
@@ -74,7 +75,6 @@ int     ft_arraylen(char **array);
 void    ft_printarray(char **arr);
 void    ft_printintarray(int *nb, int size);
 int     ft_free_error_arr(char **mem, long row);
-void    save_map(t_map *map, char *str);
-char **ft_arraydup(char **arr);
+char    **ft_arraydup(char **arr);
 
 #endif
