@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/18 00:22:54 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 05:30:56 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,30 +72,26 @@ int32_t main(int ac, char **av)
 {
 	t_map		*map;
 	t_player	*player;
-	t_game		game;
 
 	(void)ac;
-	mlx_t* mlx;
 	
     if (ac != 2 || check_name_file(av[1]))
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
 	map = init_map();
 	player = init_player();
-	init_game(&game);
 	load_map(map, player, av[1]);
-	draw_2d_map(map, game.screen);
-	if (mlx_image_to_window(game.mlx, game.screen, 0, 0) == -1)
+	if (mlx_image_to_window(map->game->mlx, map->game->screen, 0, 0) == -1)
 	{
-		mlx_close_window(game.mlx);
+		mlx_close_window(map->game->mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
 	
-	// mlx_loop_hook(game.mlx, ft_randomize, game.mlx);
+	 mlx_loop_hook(map->game->mlx, draw_2d_map, map);
 	// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
 
-	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	mlx_loop(map->game->mlx);
+	mlx_terminate(map->game->mlx);
 	free_cub3D(map, player);
 	return (EXIT_SUCCESS);
 }

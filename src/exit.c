@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:15:35 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/18 00:30:34 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 04:50:33 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	free_cub3D(t_map *map, t_player *player)
 			free(map->grid[i]);
 			i++;
 		}
+		free(map->game);
 		free(map->grid);
 		free(map);
 	}
