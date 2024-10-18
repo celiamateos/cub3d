@@ -175,7 +175,7 @@ int load_map(t_map *map, t_player *player, char *file)
 	printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
 	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
 	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
-	convert_to_grid(map);
-	ft_print_grid(map->grid, map->height, map->width);
+	// convert_to_grid(map);
+	// ft_print_grid(map->grid, map->height, map->width);
 	return (0);
 }
