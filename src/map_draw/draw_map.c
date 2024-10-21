@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/18 00:45:17 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 05:36:08 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	draw_cube(mlx_image_t *screen, t_vec2 pos, int color)
 	}
 }
 
-void	draw_border_map(t_map *map, mlx_image_t *screen)
+void	draw_border_map(t_map *map)
 {
 	int x;
 	int y;
@@ -38,14 +38,14 @@ void	draw_border_map(t_map *map, mlx_image_t *screen)
 	int width;
 
 	y = 0;
-	height = map->height + (SIZE * 2);
-	width = map->width + (SIZE * 2);
+	height = map->height * (SIZE);
+	width = map->width * (SIZE);
 	while (y < SIZE)
 	{
 		x = 0;
 		while (x < width)
 		{
-			mlx_put_pixel(screen, x, y, 0x000000);
+			mlx_put_pixel(map->game->screen, x, y, 0x000000);
 			x++;
 		}
 		y++;
@@ -56,7 +56,7 @@ void	draw_border_map(t_map *map, mlx_image_t *screen)
 		x = 0;
 		while (x < SIZE)
 		{
-			mlx_put_pixel(screen, x, y, 0x000000);
+			mlx_put_pixel(map->game->screen, x, y, 0x000000);
 			x++;
 		}
 		y++;
@@ -67,7 +67,7 @@ void	draw_border_map(t_map *map, mlx_image_t *screen)
 	{
 		while (x < width)
 		{
-			mlx_put_pixel(screen, x, y, 0x000000);
+			mlx_put_pixel(map->game->screen, x, y, 0x000000);
 			x++;
 		}
 		y++;
@@ -79,28 +79,14 @@ void	draw_border_map(t_map *map, mlx_image_t *screen)
 		x = 0;
 		while (x < width)
 		{
-			mlx_put_pixel(screen, x, y, 0x000000);
+			mlx_put_pixel(map->game->screen, x, y, 0x000000);
 			x++;
 		}
 		y++;
 	}
 }
 
-int	**map_to_int(char **map, int h, int w)
-{
-	int	**grid;
-	int	i;
-	int	j;
-	int	k;
 
-	i = 0;
-	j = 0;
-	grid = malloc(sizeof(int *) * (h * w));
-	if (!grid)
-		return (NULL);
-	whi
-	return (grid);
-}
 
 /**
  * @brief Minimap. First draw a border, then draw the map.
@@ -109,26 +95,34 @@ int	**map_to_int(char **map, int h, int w)
  * @param map 
  * @param screen 
  */
-void	draw_2d_map(t_map *map, mlx_image_t *screen)
+void	draw_2d_map(void *param)
 {
+	t_map *map;
 	int x;
 	int y;
+	int i;
+	int j;
 
-	draw_border_map(map, screen);
+	map = (t_map *)param;
+	draw_border_map(map);
 	y = SIZE + 1;
-	while (y < map->height)
+	i = 0;
+	while (map->grid[i])
 	{
-		x = SIZE + 1;
-		while (x < map->width)
+		j = 0;
+		x = 1;
+		while (map->grid[i][j])
 		{
-			if (map->grid[y][x] == 1)
-				draw_cube(screen, (t_vec2){x * SIZE, y * SIZE}, 0x00FF00);
-			else if (map->grid[y][x] == 0)
-				draw_cube(screen, (t_vec2){x * SIZE, y * SIZE}, 0xFFFFFF);
-			else if (map->grid[y][x] == -1)
-				draw_cube(screen, (t_vec2){x * SIZE, y * SIZE}, 0xFF0000);
+			if (map->grid[i][j] == 1)
+				draw_cube(map->game->screen, (t_vec2){x * SIZE, y * SIZE}, 0x00FF00);
+			else if (map->grid[i][j] == 0)
+				draw_cube(map->game->screen, (t_vec2){x * SIZE, y * SIZE}, 0xFFFFFF);
+			else if (map->grid[i][j] == -1)
+				draw_cube( map->game->screen, (t_vec2){x * SIZE, y * SIZE}, 0xFF0000);
+			j++;
 			x++;
 		}
 		y++;
+		i++;
 	}
 }

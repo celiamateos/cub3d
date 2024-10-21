@@ -44,6 +44,12 @@ typedef struct	s_wall
 	t_vec2		end;
 }	t_wall;
 
+typedef struct	s_game
+{
+	mlx_t		*mlx;
+	mlx_image_t	*screen;
+}	t_game;
+
 /**
  * @brief Map. All of the data included in the file, will be extracted here
  * 
@@ -72,7 +78,7 @@ typedef struct	s_map
 	char		**map;			//Only map content
 	int			height;
 	int			width;
-
+	t_game		*game;
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;	// **map to atoi (-1, 0, 1)
@@ -126,16 +132,6 @@ typedef struct	s_player
 	t_raycast	*raycast;
 }	t_player;
 
-/**
- * @brief Camera
- * 
- * @param direction 
- */
-typedef struct	s_game
-{
-	mlx_t		*mlx;
-	mlx_image_t	*screen;
-}	t_game;
 
 typedef struct	s_camera
 {

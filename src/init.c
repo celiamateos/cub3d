@@ -3,23 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/18 00:30:58 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 05:07:41 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_game(t_game *game)
+t_game	*init_game(void)
 {
+	t_game *game;
+
+	game = malloc(sizeof(t_game));
 	game->mlx = mlx_init(WIDTH_WIN, HEIGHT_WIN, "Cub3D", true);
 	if (!game->mlx)
 		puts(mlx_strerror(mlx_errno)), exit(1);
 	game->screen = mlx_new_image(game->mlx, WIDTH_WIN, HEIGHT_WIN);
 	if (!game->screen)
 		mlx_close_window(game->mlx), puts(mlx_strerror(mlx_errno)), exit(1);
+	return(game);
 }
 
 t_player	*init_player()
@@ -49,6 +53,7 @@ t_map	*init_map()
 	map = malloc(sizeof(t_map));
 	if (!map)
 		err("Error: malloc\n"), exit(1);
+	map->game = init_game();
 	map->map = NULL;
 	map->num_elem = 0;
 	map->north_route = NULL;
