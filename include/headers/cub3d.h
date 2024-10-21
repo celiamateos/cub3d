@@ -18,7 +18,7 @@
 # define WIDTH	1280
 # define WIDTH_WIN	1280
 # define HEIGHT_WIN	720
-# define SIZE		64
+# define SIZE		16
 
 # define NO		1
 # define SO		2
