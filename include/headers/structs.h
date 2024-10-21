@@ -50,6 +50,16 @@ typedef struct	s_game
 	mlx_image_t	*screen;
 }	t_game;
 
+typedef struct s_textures
+{
+	mlx_image_t	*no;
+	mlx_image_t	*so;
+	mlx_image_t	*we;
+	mlx_image_t	*ea;
+	mlx_image_t	*f;
+	mlx_image_t	*c;
+}	t_textures;
+
 /**
  * @brief Map. All of the data included in the file, will be extracted here
  * 
@@ -65,6 +75,7 @@ typedef struct	s_map
 	int			fd;
 	char		*line;
 	int			num_elem;
+	t_textures	textures;
 	mlx_image_t	*north_tx;
 	mlx_image_t	*south_tx;
 	mlx_image_t	*east_tx;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/18 05:36:08 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/21 20:46:02 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	draw_cube(mlx_image_t *screen, t_vec2 pos, int color)
 		y++;
 	}
 }
-
 void	draw_border_map(t_map *map)
 {
 	int x;
