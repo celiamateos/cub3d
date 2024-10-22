@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/22 21:28:57 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:08:59 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,6 @@ void ft_randomize(void* param)
 			mlx_put_pixel(game->screen, i, y, color);
 		}
 	}
-}
-
-void player_move_minimap(void* param)
-{
-	t_player	*p;
-
-	p = (t_player *)param;
-
-	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(p->map->game->mlx);
-	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_UP))
-		p->position.y -= 0.1f;
-	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_DOWN))
-		p->position.y += 0.1f;
-	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_LEFT))
-		p->position.x -= 0.1f;
-	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_RIGHT))
-		p->position.x += 0.1f;
-	draw_player(p);
 }
 
 int32_t main(int ac, char **av)

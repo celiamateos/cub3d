@@ -6,7 +6,7 @@
 #    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/26 17:46:59 by cmateos-          #+#    #+#              #
-#    Updated: 2024/10/21 21:14:24 by iostancu         ###   ########.fr        #
+#    Updated: 2024/10/22 22:11:27 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,13 @@ SRCNAMES        = $(shell ls $(SRC_DIR) | grep -E ".+\.c")
 SRC     = $(addprefix $(SRC_DIR), $(SRCNAMES))
 OBJ     = $(addprefix $(OBJ_DIR), $(SRCNAMES:.c=.o))
 
+############### CONTROLS
+SRCDIR_CONTROLS = ./src/controls/
+SRCNAMES_CONTROLS = $(shell ls $(SRCDIR_CONTROLS) | grep -E ".+\.c")
+PREF_CONTROLS = $(addprefix $(SRCDIR_CONTROLS), $(SRCNAMES_CONTROLS))
+SRC += $(PREF_CONTROLS)
+OBJ += $(addprefix $(OBJ_DIR), $(SRCNAMES_CONTROLS:.c=.o))
+
 ############### MAP_DRAW
 SRCDIR_MAPDRAW = ./src/map_draw/
 SRCNAMES_MAPDRAW = $(shell ls $(SRCDIR_MAPDRAW) | grep -E ".+\.c")
@@ -96,6 +103,12 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	$(call print_progress)
+	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
+	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"
+	@$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+
+$(OBJ_DIR)%.o:$(SRCDIR_CONTROLS)%.c
 	$(call print_progress)
 	$(eval progress=$(shell echo $$(($(progress) + $(progress_var)))))
 	@echo "${LWHITE}$(notdir $<) $(G_CHECK)"

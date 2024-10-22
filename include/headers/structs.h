@@ -132,14 +132,15 @@ typedef struct	s_raycast
  */
 typedef struct	s_player
 {
-	char	player_dir;	//Direction player (N,S,E,W)
-	int		spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
-	int		player_count;
-	t_vec2	position;
-	double	speed;
-	double	looking_angle;	//direction
-	t_vec2	dist_pplane;
-	t_vec2	dist_wall;
+	char		player_dir;	//Direction player (N,S,E,W)
+	int			spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
+	int			player_count;
+	t_vec2		position;
+	t_vec2		rotation;
+	double		speed;
+	double		looking_angle;	//direction
+	t_vec2		dist_pplane;
+	t_vec2		dist_wall;
 	t_raycast	*raycast;
 	t_map		*map;
 }	t_player;

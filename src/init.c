@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/22 21:07:39 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:34:10 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ t_game	*init_game(void)
 	return(game);
 }
 
+
+double	set_radius(double angle)
+{
+	return ((angle * 3.14159265359) / 180.0);
+}
+
 t_player	*init_player(t_map *map)
 {
 	t_player	*p;
@@ -38,7 +44,9 @@ t_player	*init_player(t_map *map)
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 1;
-	p->looking_angle = 0;
+	p->looking_angle = 90;
+	p->rotation.x = cos(set_radius(280.0));
+	p->rotation.y = -sin(set_radius(280.0));
 	p->dist_pplane.x = 0;
 	p->dist_pplane.y = 0;
 	p->dist_wall.x = 0;
