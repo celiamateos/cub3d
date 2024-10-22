@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   draw_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 00:19:37 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/22 21:06:06 by iostancu         ###   ########.fr       */
+/*   Created: 2024/10/22 21:02:46 by iostancu          #+#    #+#             */
+/*   Updated: 2024/10/22 21:05:45 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include <cub3d.h>
 
-# include <structs.h>
+void	draw_player(void *param)
+{
+	t_player	*p;
+	t_vec2		pos;
+	int			color;
 
-void	draw_2d_map(void *param);
-void	draw_player(void *param);
-
-#endif
+	p = (t_player *)param;
+	pos.x = p->position.x * SIZE + SIZE;
+	pos.y = p->position.y * SIZE + SIZE;
+	color = get_rgba(255, 0, 0, 255);
+	draw_cube(p->map->game->screen, pos, color);
+}

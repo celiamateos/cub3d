@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.h                                             :+:      :+:    :+:   */
+/*   rgba_conversion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 00:19:37 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/22 21:06:06 by iostancu         ###   ########.fr       */
+/*   Created: 2024/10/22 20:53:28 by iostancu          #+#    #+#             */
+/*   Updated: 2024/10/22 20:57:11 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_H
-# define DRAW_H
+#include <cub3d.h>
 
-# include <structs.h>
+int	get_rgba(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
 
-void	draw_2d_map(void *param);
-void	draw_player(void *param);
 
-#endif

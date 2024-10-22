@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/21 21:19:27 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:28:57 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static mlx_image_t* image;
 t_map		*init_map();
-t_player	*init_player();
+t_player	*init_player(t_map *map);
 void		init_game(t_game *game);
 void		free_cub3D(t_map *map, t_player *player);
 
@@ -52,20 +52,23 @@ void ft_randomize(void* param)
 	}
 }
 
-void ft_hook(void* param)
+void player_move_minimap(void* param)
 {
-	mlx_t* mlx = param;
+	t_player	*p;
 
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
+	p = (t_player *)param;
+
+	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(p->map->game->mlx);
+	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_UP))
+		p->position.y -= 0.1f;
+	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_DOWN))
+		p->position.y += 0.1f;
+	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_LEFT))
+		p->position.x -= 0.1f;
+	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_RIGHT))
+		p->position.x += 0.1f;
+	draw_player(p);
 }
 
 int32_t main(int ac, char **av)
@@ -78,7 +81,7 @@ int32_t main(int ac, char **av)
     if (ac != 2 || check_name_file(av[1]))
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
 	map = init_map();
-	player = init_player();
+	player = init_player(map);
 	load_map(map, player, av[1]);
 	if (mlx_image_to_window(map->game->mlx, map->game->screen, 0, 0) == -1)
 	{
@@ -87,8 +90,10 @@ int32_t main(int ac, char **av)
 		return(EXIT_FAILURE);
 	}
 	
-	 mlx_loop_hook(map->game->mlx, draw_2d_map, map);
-	// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
+	//minimap
+	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+	mlx_loop_hook(map->game->mlx, draw_player, player);
+	mlx_loop_hook(map->game->mlx, player_move_minimap, player);
 
 	mlx_loop(map->game->mlx);
 	mlx_terminate(map->game->mlx);

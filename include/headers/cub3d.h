@@ -14,11 +14,12 @@
 
 # define CUB3D_H
 
-# define HEIGHT	720
-# define WIDTH	1280
-# define WIDTH_WIN	1280
-# define HEIGHT_WIN	720
-# define SIZE		16
+# define HEIGHT	920
+# define WIDTH	1500
+# define WIDTH_WIN	1500
+# define HEIGHT_WIN	920
+# define SIZE	64
+# define MINIMAP_SIZE	(SIZE / 4)
 
 # define NO		1
 # define SO		2

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/18 05:07:41 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/22 21:07:39 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_game	*init_game(void)
 	return(game);
 }
 
-t_player	*init_player()
+t_player	*init_player(t_map *map)
 {
 	t_player	*p;
 
@@ -43,6 +43,7 @@ t_player	*init_player()
 	p->dist_pplane.y = 0;
 	p->dist_wall.x = 0;
 	p->dist_wall.y = 0;
+	p->map = map;
 	return (p);
 }
 
@@ -70,5 +71,5 @@ t_map	*init_map()
 void	init_cub3d(t_player *p, t_map *m)
 {
 	m = init_map();
-	p = init_player();
+	p = init_player(m);
 }
