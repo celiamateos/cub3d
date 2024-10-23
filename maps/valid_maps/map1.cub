@@ -1,16 +1,17 @@
-NO ./textures/north_texture.png
-        EA ./textures/north_texture.png
+NO ./textures/north_texture1.png
+        EA ./textures/east_texture1.png
 
 
 
 
-WE      ./textures/north_texture.png
-SO             ./textures/north_texture.png
+WE      ./textures/west_texture1.png
+SO             ./textures/south_texture1.png
 
-C 42,15,9
-F 65,42,6
+C 255,0,0
 
-         
+F 0,0,255
+
+        
 11111
 1N011
 11111111

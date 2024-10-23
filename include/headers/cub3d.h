@@ -14,19 +14,20 @@
 
 # define CUB3D_H
 
-# define HEIGHT 720
-# define WIDTH 1280
+# define HEIGHT	720
+# define WIDTH	1280
+# define WIDTH_WIN	1280
+# define HEIGHT_WIN	720
+# define SIZE		16
 
-// # define NO	1
-// # define NO	1
-// # define NO	1
-# define NO	1
-# define SO	2
-# define EA 3
-# define WE	4
+
+# define NO		1
+# define SO		2
+# define EA		3
+# define WE		4
 
 #ifndef FOV
-# define FOV 60
+# define FOV	60
 #endif
 
 # include "../libft/libft.h"
@@ -42,16 +43,16 @@
 # include <stddef.h>
 # include <structs.h>
 # include <raycast.h>
+# include <draw.h>
 
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define PURPLE "\033[1m\033[35m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define RESET "\033[0m" 
+# define RED	"\033[31m"
+# define GREEN	"\033[32m"
+# define PURPLE	"\033[1m\033[35m"
+# define YELLOW	"\033[33m"
+# define BLUE	"\033[34m"
+# define RESET	"\033[0m"
 
-# define WIDTH_WIN 1500
-# define HEIGHT_WIN 1500
+
 
 //PARSE
 int     load_map(t_map *map, t_player *player, char *file);
@@ -64,11 +65,12 @@ int    cover_char(char c);
 int     save_data_map(t_map *map, char *line);
 void    save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
-int     *load_data_color_map(char *str);
+int     load_data_color_map(char *str);
 char    *ft_search_element(char **element);
 int     check_map_player_info(t_map *map, t_player *p);
 
 
+int		**map_to_int(char **map, int h, int w);
 // UTILS
 void    err(char *str);
 int     ft_arraylen(char **array);

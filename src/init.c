@@ -1,0 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
+/*   Updated: 2024/10/18 05:07:41 by settes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
+
+t_game	*init_game(void)
+{
+	t_game *game;
+
+	game = malloc(sizeof(t_game));
+	game->mlx = mlx_init(WIDTH_WIN, HEIGHT_WIN, "Cub3D", true);
+	if (!game->mlx)
+		puts(mlx_strerror(mlx_errno)), exit(1);
+	game->screen = mlx_new_image(game->mlx, WIDTH_WIN, HEIGHT_WIN);
+	if (!game->screen)
+		mlx_close_window(game->mlx), puts(mlx_strerror(mlx_errno)), exit(1);
+	return(game);
+}
+
+t_player	*init_player()
+{
+	t_player	*p;
+
+	p = ft_calloc(1, sizeof(t_player));
+	if (!p)
+		err("Error: malloc\n"), exit(1);
+	// p->player_dir = 0;
+	p->position.x = 0;
+	p->position.y = 0;
+	p->speed = 1;
+	p->looking_angle = 0;
+	p->dist_pplane.x = 0;
+	p->dist_pplane.y = 0;
+	p->dist_wall.x = 0;
+	p->dist_wall.y = 0;
+	return (p);
+}
+
+t_map	*init_map()
+{
+	t_map	*map;
+	t_textures *textures;
+	t_images	*images;
+
+	textures = ft_calloc(1, sizeof(t_textures));
+	if (!textures)
+		err("Error: malloc\n"), exit(1);
+	images = ft_calloc(1, sizeof(t_images));
+	if (!images)
+		err("Error: malloc\n"), exit(1);
+	map = malloc(sizeof(t_map));
+	if (!map)
+		err("Error: malloc\n"), exit(1);
+	map->game = init_game();
+	map->map = NULL;
+	map->num_elem = 0;
+	// map->north_route = NULL;
+	// map->south_route = NULL;
+	// map->east_route = NULL;
+	// map->west_route = NULL;
+	map->ceiling_color = 0;
+	map->floor_color = 0;
+	map->position.x = 0;
+	map->position.y = 0;
+	return (map);
+}
+
+void	init_cub3d(t_player *p, t_map *m)
+{
+	(void)p;
+	(void)m;
+	m = init_map();
+	p = init_player();
+}

@@ -26,10 +26,37 @@ char *ft_search_element(char **element)
     return (dir);
 }
 
-int *load_data_color_map(char *str)
+// 'Encodes' four individual bytes into an int.
+int get_rgba(int r, int g, int b, int a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
+}
+
+int colorToInt(int red, int green, int blue)
+{
+    // Nos aseguramos de que los valores estén en el rango válido 0-255
+    if (red < 0)
+        red = 0;
+    if (red > 255)
+        red = 255;
+    if (green < 0)
+        green = 0;
+    if (green > 255)
+        green = 255;
+    if (blue < 0)
+        blue = 0;
+    if (blue > 255)
+        blue = 255;
+
+    // Combinamos los colores en un solo entero de 24 bits
+    return ((red << 16) | (green << 8) | blue);
+}
+
+int load_data_color_map(char *str)
 {
     int     *result;
     char    **tmp;
+    int color;
 
     result = 0;
     tmp = ft_split(str, ',');
@@ -41,69 +68,85 @@ int *load_data_color_map(char *str)
     result[0] = ft_atoi(tmp[0]);
     result[1] = ft_atoi(tmp[1]);
     result[2] = ft_atoi(tmp[2]);
-
-    if (result[0] < 0 || result[0] > 255 || result[1] < 0 || result[1] > 255 || result[2] < 0 || result[2] > 255)
-        err(RED"error: element map: bad rgb params\n"RESET), exit(1); //free y tal
+    color = colorToInt(result[0], result[1], result[2]);
     ft_freearray(tmp);
-    return (result);
+    free(result);
+    return (color);
 }
 
 void save_colors_map(t_map *map, char ***elements)
 {
     char **element;
+    int rgb;
 
     element = *elements;
     if (!ft_strncmp(element[0], "C", ft_strlen(element[0])))
     {
-        if ((map->ceiling_route = load_data_color_map(element[1])) && !map->ceiling_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
-        printf(GREEN"ceiling_route:"RESET);
-        ft_printintarray(map->ceiling_route, 3);
+        if ((rgb = load_data_color_map(element[1])) < 0)
+            err(RED"error: invalid ceiling color\n"RESET), ft_freearray(element), exit(1); //free..
+        map->ceiling_color = rgb;
+        printf(GREEN"ceiling_route:%d\n"RESET, map->ceiling_color);
     }
     else if (!ft_strncmp(element[0], "F", ft_strlen(element[0])))
     {
-        if ((map->floor_route = load_data_color_map(element[1])) && !map->floor_route)
-            err(RED"error: invalid map\n"RESET), ft_freearray(element), exit(1); //free..
-        printf(GREEN"floor_route:"RESET);
-        ft_printintarray(map->floor_route, 3);
+        if ((rgb = load_data_color_map(element[1])) < 0)
+            err(RED"error: invalid floor color\n"RESET), ft_freearray(element), exit(1); //free..
+        map->floor_color = rgb;
+        printf(GREEN"floor_route:%d\n"RESET, map->floor_color);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1);
     map->num_elem += 1;
 }
 
+void charge_texture(t_game *game, mlx_texture_t **tex, mlx_image_t **img, char *dir)
+{
+    *tex = mlx_load_png(dir);
+    if (!tex)
+        err("MIERDA JAJA");
+    *img = mlx_texture_to_image(game->mlx, *tex);
+    if (!img)
+        err("MIERDA 2");
+}
+
 void save_element_map(t_map *map, char ***elements)
 {
     char **element;
-    char    *north_route;
-    char    *south_route;
-    char    *east_route;
-    char    *west_route;
+    char    *dir;
 
     element = *elements;
-    if (!map->north_route && !ft_strncmp(element[0], "NO", ft_strlen("NO")))
+    if (!ft_strncmp(element[0], "NO", ft_strlen("NO")))
     {
-        if ((map->north_route = ft_search_element(element)) == NULL)
+        if ((dir = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"north_route:%s\n"RESET, map->north_route);
+        printf(GREEN"north_route:%s\n"RESET, dir);
+        charge_texture(map->game, &map->textures.no, &map->images.no, dir);
+        free(dir);
+
     }
-    else if (!map->south_route && !ft_strncmp(element[0], "SO", ft_strlen("SO")))
+    else if (!ft_strncmp(element[0], "SO", ft_strlen("SO")))
     {
-        if ((map->south_route = ft_search_element(element)) == NULL)
+        if ((dir = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"south_route:%s\n"RESET, map->south_route);
+        charge_texture(map->game, &map->textures.so, &map->images.so, dir);
+        printf(GREEN"south_route:%s\n"RESET, dir);
+        free(dir);
     }
-    else if (!map->east_route && !ft_strncmp(element[0], "EA", ft_strlen("EA")))
+    else if (!ft_strncmp(element[0], "EA", ft_strlen("EA")))
     {
-        if ((map->east_route = ft_search_element(element)) == NULL)
+        if ((dir = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"east_route:%s\n"RESET, map->east_route);
+        charge_texture(map->game, &map->textures.ea, &map->images.ea, dir);
+        printf(GREEN"east_route:%s\n"RESET, dir);
+        free(dir);
     }
-    else if (!map->west_route && !ft_strncmp(element[0], "WE", ft_strlen("WE")))
+    else if (!ft_strncmp(element[0], "WE", ft_strlen("WE")))
     {
-        if ((map->west_route = ft_search_element(element)) == NULL)
+        if ((dir = ft_search_element(element)) == NULL)
             ft_freearray(element), exit(1); //free..
-        printf(GREEN"west_route:%s\n"RESET, map->west_route);
+        charge_texture(map->game, &map->textures.we, &map->images.we, dir);
+        printf(GREEN"west_route:%s\n"RESET, dir);
+        free (dir);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1); //free..

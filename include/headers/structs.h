@@ -44,6 +44,28 @@ typedef struct	s_wall
 	t_vec2		end;
 }	t_wall;
 
+typedef struct	s_game
+{
+	mlx_t		*mlx;
+	mlx_image_t	*screen;
+}	t_game;
+
+typedef struct s_images
+{
+	mlx_image_t	*no;
+	mlx_image_t	*so;
+	mlx_image_t	*we;
+	mlx_image_t	*ea;
+}	t_images;
+
+typedef struct s_textures
+{
+	mlx_texture_t	*no;
+	mlx_texture_t	*so;
+	mlx_texture_t	*we;
+	mlx_texture_t	*ea;
+}	t_textures;
+
 /**
  * @brief Map. All of the data included in the file, will be extracted here
  * 
@@ -56,28 +78,24 @@ typedef struct	s_wall
  */
 typedef struct	s_map
 {
+	t_textures	textures;
+	t_images	images;
 	int			fd;
 	char		*line;
 	int			num_elem;
-	mlx_image_t	*north_tx;
-	mlx_image_t	*south_tx;
-	mlx_image_t	*east_tx;
-	mlx_image_t	*west_tx;
-	char		*north_route;	//QUIT
-	char		*south_route;	//QUIT
-	char		*east_route; 	//QUIT
-	char		*west_route;	//QUIT
-	int			*ceiling_route;	//RGB Format
-	int			*floor_route;	//RGB Format
+	// char		*north_route;	//QUIT
+	// char		*south_route;	//QUIT
+	// char		*east_route; 	//QUIT
+	// char		*west_route;	//QUIT
+	int			ceiling_color;	//RGB Format, not texture
+	int			floor_color;	//RGB Format, not texture
 	char		**map;			//Only map content
 	int			height;
 	int			width;
-
+	t_game		*game;
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;	// **map to atoi (-1, 0, 1)
-	mlx_image_t	*floor;
-	mlx_image_t	*ceiling;
 	char		player_dir;
 }	t_map;
 
@@ -115,7 +133,6 @@ typedef struct	s_raycast
  */
 typedef struct	s_player
 {
-	char	player_dir;	//Direction player (N,S,E,W)
 	int		spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
 	t_vec2	position;
 	double	speed;
@@ -125,16 +142,6 @@ typedef struct	s_player
 	t_raycast	*raycast;
 }	t_player;
 
-/**
- * @brief Camera
- * 
- * @param direction 
- */
-typedef struct	s_game
-{
-	mlx_t		*mlx;
-	mlx_image_t	*screen;
-}	t_game;
 
 typedef struct	s_camera
 {

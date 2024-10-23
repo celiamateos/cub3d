@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/16 23:01:10 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/18 00:31:55 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,18 @@ int check_player_direction(t_player *player, char c, int row, int i)
 		return (-1);
 	else
 	{
-		set_looking_angle(c, &player->looking_angle);
-		player->player_dir = c;
+		set_looking_angle(c, &player->looking_angle); //looking_angle es lo mismo que spawn_direction ?
+		// player->player_dir = c;
 		player->position.y = row;
 		player->position.x = i;
+		if (c == NO)
+			player->spawn_direction = NO;
+		else if (c == SO)
+			player->spawn_direction = SO;
+		else if (c == EA)
+			player->spawn_direction = EA;
+		else if (c == WE)
+			player->spawn_direction = WE;
 	}
 	return (1);
 }
@@ -72,7 +80,7 @@ int	save_map(t_map *map, char *str)
 		len = 0;
 	aux = ft_calloc(len + 2, sizeof(char *));
 	if (!aux)
-		return (1); //Free
+		return (err("AKIII\n"), 1); //Free
 	while (++i != len)
 	{
 		aux[i] = ft_strdup(map->map[i]);
@@ -81,7 +89,7 @@ int	save_map(t_map *map, char *str)
 	}
 	aux[i] = ft_strdup(str);
 	if (!aux[i])
-		return (ft_free_error_arr(aux, i), 1);
+		return (err("holaa\n"), ft_free_error_arr(aux, i), 1); //Free
 	aux[++i] = NULL;
 	if (map->map)
 		ft_freearray(map->map);
@@ -91,6 +99,7 @@ int	save_map(t_map *map, char *str)
 
 int readmap(t_map *map, t_player *player)
 {
+	(void)player;
 	char    *line;
 	int     i;
 
@@ -108,7 +117,7 @@ int readmap(t_map *map, t_player *player)
 			else
 			{
 				if (save_map(map, line))
-					return (free(line), 1);
+					return (err(RED"Error\n Cannot save map\n"RESET), free(line), 1);
 				i++;
 			}
 		}
@@ -118,55 +127,26 @@ int readmap(t_map *map, t_player *player)
 	}
 	free(line);
 	map->height = i;
+	return (0);
 }
 
-int	**convert_to_grid(t_map *map)
-{
-	int i = 0;
-	int row = 0;
-	map->grid = malloc(map->height * sizeof(int *));
-	if (!map->grid)
-		return (err("Error\n "), NULL);
-	while(row < map->height)
-	{
-		map->grid[row] = malloc(map->width * sizeof(int));
-		if (!map->grid[row])
-			return (err("ERROOOORR"), NULL);
 
-		while(i < map->width)
-		{
-			if (map->map[row][i] == '0' || map->map[row][i] == 'N' || map->map[row][i] == 'E'
-			 || map->map[row][i] == 'S' || map->map[row][i] == 'W')
-				map->grid[row][i] = 0;
-			else if (map->map[row][i] == '1')
-				map->grid[row][i] = 1;
-			else if (map->map[row][i] == 32)
-				map->grid[row][i] = -1;
-			else
-				break ;
-			i++;
-		}
-		i = 0;
-		row++;
-	}
-	return map->grid;
-}
 
 int load_map(t_map *map, t_player *player, char *file)
 {
 	char **map_cp;
-
+	
 	map->fd = open(file, O_RDONLY);
 	if (map->fd < 0)
 		err(RED"error: fd: cannot open\n"RESET), exit(1);
-	if (!readmap(map, player))
-		return (err("error: readmap\n"), 1);
+	if (readmap(map, player))
+		return (err("error: readmap!!\n"), 1);
 	close(map->fd);
 	if (check_map_player_info(map, player))
 		return (ft_freearray(map->map), 1);
 	if (map->num_elem != 6)
 		err(RED"error: map: invalid elements count\n"RESET), exit(1); //free
-	printf(YELLOW"\nplayer_direction:%c\n\n"RESET, player->player_dir);
+	printf(YELLOW"\nplayer_direction:%i\n\n"RESET, player->spawn_direction);
 	map_cp = ft_arraydup(map->map);
 	if (!map_closed(map_cp,player->position.x, player->position.y) || !check_valid_map(map_cp))
 		return (err(RED"error: Map is not closed\n"RESET), ft_freearray(map->map), ft_freearray(map_cp), 1);
@@ -175,7 +155,6 @@ int load_map(t_map *map, t_player *player, char *file)
 	printf(BLUE"\nPlayer position: [%f][%f]\n"RESET, player->position.y, player->position.x); //PRINTF
 	printf(GREEN"\nMap height: %d\n"RESET, map->height); //PRINTF
 	printf(GREEN"Map width: %d\n"RESET, map->width); //PRINTF
-	convert_to_grid(map);
-	ft_print_grid(map->grid, map->height, map->width);
-	return (0);
+	map->grid = map_to_int(map->map, map->height, map->width);
+	return 0;
 }
