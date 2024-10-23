@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-bool	cover_char(char c)
+int	cover_char(char c)
 {
 	return (c == '1' || c == '0' || c == '.');
 }
@@ -29,11 +29,11 @@ size_t	double_pointer_len(char **double_pointer)
 	return (len);
 }
 
-bool	map_closed(char **m, size_t x, size_t y)
+int	map_closed(char **m, size_t x, size_t y)
 {
-	bool	valid;
+	int	valid;
 
-	valid = true;
+	valid = 1;
 	if (x == 0 || y == 0 || y == double_pointer_len(m) - 1
 		|| x == ft_strlen(m[0]) - 1 || !cover_char(m[y - 1][x])
 		|| !cover_char(m[y + 1][x]) || !cover_char(m[y][x - 1])
@@ -50,11 +50,11 @@ bool	map_closed(char **m, size_t x, size_t y)
 		valid = map_closed(m, x - 1, y);
 	if (valid && m[y][x + 1] == '0')
 		valid = map_closed(m, x + 1, y);
-	m[y][x] = '.';
+	m[y][x] = '3';
 	return (valid);
 }
 
-bool check_valid_map(char **map)
+int check_valid_map(char **map)
 {
     int     row;
     long unsigned int     i;
@@ -70,12 +70,13 @@ bool check_valid_map(char **map)
             if (m[row][i] == '0')
             {
                 if (!map_closed(map, i, row))
-                    return false;
+                    return (0);
             }
             m = map;
         }
         i = 0;
     }
+
     return (true);
 }
 
@@ -84,7 +85,6 @@ int	**map_to_int(char **map, int h, int w)
 	int	**grid;
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	j = 0;

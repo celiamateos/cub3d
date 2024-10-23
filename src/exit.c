@@ -27,18 +27,9 @@ void	free_cub3D(t_map *map, t_player *player)
 	{
 		if (map->map)
 			ft_freearray(map->map);
-		if (map->north_route)
-			free(map->north_route);
-		if (map->south_route)
-			free(map->south_route);
-		if (map->east_route)
-			free(map->east_route);
-		if (map->west_route)
-			free(map->west_route);
-		if (map->ceiling_route)
-			free(map->ceiling_route);
-		if (map->floor_route)
-			free(map->floor_route);
+		// 	free(map->ceiling_route);
+		// if (map->floor_route)
+		// 	free(map->floor_route);
 		while (map->grid[i])
 		{
 			free(map->grid[i]);

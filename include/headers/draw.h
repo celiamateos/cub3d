@@ -17,5 +17,6 @@
 
 void	draw_2d_map(void *param);
 void	draw_player(void *param);
+void    draw_background(void *param);
 
 #endif

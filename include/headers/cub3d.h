@@ -22,6 +22,7 @@
 # define MINIMAP_SIZE	(SIZE / 4)
 # define ROTATION_ANGLE	5
 
+
 # define NO		1
 # define SO		2
 # define EA		3
@@ -45,6 +46,7 @@
 # include <structs.h>
 # include <raycast.h>
 # include <draw.h>
+# include <math.h>
 
 # define RED	"\033[31m"
 # define GREEN	"\033[32m"
@@ -56,17 +58,21 @@
 
 
 //PARSE
-void    load_map(t_map *map, t_player *player, char *file);
-void    readmap(t_map *map, t_player *player);
-bool    check_valid_map(char **map);
-bool    map_closed(char **m, size_t x, size_t y);
+int     load_map(t_map *map, t_player *player, char *file);
+int     readmap(t_map *map, t_player *player);
+int     save_map(t_map *map, char *str);
+int    check_valid_map(char **map);
+int    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
-bool    cover_char(char c);
-void    save_data_map(t_map *map, char *line);
+int    cover_char(char c);
+int     save_data_map(t_map *map, char *line);
 void    save_element_map(t_map *map, char ***elements);
 void    save_colors_map(t_map *map, char ***elements);
-int     *load_data_color_map(char *str);
+int     load_data_color_map(char *str);
 char    *ft_search_element(char **element);
+int     check_map_player_info(t_map *map, t_player *p);
+
+
 int		**map_to_int(char **map, int h, int w);
 // UTILS
 void    err(char *str);
@@ -74,6 +80,7 @@ int     ft_arraylen(char **array);
 void    ft_printarray(char **arr);
 void    ft_printintarray(int *nb, int size);
 int     ft_free_error_arr(char **mem, long row);
-void    save_map(t_map *map, char *str);
+char    **ft_arraydup(char **arr);
+void ft_print_grid(int **grid, int height, int width);
 
 #endif

@@ -39,8 +39,7 @@ t_player	*init_player(t_map *map)
 	p = ft_calloc(1, sizeof(t_player));
 	if (!p)
 		err("Error: malloc\n"), exit(1);
-	p->player_dir = 0;
-	p->player_count = 0;
+	// p->player_dir = 0;
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 1;
@@ -58,19 +57,29 @@ t_player	*init_player(t_map *map)
 t_map	*init_map()
 {
 	t_map	*map;
+	t_textures *textures;
+	t_images	*images;
 
+	textures = ft_calloc(1, sizeof(t_textures));
+	if (!textures)
+		err("Error: malloc\n"), exit(1);
+	images = ft_calloc(1, sizeof(t_images));
+	if (!images)
+		err("Error: malloc\n"), exit(1);
 	map = malloc(sizeof(t_map));
 	if (!map)
 		err("Error: malloc\n"), exit(1);
 	map->game = init_game();
 	map->map = NULL;
 	map->num_elem = 0;
-	map->north_route = NULL;
-	map->south_route = NULL;
-	map->east_route = NULL;
-	map->west_route = NULL;
-	map->ceiling_route = 0;
-	map->floor_route = 0;
+	// map->north_route = NULL;
+	// map->south_route = NULL;
+	// map->east_route = NULL;
+	// map->west_route = NULL;
+	map->images.c = 0;
+	map->images.f = 0;
+	map->ceiling_color = 0;
+	map->floor_color = 0;
 	map->position.x = 0;
 	map->position.y = 0;
 	return (map);
@@ -78,6 +87,8 @@ t_map	*init_map()
 
 void	init_cub3d(t_player *p, t_map *m)
 {
+	(void)p;
+	(void)m;
 	m = init_map();
 	p = init_player(m);
 }

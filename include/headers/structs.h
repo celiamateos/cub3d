@@ -50,14 +50,23 @@ typedef struct	s_game
 	mlx_image_t	*screen;
 }	t_game;
 
-typedef struct s_textures
+typedef struct s_images
 {
 	mlx_image_t	*no;
 	mlx_image_t	*so;
 	mlx_image_t	*we;
 	mlx_image_t	*ea;
-	mlx_image_t	*f;
 	mlx_image_t	*c;
+	mlx_image_t	*f;
+
+}	t_images;
+
+typedef struct s_textures
+{
+	mlx_texture_t	*no;
+	mlx_texture_t	*so;
+	mlx_texture_t	*we;
+	mlx_texture_t	*ea;
 }	t_textures;
 
 /**
@@ -72,20 +81,17 @@ typedef struct s_textures
  */
 typedef struct	s_map
 {
+	t_textures	textures;
+	t_images	images;
 	int			fd;
 	char		*line;
 	int			num_elem;
-	t_textures	textures;
-	mlx_image_t	*north_tx;
-	mlx_image_t	*south_tx;
-	mlx_image_t	*east_tx;
-	mlx_image_t	*west_tx;
-	char		*north_route;	//QUIT
-	char		*south_route;	//QUIT
-	char		*east_route; 	//QUIT
-	char		*west_route;	//QUIT
-	int			*ceiling_route;	//RGB Format
-	int			*floor_route;	//RGB Format
+	// char		*north_route;	//QUIT
+	// char		*south_route;	//QUIT
+	// char		*east_route; 	//QUIT
+	// char		*west_route;	//QUIT
+	int			ceiling_color;	//RGB Format, not texture
+	int			floor_color;	//RGB Format, not texture
 	char		**map;			//Only map content
 	int			height;
 	int			width;
@@ -93,8 +99,6 @@ typedef struct	s_map
 	t_vec2		position;
 	t_wall		**wall;
 	int			**grid;	// **map to atoi (-1, 0, 1)
-	mlx_image_t	*floor;
-	mlx_image_t	*ceiling;
 	char		player_dir;
 }	t_map;
 
@@ -132,15 +136,24 @@ typedef struct	s_raycast
  */
 typedef struct	s_player
 {
-	char		player_dir;	//Direction player (N,S,E,W)
-	int			spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
-	int			player_count;
-	t_vec2		position;
+// <<<<<<< HEAD
+// 	char		player_dir;	//Direction player (N,S,E,W)
+// 	int			spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
+// 	int			player_count;
+// 	t_vec2		position;
+// 	t_vec2		rotation;
+// 	double		speed;
+// 	double		looking_angle;	//direction
+// 	t_vec2		dist_pplane;
+// 	t_vec2		dist_wall;
+// =======
+	int		spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
+	t_vec2	position;
 	t_vec2		rotation;
-	double		speed;
-	double		looking_angle;	//direction
-	t_vec2		dist_pplane;
-	t_vec2		dist_wall;
+	double	speed;
+	double	looking_angle;	//direction
+	t_vec2	dist_pplane;
+	t_vec2	dist_wall;
 	t_raycast	*raycast;
 	t_map		*map;
 }	t_player;

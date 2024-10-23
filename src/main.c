@@ -13,6 +13,7 @@
 #include <cub3d.h>
 
 static mlx_image_t* image;
+
 t_map		*init_map();
 t_player	*init_player(t_map *map);
 void		init_game(t_game *game);
@@ -52,6 +53,58 @@ void ft_randomize(void* param)
 	}
 }
 
+
+void ft_hook(void* param)
+{
+	mlx_t* mlx = param;
+
+	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(mlx);
+	if (mlx_is_key_down(mlx, MLX_KEY_UP))
+		image->instances[0].y -= 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+		image->instances[0].y += 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+		image->instances[0].x -= 5;
+	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+		image->instances[0].x += 5;
+}
+
+int	load_images(t_map *map)
+{
+	int height;
+
+	height = HEIGHT_WIN;
+    mlx_image_to_window(map->game->mlx, map->images.c, 0, 0);
+    mlx_image_to_window(map->game->mlx, map->images.f, 0, height / 2);
+	mlx_image_to_window(map->game->mlx, map->images.no, 300, 500);
+	mlx_image_to_window(map->game->mlx, map->images.so, 400, 500);
+	mlx_image_to_window(map->game->mlx, map->images.ea, 500, 500);
+	mlx_image_to_window(map->game->mlx, map->images.we, 600, 500);
+	if (mlx_image_to_window(map->game->mlx, map->game->screen, 0, 0) == -1)
+	{
+		mlx_close_window(map->game->mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+	return 0;
+}
+
+void	destroy_images(t_map *map)
+{
+	mlx_delete_image(map->game->mlx, map->images.no);
+	mlx_delete_image(map->game->mlx, map->images.so);
+	mlx_delete_image(map->game->mlx, map->images.we);
+	mlx_delete_image(map->game->mlx, map->images.ea);
+	mlx_delete_image(map->game->mlx, map->images.c);
+	mlx_delete_image(map->game->mlx, map->images.f);
+
+	mlx_delete_texture(map->textures.no);
+	mlx_delete_texture(map->textures.so);
+	mlx_delete_texture(map->textures.we);
+	mlx_delete_texture(map->textures.ea);
+}
+
 int32_t main(int ac, char **av)
 {
 	t_map		*map;
@@ -64,19 +117,17 @@ int32_t main(int ac, char **av)
 	map = init_map();
 	player = init_player(map);
 	load_map(map, player, av[1]);
-	if (mlx_image_to_window(map->game->mlx, map->game->screen, 0, 0) == -1)
-	{
-		mlx_close_window(map->game->mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	
+	draw_background(map);
+	load_images(map);
 	//minimap
 	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
 	mlx_loop_hook(map->game->mlx, draw_player, player);
 	mlx_loop_hook(map->game->mlx, player_move_minimap, player);
+	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+	// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
 
 	mlx_loop(map->game->mlx);
+	destroy_images(map);
 	mlx_terminate(map->game->mlx);
 	free_cub3D(map, player);
 	return (EXIT_SUCCESS);
