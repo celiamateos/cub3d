@@ -116,17 +116,19 @@ int32_t main(int ac, char **av)
 		err("Bad arguments. Enter a .cub file\n"), exit(1);
 	map = init_map();
 	player = init_player(map);
-	load_map(map, player, av[1]);
-	draw_background(map);
-	load_images(map);
-	//minimap
-	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
-	mlx_loop_hook(map->game->mlx, draw_player, player);
-	mlx_loop_hook(map->game->mlx, player_move_minimap, player);
-	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
-	// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
+	if (!load_map(map, player, av[1]))
+	{
+		draw_background(map);
+		load_images(map);
+		//minimap
+		mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+		mlx_loop_hook(map->game->mlx, draw_player, player);
+		mlx_loop_hook(map->game->mlx, player_move_minimap, player);
+		mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+		// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
 
-	mlx_loop(map->game->mlx);
+		mlx_loop(map->game->mlx);
+	}
 	destroy_images(map);
 	mlx_terminate(map->game->mlx);
 	free_cub3D(map, player);

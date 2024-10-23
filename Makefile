@@ -35,7 +35,7 @@ G_OK = ${COLOR_GREEN_N}[OK]$(RESET)
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -g3 #-Werror -Wextra -Wall 
+CFLAGS = -g3 
 LIBMLX42_FLAGS = -I include -ldl -lglfw -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 RM = rm -f
 LIBFT_DIR = ./libft/

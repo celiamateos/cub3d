@@ -74,7 +74,7 @@ int load_data_color_map(char *str)
     return (color);
 }
 
-void save_colors_map(t_map *map, char ***elements)
+int save_colors_map(t_map *map, char ***elements)
 {
     char **element;
     int rgb;
@@ -83,20 +83,21 @@ void save_colors_map(t_map *map, char ***elements)
     if (!ft_strncmp(element[0], "C", ft_strlen(element[0])))
     {
         if ((rgb = load_data_color_map(element[1])) < 0)
-            err(RED"error: invalid ceiling color\n"RESET), ft_freearray(element), exit(1); //free..
+            return (err(RED"error: invalid ceiling color\n"RESET), 1);
         map->ceiling_color = rgb;
-        printf(GREEN"ceiling_route:%d\n"RESET, map->ceiling_color);
+        // printf(GREEN"ceiling_route:%d\n"RESET, map->ceiling_color);
     }
     else if (!ft_strncmp(element[0], "F", ft_strlen(element[0])))
     {
         if ((rgb = load_data_color_map(element[1])) < 0)
-            err(RED"error: invalid floor color\n"RESET), ft_freearray(element), exit(1); //free..
+            return (err(RED"error: invalid floor color\n"RESET), 1);
         map->floor_color = rgb;
-        printf(GREEN"floor_route:%d\n"RESET, map->floor_color);
+        // printf(GREEN"floor_route:%d\n"RESET, map->floor_color);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1);
     map->num_elem += 1;
+    return (0);
 }
 
 void charge_texture(t_game *game, mlx_texture_t **tex, mlx_image_t **img, char *dir)
@@ -109,7 +110,7 @@ void charge_texture(t_game *game, mlx_texture_t **tex, mlx_image_t **img, char *
         err("MIERDA 2");
 }
 
-void save_element_map(t_map *map, char ***elements)
+int save_element_map(t_map *map, char ***elements)
 {
     char **element;
     char    *dir;
@@ -118,8 +119,8 @@ void save_element_map(t_map *map, char ***elements)
     if (!ft_strncmp(element[0], "NO", ft_strlen("NO")))
     {
         if ((dir = ft_search_element(element)) == NULL)
-            ft_freearray(element), exit(1); //free..
-        printf(GREEN"north_route:%s\n"RESET, dir);
+            return (1);
+        // printf(GREEN"north_route:%s\n"RESET, dir);
         charge_texture(map->game, &map->textures.no, &map->images.no, dir);
         free(dir);
 
@@ -127,30 +128,31 @@ void save_element_map(t_map *map, char ***elements)
     else if (!ft_strncmp(element[0], "SO", ft_strlen("SO")))
     {
         if ((dir = ft_search_element(element)) == NULL)
-            ft_freearray(element), exit(1); //free..
+            return (1);
         charge_texture(map->game, &map->textures.so, &map->images.so, dir);
-        printf(GREEN"south_route:%s\n"RESET, dir);
+        // printf(GREEN"south_route:%s\n"RESET, dir);
         free(dir);
     }
     else if (!ft_strncmp(element[0], "EA", ft_strlen("EA")))
     {
         if ((dir = ft_search_element(element)) == NULL)
-            ft_freearray(element), exit(1); //free..
+            return (1);
         charge_texture(map->game, &map->textures.ea, &map->images.ea, dir);
-        printf(GREEN"east_route:%s\n"RESET, dir);
+        // printf(GREEN"east_route:%s\n"RESET, dir);
         free(dir);
     }
     else if (!ft_strncmp(element[0], "WE", ft_strlen("WE")))
     {
         if ((dir = ft_search_element(element)) == NULL)
-            ft_freearray(element), exit(1); //free..
+            return (1);
         charge_texture(map->game, &map->textures.we, &map->images.we, dir);
-        printf(GREEN"west_route:%s\n"RESET, dir);
+        // printf(GREEN"west_route:%s\n"RESET, dir);
         free (dir);
     }
     else
         err(RED"error: map: invalid elements\n"RESET), ft_freearray(element), exit(1); //free..
     map->num_elem += 1;
+    return (0);
 }
 
 int save_data_map(t_map *map, char *line)
@@ -159,12 +161,19 @@ int save_data_map(t_map *map, char *line)
 
     element = ft_split(line, ' ');
     if (!element)
-        exit(1); //Free data
-    printf(BLUE"map->num_elem:%d\n"RESET, map->num_elem);
+        return (1);
+    // printf(BLUE"map->num_elem:%d\n"RESET, map->num_elem);
     if (map->num_elem < 4)
-        save_element_map(map, &element);
+    {
+        if (save_element_map(map, &element))
+            return (1);
+
+    }
     else if (map->num_elem < 6)
-        save_colors_map(map, &element);
+    {
+        if (save_colors_map(map, &element))
+        return (1);
+    }
     ft_freearray(element);
     return (0);
 }

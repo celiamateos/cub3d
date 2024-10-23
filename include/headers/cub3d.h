@@ -59,15 +59,15 @@
 
 //PARSE
 int     load_map(t_map *map, t_player *player, char *file);
-int     readmap(t_map *map, t_player *player);
+int     readmap(t_map *map);
 int     save_map(t_map *map, char *str);
 int    check_valid_map(char **map);
 int    map_closed(char **m, size_t x, size_t y);
 size_t  double_pointer_len(char **double_pointer);
 int    cover_char(char c);
 int     save_data_map(t_map *map, char *line);
-void    save_element_map(t_map *map, char ***elements);
-void    save_colors_map(t_map *map, char ***elements);
+int    save_element_map(t_map *map, char ***elements);
+int    save_colors_map(t_map *map, char ***elements);
 int     load_data_color_map(char *str);
 char    *ft_search_element(char **element);
 int     check_map_player_info(t_map *map, t_player *p);

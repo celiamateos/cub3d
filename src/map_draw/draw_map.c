@@ -108,6 +108,7 @@ void	draw_2d_map(void *param)
 	int j;
 
 	map = (t_map *)param;
+	draw_background(map);
 	draw_border_map(map);
 	y = MINIMAP_SIZE + 1;
 	i = 0;

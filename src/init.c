@@ -57,15 +57,15 @@ t_player	*init_player(t_map *map)
 t_map	*init_map()
 {
 	t_map	*map;
-	t_textures *textures;
-	t_images	*images;
+	// t_textures *textures;
+	// t_images	*images;
 
-	textures = ft_calloc(1, sizeof(t_textures));
-	if (!textures)
-		err("Error: malloc\n"), exit(1);
-	images = ft_calloc(1, sizeof(t_images));
-	if (!images)
-		err("Error: malloc\n"), exit(1);
+	// textures = ft_calloc(1, sizeof(t_textures));
+	// if (!textures)
+	// 	err("Error: malloc\n"), exit(1);
+	// images = ft_calloc(1, sizeof(t_images));
+	// if (!images)
+	// 	err("Error: malloc\n"), exit(1);
 	map = malloc(sizeof(t_map));
 	if (!map)
 		err("Error: malloc\n"), exit(1);

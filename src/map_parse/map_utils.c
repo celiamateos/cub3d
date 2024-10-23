@@ -91,20 +91,39 @@ char **ft_arraydup(char **arr)
 	return (new);
 }
 
-
-void ft_print_grid(int **grid, int height, int width)
+int	**map_to_int(char **map, int h, int w)
 {
-	int h;
-	int w;
+	int	**grid;
+	int	i;
+	int	j;
 
-	h = 0;
-	w = -1;
-	while (h != height)
+	i = 0;
+	j = 0;
+	grid = malloc(sizeof(int *) * (w));
+	if (!grid)
+		return (NULL);
+	while (i < h)
 	{
-		while (++w != width)
-			printf("%d", grid[h][w]);
-		w = -1;
-		h++;
-		printf("\n");
+		grid[i] = malloc(sizeof(int) * w);
+		if (!grid[i])
+		{
+			while (i >= 0)
+				free(grid[i--]);
+			free(grid);
+			return (NULL);
+		}
+		j = 0;
+		while (j < w)
+		{
+			if (map[i][j] == '1')
+				grid[i][j] = 1;
+			else if (map[i][j] == '0' || map[i][j] == '.')
+				grid[i][j] = 0;
+			else 
+				grid[i][j] = -1;
+			j++;
+		}
+		i++;
 	}
+	return (grid);
 }
