@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/22 21:25:54 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:48:46 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,52 @@ void	draw_border_map(t_map *map)
 	}
 }
 
+/**
+ * @brief 
+ * 
+ * @param s screen
+ * @param size box size
+ * @param start start position
+ */
+void	draw_menu_box(mlx_image_t *s, t_vec2 size, t_vec2 start)
+{
+	int	x;
+	int	y;
+	int	size_y;
+	int	size_x;
 
+	y = start.y;
+	size_y = start.y + size.y;
+	size_x = start.x + size.x;
+	while (y < size_y)
+	{
+		x = start.x;
+		while (x < size_x)
+		{
+			mlx_put_pixel(s, x, y, 0x99002200);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	print_img(mlx_image_t *screen)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < screen->height)
+	{
+		x = 0;
+		while (x < screen->width)
+		{
+			mlx_put_pixel(screen, x, y, get_rgba(55, 55, 55, 255));
+			x++;
+		}
+		y++;
+	}
+}
 
 /**
  * @brief Minimap. First draw a border, then draw the map.
@@ -108,6 +153,7 @@ void	draw_2d_map(void *param)
 	int j;
 
 	map = (t_map *)param;
+	print_img(map->game->screen);
 	draw_border_map(map);
 	y = MINIMAP_SIZE + 1;
 	i = 0;
