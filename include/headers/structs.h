@@ -112,6 +112,7 @@ typedef struct s_control
 typedef struct	s_raycast
 {
 	double	angle;
+	double	dir;
 	int		num_rays;
 	t_ray	*ray;	// maybe didnt need save every info of each ray if i only use it for draw
 }	t_raycast;

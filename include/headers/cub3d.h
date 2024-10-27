@@ -39,6 +39,7 @@
 # include <stdarg.h>
 # include <limits.h>
 # include <errno.h>
+# include <math.h>
 # include <stdbool.h>
 # include <stddef.h>
 # include <structs.h>
