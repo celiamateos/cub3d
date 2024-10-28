@@ -18,8 +18,9 @@
 # define HEIGHT_WIN	920
 # define SIZE	64
 # define MINIMAP_SIZE	(SIZE / 4)
-# define ROTATION_ANGLE	5
+# define ROTATION_ANGLE	1
 # define PI_ 3.14159265
+# define PROJECTION_DISTANCE 1.9f
 
 # define NO		1
 # define SO		2

@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/28 00:55:26 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/29 00:41:57 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double	set_360_rotation(double angle)
 void	set_rotation(t_vec2 *rot, double look_angle)
 {
 	rot->x = cos(look_angle * (PI_ / 180));
-	rot->y = sin(look_angle * (PI_ / 180));
+	rot->y = -sin(look_angle * (PI_ / 180));
 }
 
 void	rotate_vision(t_player *p, keys_t key)
@@ -43,27 +43,63 @@ void	rotate_vision(t_player *p, keys_t key)
 void player_move_minimap(void* param)
 {
 	t_player	*p;
+	t_vec2		nxt_pos;
+	double		ray_angle;
+	double		angle_dist;
+	double 		dist;
+	int			i;
+	int			j;
+	int		w_start;
+	int		w_end;
+	int		w_line_height;
 	// char		*str;
 	// char		*str2;
 
 	p = (t_player *)param;
-
+	i = -1;
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(p->map->game->mlx);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_UP))
 	{
-		p->position.x -= p->rotation.x * 0.1f;
-        p->position.y -= p->rotation.y * 0.1f;
+		nxt_pos.x = p->position.x + (p->rotation.x * 0.1f);
+        nxt_pos.y = p->position.y + (p->rotation.y * 0.1f);
+		if (!is_wall(p->map, nxt_pos))
+			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_DOWN))
 	{
-		p->position.x += p->rotation.x * 0.1f;
-        p->position.y += p->rotation.y * 0.1f;
+		nxt_pos.x = p->position.x - (p->rotation.x * 0.1f);
+        nxt_pos.y = p->position.y - (p->rotation.y * 0.1f);
+		if (!is_wall(p->map, nxt_pos))
+			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_LEFT))
 		rotate_vision(p, MLX_KEY_LEFT);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_RIGHT))
 		rotate_vision(p, MLX_KEY_RIGHT);
+	angle_dist = FOV / WIDTH_WIN;
+	printf("angle_dist: %f\n", angle_dist);
+	ray_angle = p->looking_angle - (FOV / 2);
+	while (++i < WIDTH_WIN)
+	{
+		dist = trace_ray(p->position, ray_angle, p->raycast, p->map);
+		if (dist > 0)
+		{
+			w_line_height = (int)(HEIGHT_WIN / dist);
+			w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
+			if (w_start < 0) w_start = 0;
+			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
+			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+			j = w_start;
+			while (j < w_end)
+			{
+				mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 255, 10, 255));
+				j++;
+			}
+		}
+		
+		ray_angle += angle_dist;
+	}
 	// str2 = ft_itoa(abs(p->looking_angle));
 	// str = ft_strjoin("Looking angle: ", str2);
 	// draw_menu_box(p->map->game->screen, (t_vec2){200, 50}, (t_vec2){WIDTH_WIN - 320, HEIGHT_WIN - 210});
@@ -71,7 +107,8 @@ void player_move_minimap(void* param)
 	// draw_menu_box(p->map->game->screen, (t_vec2){200, 50}, (t_vec2){WIDTH_WIN - 320, HEIGHT_WIN - 210});	
 	// free(str);
 	// free(str2);
-	trace_ray(p->position, p->looking_angle, p->raycast, p->map);
+	//trace_ray(p->position, p->looking_angle, p->raycast, p->map);
 	printf("Looking angle: %i\n", (int)p->looking_angle);
+	printf("angle_dist: %f\n", angle_dist);
 	draw_player(p);
 }
