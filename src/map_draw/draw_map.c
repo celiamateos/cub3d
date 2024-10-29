@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 16:06:28 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/29 21:22:13 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,63 @@ void	draw_cube(mlx_image_t *screen, t_vec2 pos, int color)
 		y++;
 	}
 }
+// void	draw_border_map(t_map *map)
+// {
+// 	int x;
+// 	int y;
+// 	int height;
+// 	int width;
+
+// 	y = 0;
+// 	height = map->height * (MINIMAP_SIZE);
+// 	width = map->width * (MINIMAP_SIZE);
+// 	while (y <= MINIMAP_SIZE)
+// 	{
+// 		x = 0;
+// 		while (x <= width + (MINIMAP_SIZE * 2))
+// 		{
+// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	y = MINIMAP_SIZE;
+// 	while (y <= (height + (MINIMAP_SIZE * 2)))
+// 	{
+// 		x = 0;
+// 		while (x <= MINIMAP_SIZE)
+// 		{
+// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	x = width + MINIMAP_SIZE + 1;
+// 	y = MINIMAP_SIZE;
+// 	while (y <= (height + (MINIMAP_SIZE * 2)))
+// 	{
+// 		x = width + MINIMAP_SIZE + 1;
+// 		while (x <= (width + (MINIMAP_SIZE * 2)))
+// 		{
+// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	x = 0;
+// 	y = height + 1;
+// 	while (y <= (height + (MINIMAP_SIZE * 2)))
+// 	{
+// 		x = 0;
+// 		while (x <= (width + (MINIMAP_SIZE * 2)))
+// 		{
+// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
 void	draw_border_map(t_map *map)
 {
 	int x;

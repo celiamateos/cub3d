@@ -18,12 +18,12 @@ t_vec2 get_scaled_pos(t_vec2 pos);
  * @param map 
  * @return Distance to the first wall
  */
-int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_raycast *r, t_map *map)
+int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
 {
-    t_vec2  ray_dir = get_ray_direction(look_angle);
+    t_vec2  ray_dir = get_ray_direction(r_angle);
     t_vec2  ray_pos = pos;
     float   step_size = 0.1f;
-    int     max_steps = 100;
+    int     max_steps = 150;
     int     i;
     int map_x;
     int map_y;
@@ -33,24 +33,32 @@ int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_raycast *r, t_map
     i = -1;
     while (++i < max_steps)
     {
-        ray_pos.x += ray_dir.x * PROJECTION_DISTANCE;
-        ray_pos.y += ray_dir.y * PROJECTION_DISTANCE;
+        // ray_pos.x += ray_dir.x * PROJECTION_DISTANCE;
+        // ray_pos.y += ray_dir.y * PROJECTION_DISTANCE;
+
+        ray_pos.x += ray_dir.x * step_size;
+        ray_pos.y += ray_dir.y * step_size;
 
         map_x = (int)ray_pos.x;
         map_y = (int)ray_pos.y;
 
+        if (map_x < 0 || map_y < 0 || map_x >= map->width || map_y >= map->height)
+            return (-1);
         if (map->grid[map_y][map_x] != 0)
         {
             // printf("Ray hit wall [%d][%d]\n", map_x, map_y);
-            // start = get_scaled_pos(pos);
-            // end = get_scaled_pos(ray_pos);
+            // minimap
+            start = get_scaled_pos(pos);
+            end = get_scaled_pos(ray_pos);
             // draw_line(start, end, map->game->screen, 0xFFFF88);
-            return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
+            draw_line(start, end, map->game->screen, 0xFFFF88);
+            //return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
+            return (1);
         }
     }
-    // start = get_scaled_pos(pos);
-    // end = get_scaled_pos(ray_pos);
-    // draw_line(start, end, map->game->screen, 0xFFFF88);
+    start = get_scaled_pos(pos);
+    end = get_scaled_pos(ray_pos);
+    draw_line(start, end, map->game->screen, 0xFFFF88);
     return (-1);
 }
 
