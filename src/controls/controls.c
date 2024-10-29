@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 16:08:55 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/29 20:03:43 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,22 @@ void player_move_minimap(void* param)
 	while (++i < WIDTH_WIN)
 	{
 		dist = trace_ray(p->position, ray_angle, p->raycast, p->map);
-		if (dist > 0)
-		{
-			w_line_height = (int)(HEIGHT_WIN / dist);
-			w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
-			if (w_start < 0) w_start = 0;
-			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
-			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
-			color = get_distance_color(dist);
-			j = w_start;
-			while (j < w_end)
-			{
-				mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 255, 10, 255));
-				j++;
-			}
-		}
-		
+		// if (dist > 0)
+		// {
+		// 	w_line_height = (int)(HEIGHT_WIN / dist);
+		// 	w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
+		// 	if (w_start < 0) w_start = 0;
+		// 	w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
+		// 	if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+		// 	color = get_distance_color(dist);
+		// 	j = w_start;
+		// 	while (j < w_end)
+		// 	{
+		// 		mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 255, 10, 255));
+		// 		j++;
+		// 	}
+		// }
+		//trace_ray(p->position, p->looking_angle, p->raycast, p->map);
 		ray_angle += angle_dist;
 	}
 	

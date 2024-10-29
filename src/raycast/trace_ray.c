@@ -41,16 +41,16 @@ int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_raycast *r, t_map
 
         if (map->grid[map_y][map_x] != 0)
         {
-            printf("Ray hit wall [%d][%d]\n", map_x, map_y);
-            start = get_scaled_pos(pos);
-            end = get_scaled_pos(ray_pos);
-            draw_line(start, end, map->game->screen, 0xFFFF88);
+            // printf("Ray hit wall [%d][%d]\n", map_x, map_y);
+            // start = get_scaled_pos(pos);
+            // end = get_scaled_pos(ray_pos);
+            // draw_line(start, end, map->game->screen, 0xFFFF88);
             return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
         }
     }
-    start = get_scaled_pos(pos);
-    end = get_scaled_pos(ray_pos);
-    draw_line(start, end, map->game->screen, 0xFFFF88);
+    // start = get_scaled_pos(pos);
+    // end = get_scaled_pos(ray_pos);
+    // draw_line(start, end, map->game->screen, 0xFFFF88);
     return (-1);
 }
 
