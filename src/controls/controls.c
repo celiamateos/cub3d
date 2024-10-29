@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 22:38:22 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/29 23:28:29 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,40 +97,42 @@ void player_move_minimap(void* param)
 		rotate_vision(p, MLX_KEY_LEFT);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_RIGHT))
 		rotate_vision(p, MLX_KEY_RIGHT);
-	//draw_background(p->map->game->screen);
+	draw_background(p->map->game->screen);
 	draw_2d_map(p->map);
-	angle_dist = 60 / 200;
+	angle_dist = 60 / WIDTH_WIN;
 	ray_angle = p->looking_angle - (FOV / 2);
 	printf("ray_angle: %f\n", ray_angle);
 	// check --> wall_height = (size * height) / ray_lenght
 	int k = 0;
-	while (++i < 200)
+	color = get_rgba(1, 1, 1, 255);
+	while (++i < WIDTH_WIN)
 	{
-		// dist = trace_ray(p->position, p->looking_angle, ray_angle, p->map);
-		// if (dist > 0)
-		// {
-		// 	w_line_height = (int)(HEIGHT_WIN / dist);
-		// 	printf("w_line_height: %i\n", w_line_height);
-		// 	w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
-		// 	if (w_start < 0) w_start = 0;
-		// 	w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
-		// 	if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
-		// 	color = get_distance_color(dist);
-		// 	j = w_start;
-		// 	while (j < w_end)
-		// 	{
-		// 		mlx_put_pixel(p->map->game->screen, i, j, color);
-		// 		j++;
-		// 	}
-		// }
+		dist = trace_ray(p->position, p->looking_angle, ray_angle, p->map);
+		if (dist > 0)
+		{
+			w_line_height = (int)(HEIGHT_WIN / dist);
+			printf("w_line_height: %i\n", w_line_height);
+			
+			w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
+			if (w_start < 0) w_start = 0;
+			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
+			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+			//color = get_distance_color(dist);
+			j = w_start;
+			while (j < w_end)
+			{
+				mlx_put_pixel(p->map->game->screen, i, j, color);
+				j++;
+			}
+		}
 		// while (++k < 200)
 		// {
 		// 	trace_ray(p->position, p->looking_angle, ray_angle, p->map);
 		// 	ray_angle += angle_dist;
 		// }
 		trace_ray(p->position, p->looking_angle, ray_angle, p->map);
-		ray_angle += 0.3f;
-		printf("ray_angle: %f\n", ray_angle);
+		ray_angle += p->raycast_angle;
+		printf("ray_angle: %f\n", p->raycast_angle);
 	}
 	
 	// str2 = ft_itoa(abs(p->looking_angle));

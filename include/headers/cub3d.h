@@ -14,10 +14,10 @@
 
 # define CUB3D_H
 
-# define WIDTH_WIN	3000
-# define HEIGHT_WIN	2000
+# define WIDTH_WIN	2200
+# define HEIGHT_WIN	1000
 # define SIZE	64
-# define MINIMAP_SIZE	64
+# define MINIMAP_SIZE	(SIZE / 2)
 # define ROTATION_ANGLE	1
 # define PI_ 3.14159265
 # define PROJECTION_DISTANCE 0.5f
@@ -28,9 +28,7 @@
 # define EA		3
 # define WE		4
 
-#ifndef FOV
 # define FOV	60
-#endif
 
 # include "../libft/libft.h"
 # include <unistd.h>
