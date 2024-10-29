@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 00:41:57 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/29 16:08:55 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	rotate_vision(t_player *p, keys_t key)
 	set_rotation(&p->rotation, p->looking_angle);
 }
 
+/**
+ * @brief wall_height = (size * height) / ray_lenght
+ * 
+ * @param param 
+ */
 void player_move_minimap(void* param)
 {
 	t_player	*p;
@@ -52,6 +57,7 @@ void player_move_minimap(void* param)
 	int		w_start;
 	int		w_end;
 	int		w_line_height;
+	uint32_t	color;
 	// char		*str;
 	// char		*str2;
 
@@ -77,9 +83,12 @@ void player_move_minimap(void* param)
 		rotate_vision(p, MLX_KEY_LEFT);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_RIGHT))
 		rotate_vision(p, MLX_KEY_RIGHT);
+	//draw_background(p->map->game->screen);
+	draw_2d_map(p->map);
 	angle_dist = FOV / WIDTH_WIN;
 	printf("angle_dist: %f\n", angle_dist);
 	ray_angle = p->looking_angle - (FOV / 2);
+	// check --> wall_height = (size * height) / ray_lenght
 	while (++i < WIDTH_WIN)
 	{
 		dist = trace_ray(p->position, ray_angle, p->raycast, p->map);
@@ -90,6 +99,7 @@ void player_move_minimap(void* param)
 			if (w_start < 0) w_start = 0;
 			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
 			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+			color = get_distance_color(dist);
 			j = w_start;
 			while (j < w_end)
 			{
@@ -100,6 +110,7 @@ void player_move_minimap(void* param)
 		
 		ray_angle += angle_dist;
 	}
+	
 	// str2 = ft_itoa(abs(p->looking_angle));
 	// str = ft_strjoin("Looking angle: ", str2);
 	// draw_menu_box(p->map->game->screen, (t_vec2){200, 50}, (t_vec2){WIDTH_WIN - 320, HEIGHT_WIN - 210});
@@ -110,5 +121,6 @@ void player_move_minimap(void* param)
 	//trace_ray(p->position, p->looking_angle, p->raycast, p->map);
 	printf("Looking angle: %i\n", (int)p->looking_angle);
 	printf("angle_dist: %f\n", angle_dist);
+	
 	draw_player(p);
 }

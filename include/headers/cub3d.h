@@ -21,6 +21,7 @@
 # define ROTATION_ANGLE	1
 # define PI_ 3.14159265
 # define PROJECTION_DISTANCE 1.9f
+# define SIZE_MULTIPL_HEIGHT (MINIMAP_SIZE * HEIGHT_WIN)
 
 # define NO		1
 # define SO		2
