@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:02:46 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/24 22:48:55 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/28 23:15:29 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,39 @@ void	draw_my_first_ray(t_player *player)
 	pos.y = ray.y * SIZE + SIZE;
 }
 
+/**
+ * @brief minimap (?)
+ * 
+ * @param param 
+ */
 void	draw_player(void *param)
 {
 	t_player	*p;
 	t_vec2		pos;
 	int			color;
+	int x;
+	int y;
+	int size_y;
+	int size_x;
 
 	p = (t_player *)param;
-	pos.x = p->position.x * SIZE + SIZE;
-	pos.y = p->position.y * SIZE + SIZE;
+	size_x = MINIMAP_SIZE / 2;
+	size_y = MINIMAP_SIZE / 2;
+	pos.x = (p->position.x * MINIMAP_SIZE) + size_x + (size_x / 2);
+	pos.y = (p->position.y * MINIMAP_SIZE) + size_y + (size_y / 2);
 	color = get_rgba(255, 0, 0, 255);
-	draw_cube(p->map->game->screen, pos, color);
+	
+	
+
+	y = 0;
+	while (y < size_x)
+	{
+		x = 0;
+		while (x < size_y)
+		{
+			mlx_put_pixel(p->map->game->screen, pos.x + x, pos.y + y, color);
+			x++;
+		}
+		y++;
+	}
 }

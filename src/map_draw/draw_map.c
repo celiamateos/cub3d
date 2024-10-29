@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/24 20:48:46 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:06:28 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	draw_2d_map(void *param)
 	int j;
 
 	map = (t_map *)param;
-	print_img(map->game->screen);
+	//print_img(map->game->screen);
 	draw_border_map(map);
 	y = MINIMAP_SIZE + 1;
 	i = 0;
@@ -175,4 +175,35 @@ void	draw_2d_map(void *param)
 		y = y + MINIMAP_SIZE;
 		i++;
 	}
+}
+
+void draw_background(mlx_image_t *screen)
+{
+    int	x;
+	int	y;
+	int	h;
+
+	y = -1;
+	h = HEIGHT_WIN / 2;
+   while (++y < h)
+    {
+		x = -1;
+       while (++x < WIDTH_WIN)
+            mlx_put_pixel(screen, x, y, 0x87CEEBFF);
+    }
+   y = h - 1;
+   while (++y < HEIGHT_WIN)
+    {
+		x = -1;
+		while (++x < WIDTH_WIN)
+            mlx_put_pixel(screen, x, y, 0x8B4513FF);
+    }
+}
+
+uint32_t	get_distance_color(float distance)
+{
+    int shade;
+	
+	shade = (int)(255 / (1 + distance * distance * 0.1));
+    return (shade << 16) | (shade << 8) | shade;
 }

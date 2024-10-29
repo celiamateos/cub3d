@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/24 22:27:25 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:05:24 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ int32_t main(int ac, char **av)
 		return(EXIT_FAILURE);
 	}
 	
-	//minimap
-	mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+	
 	//mlx_loop_hook(map->game->mlx, draw_player, player);
 	mlx_loop_hook(map->game->mlx, player_move_minimap, player);
-
+	// //minimap
+	// mlx_loop_hook(map->game->mlx, draw_2d_map, map);
 	mlx_loop(map->game->mlx);
 	mlx_terminate(map->game->mlx);
 	free_cub3D(map, player);

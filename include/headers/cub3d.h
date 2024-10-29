@@ -14,13 +14,14 @@
 
 # define CUB3D_H
 
-# define HEIGHT	920
-# define WIDTH	1500
 # define WIDTH_WIN	1500
 # define HEIGHT_WIN	920
 # define SIZE	64
 # define MINIMAP_SIZE	(SIZE / 4)
-# define ROTATION_ANGLE	5
+# define ROTATION_ANGLE	1
+# define PI_ 3.14159265
+# define PROJECTION_DISTANCE 1.9f
+# define SIZE_MULTIPL_HEIGHT (MINIMAP_SIZE * HEIGHT_WIN)
 
 # define NO		1
 # define SO		2
@@ -40,6 +41,7 @@
 # include <stdarg.h>
 # include <limits.h>
 # include <errno.h>
+# include <math.h>
 # include <stdbool.h>
 # include <stddef.h>
 # include <structs.h>
