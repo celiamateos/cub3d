@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/29 16:05:24 by settes           ###   ########.fr       */
+/*   Updated: 2024/10/30 23:33:44 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int32_t main(int ac, char **av)
 	
 	
 	//mlx_loop_hook(map->game->mlx, draw_player, player);
-	mlx_loop_hook(map->game->mlx, player_move_minimap, player);
+	mlx_key_hook(map->game->mlx, player_move_minimap, player);
+	mlx_loop_hook(map->game->mlx, do_raycast, player);
+	
 	// //minimap
 	// mlx_loop_hook(map->game->mlx, draw_2d_map, map);
 	mlx_loop(map->game->mlx);
