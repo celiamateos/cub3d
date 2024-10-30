@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/30 22:54:52 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:59:44 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int check_player_direction(t_player *player, char c, int row, int i)
 		player->position.y = row;
 		player->position.x = i;
 		player->ray_angle = player->looking_angle - HALF_FOV;
+		printf("ray_angle: %f\n", player->ray_angle);
 	}
 	return (0);
 }
