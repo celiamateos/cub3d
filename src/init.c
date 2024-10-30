@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 23:30:48 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:53:57 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_player	*init_player(t_map *map)
 	p->dist_pplane.y = 0;
 	p->dist_wall.x = 0;
 	p->dist_wall.y = 0;
+	p->ray_angle = 0;
 	p->map = map;
 	return (p);
 }
