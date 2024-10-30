@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 23:28:29 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:31:32 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	rotate_vision(t_player *p, keys_t key)
 	else
 		p->looking_angle += ROTATION_ANGLE;
 	p->looking_angle = set_360_rotation(p->looking_angle);
-	set_rotation(&p->rotation, p->looking_angle);
+	//set_rotation(&p->rotation, p->looking_angle);
 }
 
 /**
