@@ -20,15 +20,17 @@ t_vec2 get_scaled_pos(t_vec2 pos);
  */
 float trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
 {
-	t_vec2 ray_dir;
-	t_vec2 ray_pos;
-	t_vec2 delta_dist;
-	t_vec2 side_dist;
-	t_vec2 step;
-	int map_x;
-	int map_y;
-	int hit;
-	int side;
+	t_vec2	ray_dir;
+	t_vec2	ray_pos;
+	t_vec2	delta_dist;
+	t_vec2	side_dist;
+	t_vec2	step;
+	int		map_x;
+	int		map_y;
+	int		hit;
+	int		side;
+	t_vec2	start;
+	t_vec2	end;
 
 	ray_dir = get_ray_direction(r_angle);
 	ray_pos = pos;
@@ -74,7 +76,10 @@ float trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
 		if (map->grid[map_y][map_x] > 0)
 		{
 			hit = 1;
-			printf("is wall! [%d][%d]\n", map_x, map_y);
+			start = get_scaled_pos(pos);
+			end = get_scaled_pos(ray_pos);
+			draw_line(start, end, map->game->screen, 0xFFFF88);
+			//printf("is wall! [%d][%d]\n", map_x, map_y);
 		}
 	}
 	if (side == 0)

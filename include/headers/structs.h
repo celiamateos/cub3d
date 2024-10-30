@@ -144,6 +144,7 @@ typedef struct	s_player
 	t_vec2		dist_wall;
 	t_raycast	*raycast;
 	double		raycast_angle;
+	double		ray_angle;
 	t_map		*map;
 }	t_player;
 
