@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trace_ray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:54:08 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/31 00:07:47 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/03 21:21:45 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_vec2	get_scaled_pos(t_vec2 pos);
 // }
 int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
 {
-    t_vec2  ray_dir = get_ray_direction(r_angle);
+    t_vec2  ray_dir = get_ray_direction(look_angle);
     t_vec2  ray_pos = pos;
     float   step_size = 0.2f;
     int     max_steps = 100;
@@ -108,7 +108,6 @@ int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
     t_vec2  end;
 
     i = -1;
-	printf("look_angle: %f\n", look_angle);
     while (++i < max_steps)
     {
         // ray_pos.x += ray_dir.x * PROJECTION_DISTANCE;
@@ -132,9 +131,9 @@ int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
             return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
         }
     }
-    // start = get_scaled_pos(pos);
-    // end = get_scaled_pos(ray_pos);
-    // draw_line(start, end, map->game->screen, 0xFFFF88);
+    start = get_scaled_pos(pos);
+    end = get_scaled_pos(ray_pos);
+    draw_line(start, end, map->game->screen, 0xFFFF88);
     return (-1);
 }
 

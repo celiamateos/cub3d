@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/31 00:03:31 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/03 21:04:53 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,18 @@ void	set_rotation(t_vec2 *rot, double look_angle)
 	rot->y = -sin(look_angle * (PI_ / 180));
 }
 
-void	rotate_vision(t_player *p, keys_t key)
+void	rotate_vision(t_player *p, int key)
 {
 	if (key == MLX_KEY_RIGHT)
 		p->looking_angle -= ROTATION_ANGLE;
 	else
 		p->looking_angle += ROTATION_ANGLE;
 	p->looking_angle = set_360_rotation(p->looking_angle);
+	printf("Rotating!\n");
 	set_rotation(&p->rotation, p->looking_angle);
 }
 
-void my_keyhook(mlx_key_data_t k, void* param)
+void my_keyhook(mlx_key_data_t k, void *param)
 {
 	t_player	*p;
 	t_vec2		nxt_pos;
@@ -48,7 +49,7 @@ void my_keyhook(mlx_key_data_t k, void* param)
 	p = (t_player *)param;
 	if (k.key == MLX_KEY_ESCAPE)
 		mlx_close_window(p->map->game->mlx);
-	if (k.key == MLX_KEY_LEFT || k.key == MLX_KEY_RIGHT)
+	if ((k.key == MLX_KEY_LEFT || k.key == MLX_KEY_RIGHT) && (k.action == MLX_PRESS || k.action == MLX_REPEAT))
 		rotate_vision(p, k.key);
 	if (k.key == MLX_KEY_UP || k.key == MLX_KEY_W)
 	{
