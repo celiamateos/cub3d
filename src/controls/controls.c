@@ -6,14 +6,14 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/03 21:04:53 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/05 23:23:55 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 void	draw_menu_box(mlx_image_t *s, t_vec2 size, t_vec2 start);
-int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map);
+int trace_ray(t_vec2 pos, double angle, t_map *map);
 
 double	set_360_rotation(double angle)
 {

@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:53:24 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/03 21:20:11 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/06 00:39:07 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,29 @@ void do_raycast(void* param)
 		mlx_close_window(p->map->game->mlx);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_UP) || mlx_is_key_down(p->map->game->mlx, MLX_KEY_W))
 	{
-		nxt_pos.x = p->position.x + (p->rotation.x * 0.1f);
-        nxt_pos.y = p->position.y + (p->rotation.y * 0.1f);
+		nxt_pos.x = p->position.x + (p->rotation.x * 0.05f);
+        nxt_pos.y = p->position.y + (p->rotation.y * 0.05f);
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_D)) // move to right
 	{
-		nxt_pos.x = p->position.x - (p->rotation.y * 0.1f);
-		nxt_pos.y = p->position.y + (p->rotation.x * 0.1f);
+		nxt_pos.x = p->position.x - (p->rotation.y * 0.05f);
+		nxt_pos.y = p->position.y + (p->rotation.x * 0.05f);
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_DOWN) || mlx_is_key_down(p->map->game->mlx, MLX_KEY_S))
 	{
-		nxt_pos.x = p->position.x - (p->rotation.x * 0.1f);
-        nxt_pos.y = p->position.y - (p->rotation.y * 0.1f);
+		nxt_pos.x = p->position.x - (p->rotation.x * 0.05f);
+        nxt_pos.y = p->position.y - (p->rotation.y * 0.05f);
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_A)) // move to left
 	{
-		nxt_pos.x = p->position.x + (p->rotation.y * 0.1f);
-		nxt_pos.y = p->position.y - (p->rotation.x * 0.1f);
+		nxt_pos.x = p->position.x + (p->rotation.y * 0.05f);
+		nxt_pos.y = p->position.y - (p->rotation.x * 0.05f);
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
@@ -76,26 +76,30 @@ void do_raycast(void* param)
 	// check --> wall_height = (size * height) / ray_lenght
 	int k = 0;
 	color = get_rgba(1, 1, 1, 255);
-    ray_angle = p->ray_angle;
+    ray_angle = p->looking_angle - (FOV / 2);
+
 	while (++i < WIDTH_WIN)
 	{
-		dist = trace_ray(p->position, p->looking_angle, ray_angle, p->map);
-		if (dist > 0)
-		{
-			w_line_height = (int)(HEIGHT_WIN / dist);
-			w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
-			if (w_start < 0) w_start = 0;
-			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
-			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
-			j = w_start;
-			while (j < w_end)
-			{
-				mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 10, 10, 255));
-				j++;
-			}
-		}
+		// dist = trace_ray(p->position, ray_angle, p->map);
+		// if (dist > 0)
+		// {
+		// 	w_line_height = (int)(HEIGHT_WIN / dist);
+		// 	w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
+		// 	if (w_start < 0) w_start = 0;
+		// 	w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
+		// 	if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+		// 	j = w_start;
+		// 	while (j < w_end)
+		// 	{
+		// 		mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 10, 10, 255));
+		// 		j++;
+		// 	}
+		// }
 		
-		ray_angle += p->raycast_angle;;
+		// ray_angle += p->raycast_angle;
+		trace_ray(p->position, ray_angle, p->map);
+		ray_angle += 0.02727f;
+		printf("ray_angle: %f\n", ray_angle);
 	}
  	
 	// str2 = ft_itoa(abs(p->looking_angle));

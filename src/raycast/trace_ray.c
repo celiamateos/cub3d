@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:54:08 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/03 21:21:45 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/06 00:38:21 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ t_vec2	get_scaled_pos(t_vec2 pos);
 // 	else
 // 		return (side_dist.y - delta_dist.y);
 // }
-int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
+int trace_ray(t_vec2 pos, double angle, t_map *map)
 {
-    t_vec2  ray_dir = get_ray_direction(look_angle);
+    t_vec2  ray_dir = get_ray_direction(angle);
     t_vec2  ray_pos = pos;
-    float   step_size = 0.2f;
+    float   step_size = 0.02727f;
     int     max_steps = 100;
     int     i;
     int map_x;
@@ -129,6 +129,8 @@ int trace_ray(t_vec2 pos, double look_angle, double r_angle, t_map *map)
             end = get_scaled_pos(ray_pos);
             draw_line(start, end, map->game->screen, 0xFFFF88);
             return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
+            
+            //return (1);
         }
     }
     start = get_scaled_pos(pos);
