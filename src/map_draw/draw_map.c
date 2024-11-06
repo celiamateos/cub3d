@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 21:22:13 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:49:08 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,62 +31,6 @@ void	draw_cube(mlx_image_t *screen, t_vec2 pos, int color)
 		y++;
 	}
 }
-// void	draw_border_map(t_map *map)
-// {
-// 	int x;
-// 	int y;
-// 	int height;
-// 	int width;
-
-// 	y = 0;
-// 	height = map->height * (MINIMAP_SIZE);
-// 	width = map->width * (MINIMAP_SIZE);
-// 	while (y <= MINIMAP_SIZE)
-// 	{
-// 		x = 0;
-// 		while (x <= width + (MINIMAP_SIZE * 2))
-// 		{
-// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	y = MINIMAP_SIZE;
-// 	while (y <= (height + (MINIMAP_SIZE * 2)))
-// 	{
-// 		x = 0;
-// 		while (x <= MINIMAP_SIZE)
-// 		{
-// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	x = width + MINIMAP_SIZE + 1;
-// 	y = MINIMAP_SIZE;
-// 	while (y <= (height + (MINIMAP_SIZE * 2)))
-// 	{
-// 		x = width + MINIMAP_SIZE + 1;
-// 		while (x <= (width + (MINIMAP_SIZE * 2)))
-// 		{
-// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	x = 0;
-// 	y = height + 1;
-// 	while (y <= (height + (MINIMAP_SIZE * 2)))
-// 	{
-// 		x = 0;
-// 		while (x <= (width + (MINIMAP_SIZE * 2)))
-// 		{
-// 			mlx_put_pixel(map->game->screen, x, y, 6771586);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 
 void	draw_border_map(t_map *map)
 {
@@ -236,31 +180,31 @@ void	draw_2d_map(void *param)
 
 void draw_background(mlx_image_t *screen)
 {
-    int	x;
+	int	x;
 	int	y;
 	int	h;
 
 	y = -1;
 	h = HEIGHT_WIN / 2;
-   while (++y < h)
-    {
-		x = -1;
-       while (++x < WIDTH_WIN)
-            mlx_put_pixel(screen, x, y, 0x87CEEBFF);
-    }
-   y = h - 1;
-   while (++y < HEIGHT_WIN)
-    {
+	while (++y < h)
+	{
 		x = -1;
 		while (++x < WIDTH_WIN)
-            mlx_put_pixel(screen, x, y, 0x8B4513FF);
-    }
+			mlx_put_pixel(screen, x, y, 0x87CEEBFF);
+	}
+	y = h - 1;
+	while (++y < HEIGHT_WIN)
+	{
+		x = -1;
+		while (++x < WIDTH_WIN)
+			mlx_put_pixel(screen, x, y, 0x8B4513FF);
+	}
 }
 
 uint32_t	get_distance_color(float distance)
 {
-    int shade;
+	int	shade;
 	
 	shade = (int)(255 / (1 + distance * distance * 0.1));
-    return (shade << 16) | (shade << 8) | shade;
+	return (shade << 16) | (shade << 8) | shade;
 }
