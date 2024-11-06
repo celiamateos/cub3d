@@ -65,7 +65,7 @@ typedef struct	s_map
 	mlx_image_t	*west_tx;
 	char		*north_route;	//QUIT
 	char		*south_route;	//QUIT
-	char		*east_route; 	//QUIT
+	char		*east_route;	//QUIT
 	char		*west_route;	//QUIT
 	int			*ceiling_route;	//RGB Format
 	int			*floor_route;	//RGB Format
