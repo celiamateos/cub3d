@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:26:57 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/18 00:31:55 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:15:52 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,7 @@ int check_player_direction(t_player *player, char c, int row, int i)
 		// player->player_dir = c;
 		player->position.y = row;
 		player->position.x = i;
-		if (c == NO)
-			player->spawn_direction = NO;
-		else if (c == SO)
-			player->spawn_direction = SO;
-		else if (c == EA)
-			player->spawn_direction = EA;
-		else if (c == WE)
-			player->spawn_direction = WE;
+		//player->ray_angle = player->looking_angle - HALF_FOV;
 	}
 	return (1);
 }

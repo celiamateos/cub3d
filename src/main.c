@@ -6,7 +6,7 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/10/22 22:08:59 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:15:01 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,20 @@ int32_t main(int ac, char **av)
 	player = init_player(map);
 	if (!load_map(map, player, av[1]))
 	{
-		draw_background(map);
-		load_images(map);
-		//minimap
-		mlx_loop_hook(map->game->mlx, draw_2d_map, map);
-		mlx_loop_hook(map->game->mlx, draw_player, player);
-		mlx_loop_hook(map->game->mlx, player_move_minimap, player);
-		mlx_loop_hook(map->game->mlx, draw_2d_map, map);
-		// mlx_loop_hook(game.mlx, ft_hook, game.mlx);
-
-		mlx_loop(map->game->mlx);
+		mlx_close_window(map->game->mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
 	}
-	destroy_images(map);
+	
+	
+	//mlx_loop_hook(map->game->mlx, draw_player, player);
+	
+	mlx_loop_hook(map->game->mlx, do_raycast, player);
+	//mlx_key_hook(map->game->mlx, my_keyhook, player);
+	// //minimap
+	// mlx_loop_hook(map->game->mlx, draw_2d_map, map);
+	
+	mlx_loop(map->game->mlx);
 	mlx_terminate(map->game->mlx);
 	free_cub3D(map, player);
 	return (EXIT_SUCCESS);

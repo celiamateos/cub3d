@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rgba_conversion.c                                  :+:      :+:    :+:   */
+/*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 20:53:28 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 19:49:42 by iostancu         ###   ########.fr       */
+/*   Created: 2024/10/30 23:53:53 by iostancu          #+#    #+#             */
+/*   Updated: 2024/11/06 19:47:55 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	get_rgba(int r, int g, int b, int a)
+int	is_wall(t_map *map, t_vec2 pos)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	int	x;
+	int	y;
+
+	x = (int)pos.x;
+	y = (int)pos.y;
+	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
+		return (1);
+	if (map->grid[y][x] != 0)
+		return (1);
+	return (0);
 }
