@@ -6,24 +6,28 @@
 /*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 19:56:54 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 19:57:01 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:48:36 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-// /**
-//  * @brief 
-//  * 
-//  * @param pos 
-//  * @param look_angle 
-//  * @param r_angle 
-//  * @param r 
-//  * @param map 
-//  * @return Distance to the first wall
-//  */
-// float trace_ray(t_vec2 pos, double angle, t_map *map, t_player *p)
+/**
+ * @brief 
+ * 
+ * @param pos 
+ * @param look_angle 
+ * @param r_angle 
+ * @param r 
+ * @param map 
+ * @return Distance to the first wall
+ */
+// float trace_v_ray(t_vec2 pos, double angle, t_map *map, t_player *p)
 // {
+// 	t_vec2  camera;
+// 	int i = 0;
+
+	
 // 	t_vec2	ray_dir;
 // 	t_vec2	ray_pos;
 // 	t_vec2	delta_dist;
@@ -35,6 +39,9 @@
 // 	int		side;
 // 	t_vec2	start;
 // 	t_vec2	end;
+
+
+
 
 // 	ray_dir = get_ray_direction(angle);
 // 	ray_pos = pos;
