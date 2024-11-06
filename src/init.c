@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/30 22:53:57 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:52:28 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_player	*init_player(t_map *map)
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 1;
-	p->raycast_angle = 0.027f;//(double)(FOV / WIDTH_WIN);
+	p->fov = 90;
 	p->looking_angle = 90.0;
 	p->rotation.x = cos(set_radius(90.0));
 	p->rotation.y = -sin(set_radius(90.0));
@@ -53,6 +53,13 @@ t_player	*init_player(t_map *map)
 	p->dist_wall.x = 0;
 	p->dist_wall.y = 0;
 	p->ray_angle = 0;
+	p->width_win = 2200;
+	p->height_win = HEIGHT_WIN;
+	printf("p->height_win: %d\n", p->height_win);
+	printf("p->width_win: %d\n", p->width_win);
+	printf("fov: %d\n", p->fov);
+	p->raycast_angle = (double)p->fov / (double)p->width_win;
+	printf("p->raycast_angle: %d\n", p->raycast_angle);
 	p->map = map;
 	return (p);
 }

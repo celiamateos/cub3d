@@ -96,6 +96,7 @@ typedef struct	s_map
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
 	char		player_dir;
+	
 }	t_map;
 
 typedef struct s_control
@@ -142,10 +143,13 @@ typedef struct	s_player
 	double		looking_angle;	//direction
 	t_vec2		dist_pplane;
 	t_vec2		dist_wall;
+	int			fov;
 	t_raycast	*raycast;
 	double		raycast_angle;
 	double		ray_angle;
 	t_map		*map;
+	int			width_win;
+	int			height_win;
 }	t_player;
 
 
