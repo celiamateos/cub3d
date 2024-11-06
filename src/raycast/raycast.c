@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:53:24 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 00:39:07 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/06 02:56:30 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void do_raycast(void* param)
 	t_player	*p;
 	double		angle_dist;
     double        ray_angle;
-	double		dist;
+	float		dist;
 	int			i;
 	int			j;
 	int		w_start;
@@ -77,29 +77,30 @@ void do_raycast(void* param)
 	int k = 0;
 	color = get_rgba(1, 1, 1, 255);
     ray_angle = p->looking_angle - (FOV / 2);
-
+	printf("raycast_angle: %f\n", p->raycast_angle);
 	while (++i < WIDTH_WIN)
 	{
-		// dist = trace_ray(p->position, ray_angle, p->map);
-		// if (dist > 0)
-		// {
-		// 	w_line_height = (int)(HEIGHT_WIN / dist);
-		// 	w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
-		// 	if (w_start < 0) w_start = 0;
-		// 	w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
-		// 	if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
-		// 	j = w_start;
-		// 	while (j < w_end)
-		// 	{
-		// 		mlx_put_pixel(p->map->game->screen, i, j, get_rgba(10, 10, 10, 255));
-		// 		j++;
-		// 	}
-		// }
+		dist = trace_ray(p->position, ray_angle, p->map, p);
+		if (dist > 0)
+		{
+			w_line_height = (int)(HEIGHT_WIN / dist);
+			w_start = (HEIGHT_WIN / 2) - (w_line_height / 2);
+			if (w_start < 0) w_start = 0;
+			w_end = (HEIGHT_WIN / 2) + (w_line_height / 2);
+			if (w_end >= HEIGHT_WIN) w_end = HEIGHT_WIN - 1;
+			color = get_distance_color(dist);
+			j = w_start;
+			while (j < w_end)
+			{
+				mlx_put_pixel(p->map->game->screen, i, j, color);
+				j++;
+			}
+		}
 		
-		// ray_angle += p->raycast_angle;
-		trace_ray(p->position, ray_angle, p->map);
-		ray_angle += 0.02727f;
-		printf("ray_angle: %f\n", ray_angle);
+		ray_angle += p->raycast_angle;
+		//trace_ray(p->position, ray_angle, p->map);
+		// // ray_angle += 0.02727f;
+		// printf("ray_angle: %f\n", ray_angle);
 	}
  	
 	// str2 = ft_itoa(abs(p->looking_angle));

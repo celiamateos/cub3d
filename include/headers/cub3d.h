@@ -14,7 +14,7 @@
 
 # define CUB3D_H
 
-# define FOV	60
+# define FOV	90
 # define WIDTH_WIN		2200
 # define HEIGHT_WIN		1000
 # define HALF_HEIGHT	(HEIGHT_WIN / 2)

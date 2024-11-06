@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:02:46 by iostancu          #+#    #+#             */
-/*   Updated: 2024/10/29 23:36:17 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:36:15 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	draw_player(void *param)
 	int size_x;
 
 	p = (t_player *)param;
+	if (!p || !p->map || !p->map->game || !p->map->game->screen)
+    {
+        fprintf(stderr, "Error: NULL\n");
+        return;
+    }
 	size_x = MINIMAP_SIZE / 2;
 	size_y = MINIMAP_SIZE / 2;
 	pos.x = (p->position.x * MINIMAP_SIZE) + size_x + (size_x / 2);
