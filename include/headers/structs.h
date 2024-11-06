@@ -104,33 +104,19 @@ typedef struct s_control
 	/* data */
 }	t_control;
 
-/**
- * @brief Raycast info.
- * 
- * @param angle Angle between each ray
- * @param num_rays 
- */
-typedef struct	s_raycast
-{
-	double	angle;
-	double	dir;
-	int		num_rays;
-	t_ray	*ray;	// maybe didnt need save every info of each ray if i only use it for draw
-}	t_raycast;
 
 /**
 	@brief Player struct, that works as camera.
 
-			 pplane
-	P....|  W W
-	..........walls
 	@param position Player position in the map.
+	@param rotation Player rotation in the map.
 	@param speed Moving speed
 	@param looking_angle Initialized with the angle where player is looking at init spawn
-	with the rotation movement
+	with the rotation movement. Updated every rotation movement.
 	@param dist_pplane Distance to the projection plane
 	@param dist_wall Distance of the player to the wall
 	@param raycast Struct that contains raycasting info and each rays info
+	@param raycast_angle Angle between each ray
  */
 typedef struct	s_player
 {
@@ -139,27 +125,16 @@ typedef struct	s_player
 	int			player_count;
 	t_vec2		position;
 	t_vec2		rotation;
-	double		speed;
+	float		speed;
+	float		rotation_speed;
 	double		looking_angle;	//direction
 	t_vec2		dist_pplane;
 	t_vec2		dist_wall;
 	int			fov;
-	t_raycast	*raycast;
-	double		raycast_angle;
 	double		ray_angle;
 	t_map		*map;
 	int			width_win;
 	int			height_win;
 }	t_player;
 
-
-typedef struct	s_camera
-{
-	t_vec2	direction;
-	t_vec2	plane;
-}	t_camera;
-
 #endif
-
-
-
