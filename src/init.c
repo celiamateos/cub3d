@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 02:52:28 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/06 20:01:27 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_game	*init_game(void)
 	return(game);
 }
 
-
 double	set_radius(double angle)
 {
 	return ((angle * 3.14159265359) / 180.0);
@@ -43,23 +42,19 @@ t_player	*init_player(t_map *map)
 	p->player_count = 0;
 	p->position.x = 0;
 	p->position.y = 0;
-	p->speed = 1;
+	p->speed = 0.05f;
+	p->rotation_speed = 1.0f;
 	p->fov = 90;
 	p->looking_angle = 90.0;
 	p->rotation.x = cos(set_radius(90.0));
 	p->rotation.y = -sin(set_radius(90.0));
-	p->dist_pplane.x = 0;
-	p->dist_pplane.y = 0;
-	p->dist_wall.x = 0;
-	p->dist_wall.y = 0;
-	p->ray_angle = 0;
 	p->width_win = 2200;
-	p->height_win = HEIGHT_WIN;
+	p->height_win = 1000;
 	printf("p->height_win: %d\n", p->height_win);
 	printf("p->width_win: %d\n", p->width_win);
 	printf("fov: %d\n", p->fov);
-	p->raycast_angle = (double)p->fov / (double)p->width_win;
-	printf("p->raycast_angle: %d\n", p->raycast_angle);
+	p->ray_angle = 90.0 / 2200.0;
+	printf("p->raycast_angle: %f\n", p->ray_angle);
 	p->map = map;
 	return (p);
 }
@@ -80,8 +75,6 @@ t_map	*init_map()
 	map->west_route = NULL;
 	map->ceiling_route = 0;
 	map->floor_route = 0;
-	map->position.x = 0;
-	map->position.y = 0;
 	return (map);
 }
 

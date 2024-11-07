@@ -30,20 +30,6 @@ typedef struct	s_ray
 	t_vec2	offset;
 }	t_ray;
 
-/**
- * @brief Info of a individual wall
- * 
- * @param img Image of the wall
- * @param start The position of the left-down vertex
- * @param end The position of the right-down vertex
- */
-typedef struct	s_wall
-{
-	mlx_image_t	*img;
-	t_vec2		start;
-	t_vec2		end;
-}	t_wall;
-
 typedef struct	s_game
 {
 	mlx_t		*mlx;
@@ -63,12 +49,9 @@ typedef struct s_textures
 /**
  * @brief Map. All of the data included in the file, will be extracted here
  * 
- * @param position Position of the map
- * @param wall Array of walls
- * @param grid Raw info taked from the .cub file
- * @param floor Floor texture
- * @param ceiling Ceiling texture
- * @param player_dir Player spawn direction
+ * @param grid Map to int
+ * @param height Map height in pixels (y)
+ * @param width Map width in pixels (x)
  */
 typedef struct	s_map
 {
@@ -90,13 +73,9 @@ typedef struct	s_map
 	int			height;
 	int			width;
 	t_game		*game;
-	t_vec2		position;
-	t_wall		**wall;
 	int			**grid;	// **map to atoi (-1, 0, 1)
 	mlx_image_t	*floor;
 	mlx_image_t	*ceiling;
-	char		player_dir;
-	
 }	t_map;
 
 typedef struct s_control
@@ -105,61 +84,31 @@ typedef struct s_control
 }	t_control;
 
 /**
- * @brief Raycast info.
- * 
- * @param angle Angle between each ray
- * @param num_rays 
- */
-typedef struct	s_raycast
-{
-	double	angle;
-	double	dir;
-	int		num_rays;
-	t_ray	*ray;	// maybe didnt need save every info of each ray if i only use it for draw
-}	t_raycast;
-
-/**
 	@brief Player struct, that works as camera.
 
-			 pplane
-	P....|  W W
-	..........walls
 	@param position Player position in the map.
+	@param rotation Player rotation in the map.
 	@param speed Moving speed
+	@param rotation_speed Rotation speed
 	@param looking_angle Initialized with the angle where player is looking at init spawn
-	with the rotation movement
-	@param dist_pplane Distance to the projection plane
-	@param dist_wall Distance of the player to the wall
-	@param raycast Struct that contains raycasting info and each rays info
+	with the rotation movement. Updated every rotation movement.
+	@param raycast_angle Angle between each ray
  */
 typedef struct	s_player
 {
 	char		player_dir;	//Direction player (N,S,E,W)
-	int			spawn_direction;	// change char dir(N, S, W, E) by macros NO SO WE EA
 	int			player_count;
+	//t_control	control;		// in future with time, clean player struct and put all controls here
 	t_vec2		position;
 	t_vec2		rotation;
-	double		speed;
+	float		speed;
+	float		rotation_speed;
 	double		looking_angle;	//direction
-	t_vec2		dist_pplane;
-	t_vec2		dist_wall;
 	int			fov;
-	t_raycast	*raycast;
-	double		raycast_angle;
 	double		ray_angle;
 	t_map		*map;
 	int			width_win;
 	int			height_win;
 }	t_player;
 
-
-typedef struct	s_camera
-{
-	t_vec2	direction;
-	t_vec2	plane;
-}	t_camera;
-
 #endif
-
-
-

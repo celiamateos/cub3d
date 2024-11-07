@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:56:50 by cmateos-          #+#    #+#             */
-/*   Updated: 2024/11/06 00:22:21 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/06 22:48:06 by iostancu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int32_t main(int ac, char **av)
 	
 	//mlx_loop_hook(map->game->mlx, draw_player, player);
 	
-	mlx_loop_hook(map->game->mlx, do_raycast, player);
+	mlx_loop_hook(map->game->mlx, do_v_raycast, player);
 	//mlx_key_hook(map->game->mlx, my_keyhook, player);
 	// //minimap
 	// mlx_loop_hook(map->game->mlx, draw_2d_map, map);
