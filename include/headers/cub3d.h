@@ -20,7 +20,7 @@
 # define HALF_HEIGHT	(HEIGHT_WIN / 2)
 # define HALF_FOV		(FOV / 2)
 # define SIZE			64
-# define MINIMAP_SIZE	(SIZE / 2)
+# define MINIMAP_SIZE	(SIZE / 4)
 # define ROTATION_ANGLE	1
 # define PI_			3.14159265
 # define PROJECTION_DISTANCE	0.5f

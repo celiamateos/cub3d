@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 20:01:27 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:22:31 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_player	*init_player(t_map *map)
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 0.05f;
-	p->rotation_speed = 1.0f;
+	p->rotation_speed = 1.5f;
 	p->fov = 90;
 	p->looking_angle = 90.0;
 	p->rotation.x = cos(set_radius(90.0));

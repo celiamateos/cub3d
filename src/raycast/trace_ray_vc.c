@@ -1,100 +1,126 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   trace_ray_vc.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 19:56:54 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 22:48:36 by iostancu         ###   ########.fr       */
-/*                                                                            */
+/*      */
+/*:::      ::::::::   */
+/*   trace_ray_vc.c  :+:      :+:    :+:   */
+/*   +:+ +:+  +:+     */
+/*   By: settes <settes@student.42.fr>+#+  +:++#+ */
+/*      +#+#+#+#+#+   +#+    */
+/*   Created: 2024/11/06 19:56:54 by iostancu   #+#    #+#      */
+/*   Updated: 2024/11/10 22:30:31 by settes    ###   ########.fr*/
+/*      */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-/**
- * @brief 
- * 
- * @param pos 
- * @param look_angle 
- * @param r_angle 
- * @param r 
- * @param map 
- * @return Distance to the first wall
- */
-// float trace_v_ray(t_vec2 pos, double angle, t_map *map, t_player *p)
-// {
-// 	t_vec2  camera;
-// 	int i = 0;
+t_vec2 get_ray_direction(double angle);
+void drawVerticalLine(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
+// Función para detectar líneas verticales y calcular distancias y alturas
+void detectVerticalLines(t_player *player, int **m, int mWidth, int mHeight, int screenHeight) 
+{
+	t_vec2	ray_dir;
+	float	dist;
+	t_vec2	delta_dist;
+	t_vec2	side_dist;
+	int		map_x;
+	int		map_y;
+	double	ray_angle;
+	int		i;
+	int		start;
+	int		end;
+	int		wall_line_height;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		is_wall;
 
+	i = -1;
+	ray_angle = player->looking_angle - (player->fov / 2);
+	while (++i < player->width_win) 
+	{
+		hit = 0;
+		ray_dir = get_ray_direction(ray_angle);
+		map_y = (int)player->position.y;
+		map_x = (int)player->position.x;
+		delta_dist.x = fabs(1 / ray_dir.x);
+		delta_dist.y = fabs(1 / ray_dir.y);
+		
+		// distance to the next grid line
+		if (ray_dir.x < 0)
+		{
+			step_x = -1;
+			side_dist.x = (player->position.x - map_x) * delta_dist.x; 
+		}
+		else 
+		{
+			step_x = 1;
+			side_dist.y = (map_x + 1.0 - player->position.x) * delta_dist.x; 
+		}
+		if (ray_dir.y < 0) 
+		{
+			step_y = -1;
+			side_dist.y = (player->position.y - map_y) * delta_dist.y;
+		}
+		else
+		{
+			step_y = 1;     
+			side_dist.y = (map_y + 1.0 - player->position.y) * delta_dist.y;
+		}
+		// ***** DDA
+		while (hit == 0)
+		{   
+			if (side_dist.x < side_dist.y) 
+			{
+				side_dist.x += delta_dist.x;
+				map_x += step_x;
+				is_wall = 0;
+			}
+			else
+			{
+				side_dist.y += delta_dist.y;
+				map_y += step_y;
+				is_wall = 1;
+			}  
+			// printf("map height: %d\n", mHeight);
+			// printf("map width: %d\n", mWidth); 
+			// printf("map_x: %d, map_y: %d\n", map_x, map_y);   
+			// printf("m[map_x][map_y]: %d\n", m[map_y][map_x]);  
+				
+			if (m[map_y][map_x] > 0)
+				hit = 1;
+		}
+		if (is_wall == 0)
+			dist = (map_x - player->position.x + (1 - step_x) / 2) / ray_dir.x;
+		else 
+			dist = (map_y - player->position.y + (1 - step_y) / 2) / ray_dir.y;
+		wall_line_height = (int)(screenHeight / dist);
+		start = (screenHeight / 2) - (wall_line_height / 2);
+		if (start < 0)
+			start = 0;
+		end = (wall_line_height / 2) + (screenHeight / 2);
+		if (end >= screenHeight)
+			end = screenHeight - 1;
+		drawVerticalLine(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
+		ray_angle += player->ray_angle;
+	}
+}
+
+void drawVerticalLine(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
+{
+    int y;
+
+    if (start < 0)
+		start = 0;
+	if (end >= HEIGHT_WIN)
+		end = HEIGHT_WIN - 1;
 	
-// 	t_vec2	ray_dir;
-// 	t_vec2	ray_pos;
-// 	t_vec2	delta_dist;
-// 	t_vec2	side_dist;
-// 	t_vec2	step;
-// 	int		map_x;
-// 	int		map_y;
-// 	int		hit;
-// 	int		side;
-// 	t_vec2	start;
-// 	t_vec2	end;
-
-
-
-
-// 	ray_dir = get_ray_direction(angle);
-// 	ray_pos = pos;
-// 	map_x = (int)pos.x;
-// 	map_y = (int)pos.y;
-// 	delta_dist.x = fabs(1 / ray_dir.x);
-// 	delta_dist.y = fabs(1 / ray_dir.y);
-// 	hit = 0;
-// 	if (ray_dir.x < 0)
-// 	{
-// 		step.x = -1;
-// 		side_dist.x = (pos.x - map_x) * delta_dist.x;
-// 	}
-// 	else
-// 	{
-// 		step.x = 1;
-// 		side_dist.x = (map_x + 1.0 - pos.x) * delta_dist.x;
-// 	}
-// 	if (ray_dir.y < 0)
-// 	{
-// 		step.y = -1;
-// 		side_dist.y = (pos.y - map_y) * delta_dist.y;
-// 	}
-// 	else
-// 	{
-// 		step.y = 1;
-// 		side_dist.y = (map_y + 1.0 - pos.y) * delta_dist.y;
-// 	}
-// 	while (hit == 0)
-// 	{
-// 		// next cell
-// 		if (side_dist.x < side_dist.y)
-// 		{
-// 			side_dist.x += delta_dist.x;
-// 			map_x += step.x;
-// 			side = 0;
-// 		}
-// 		else
-// 		{
-// 			side_dist.y += delta_dist.y;
-// 			map_y += step.y; side = 1;
-// 		}
-// 		if (map->grid[map_y][map_x] > 0)
-// 		{
-// 			hit = 1;
-// 			start = get_scaled_pos(pos);
-// 			end = get_scaled_pos(ray_pos);
-// 			draw_line(start, end, map->game->screen, 0x999988);
-// 			//printf("is wall! [%d][%d]\n", map_x, map_y);
-// 		}
-// 	}
-// 	if (side == 0)
-// 		return (side_dist.x - delta_dist.x);
-// 	else
-// 		return (side_dist.y - delta_dist.y);
-// }
+    //if (side == 1)
+    //{
+		color = get_distance_color(dist);
+   // }
+    y = start;
+    while (y <= end)
+    {
+ 		mlx_put_pixel(screen, x, y, color);
+		y++;
+    }
+}
