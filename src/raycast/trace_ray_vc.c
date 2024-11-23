@@ -13,7 +13,7 @@
 #include <cub3d.h>
 
 t_vec2 get_ray_direction(double angle);
-void draw_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
+void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
 // Función para detectar líneas verticales y calcular distancias y alturas
 void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, int screenHeight) 
 {
@@ -32,13 +32,19 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 	int		step_y;
 	int		hit;
 	int		is_wall;
+	double		dist_to_projection;
+	double		camera;
 
 	i = -1;
 	ray_angle = player->looking_angle - (player->fov / 2);
+	dist_to_projection = (player->width_win / 2) / tan(player->fov / 2 * (PI_ / 180));
 	while (++i < player->width_win) 
 	{
 		hit = 0;
-		ray_dir = get_ray_direction(ray_angle);
+		camera = 2 * i / (double)player->width_win - 1;
+		ray_dir.x = cos(player->looking_angle + atan(camera));
+		ray_dir.y = sin(player->looking_angle + atan(camera));
+		//ray_dir = get_ray_direction(ray_angle);
 		map_y = (int)player->position.y;
 		map_x = (int)player->position.x;
 		delta_dist.x = fabs(1 / ray_dir.x);
@@ -92,19 +98,21 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 			dist = (map_x - player->position.x + (1 - step_x) / 2) / ray_dir.x;
 		else 
 			dist = (map_y - player->position.y + (1 - step_y) / 2) / ray_dir.y;
-		wall_line_height = (int)(screenHeight / dist);
+		dist = dist * cos(player->looking_angle - atan2(ray_dir.y, ray_dir.x));
+		wall_line_height = (int)(dist_to_projection / dist);
 		start = (screenHeight / 2) - (wall_line_height / 2);
 		if (start < 0)
 			start = 0;
 		end = (wall_line_height / 2) + (screenHeight / 2);
 		if (end >= screenHeight)
 			end = screenHeight - 1;
-		draw_line(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
+		
+		draw_v_line(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
 		ray_angle += player->ray_angle;
 	}
 }
 
-void draw_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
+void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
 {
     int y;
 

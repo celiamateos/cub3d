@@ -101,6 +101,7 @@ typedef struct	s_player
 	//t_control	control;		// in future with time, clean player struct and put all controls here
 	t_vec2		position;
 	t_vec2		rotation;
+	t_vec2		plane;
 	float		speed;
 	float		rotation_speed;
 	double		looking_angle;	//direction
