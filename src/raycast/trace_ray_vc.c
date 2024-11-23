@@ -13,9 +13,9 @@
 #include <cub3d.h>
 
 t_vec2 get_ray_direction(double angle);
-void drawVerticalLine(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
+void draw_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
 // Función para detectar líneas verticales y calcular distancias y alturas
-void detectVerticalLines(t_player *player, int **m, int mWidth, int mHeight, int screenHeight) 
+void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, int screenHeight) 
 {
 	t_vec2	ray_dir;
 	float	dist;
@@ -99,12 +99,12 @@ void detectVerticalLines(t_player *player, int **m, int mWidth, int mHeight, int
 		end = (wall_line_height / 2) + (screenHeight / 2);
 		if (end >= screenHeight)
 			end = screenHeight - 1;
-		drawVerticalLine(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
+		draw_line(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
 		ray_angle += player->ray_angle;
 	}
 }
 
-void drawVerticalLine(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
+void draw_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
 {
     int y;
 

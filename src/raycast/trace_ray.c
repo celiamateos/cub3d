@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:54:08 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/10 22:35:34 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/23 04:24:18 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int trace_ray(t_vec2 pos, double angle, t_map *map, t_player *p)
 		if (map->grid[map_y][map_x] != 0)
 		{
 			// minimap visualized raycasting, when finish it will be removed
-			// start = get_scaled_pos(pos);
-			// end = get_scaled_pos(ray_pos);
-			// draw_line(start, end, map->game->screen, get_rgba(10, 10, 10, 150));
+			start = get_scaled_pos(pos);
+			end = get_scaled_pos(ray_pos);
+			draw_line(start, end, map->game->screen, get_rgba(10, 10, 10, 150));
 			// printf("player pos[%f, %f] ray pos[%f, %f]: dist: %f\n", pos.x, pos.y, ray_pos.x, ray_pos.y, sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
 			return (sqrt((ray_pos.x - pos.x) * (ray_pos.x - pos.x) + (ray_pos.y - pos.y) * (ray_pos.y - pos.y)));
 			//return(map_x - pos.x + (1 - ));
