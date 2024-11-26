@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/26 04:43:54 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/26 16:51:47 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,19 @@ t_player	*init_player(t_map *map)
 	p->position.x = 0;
 	p->position.y = 0;
 	p->speed = 0.05f;
-	p->rotation_speed = 1.5f;
+	p->rotation_speed = 0.05f;
 	p->fov = 90;
 	p->looking_angle = 90.0;
 	p->rotation.x = cos(90.0);
 	p->rotation.y = sin(90.0);
 	p->plane.x = 0;//-p->rotation.y * p->fov;
 	p->plane.y = 0.66; //p->rotation.x * p->fov;
-	p->width_win = 2200;
-	p->height_win = 1000;
+	p->width_win = 1400;
+	p->height_win = 720;
 	printf("p->height_win: %d\n", p->height_win);
 	printf("p->width_win: %d\n", p->width_win);
 	printf("fov: %d\n", p->fov);
-	p->ray_angle = 90.0 / 2200.0;
+	p->ray_angle = 90.0 / 1400.0;
 	printf("p->raycast_angle: %f\n", p->ray_angle);
 	p->map = map;
 	return (p);

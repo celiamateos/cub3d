@@ -58,8 +58,16 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		//ray_dir = get_ray_direction(ray_angle);
 		map_y = (int)player->position.y;
 		map_x = (int)player->position.x;
-		delta_dist.x = fabs(1 / ray_dir.x);
-		delta_dist.y = fabs(1 / ray_dir.y);
+		if (ray_dir.x == 0)
+			delta_dist.x = 1e30;
+		else
+			delta_dist.x = fabs(1 / ray_dir.x);
+		if (ray_dir.y == 0)
+			delta_dist.y = 1e30;
+		else
+			delta_dist.y = fabs(1 / ray_dir.y);
+		// delta_dist.x = fabs(1 / ray_dir.x);
+		// delta_dist.y = fabs(1 / ray_dir.y);
 		
 		// distance to the next grid line
 		if (ray_dir.x < 0)
