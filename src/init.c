@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/26 16:51:47 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/27 00:35:14 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_player	*init_player(t_map *map)
 	p->player_count = 0;
 	p->position.x = 0;
 	p->position.y = 0;
-	p->speed = 0.05f;
-	p->rotation_speed = 0.05f;
+	p->speed = 0.03f;
+	p->rotation_speed = 0.015f;
 	p->fov = 90;
 	p->looking_angle = 90.0;
 	p->rotation.x = cos(90.0);
@@ -58,6 +58,8 @@ t_player	*init_player(t_map *map)
 	p->ray_angle = 90.0 / 1400.0;
 	printf("p->raycast_angle: %f\n", p->ray_angle);
 	p->map = map;
+	p->time = 0;
+	p->old_time = 0;
 	return (p);
 }
 

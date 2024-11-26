@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:11:22 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 19:49:08 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:52:50 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,6 @@ uint32_t	get_distance_color(float distance)
 {
 	int	shade;
 	
-	shade = (int)(255 / (1 + distance * distance * 0.1));
+	shade = (int)(255 / (1 + distance * distance * 0.05));
 	return (shade << 16) | (shade << 8) | shade;
 }

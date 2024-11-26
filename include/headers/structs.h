@@ -16,6 +16,12 @@
 
 # include <MLX42.h>
 
+typedef struct	s_int2
+{
+	int	x;
+	int	y;
+}	t_int2;
+
 typedef struct	s_vec2
 {
 	double	x;
@@ -100,7 +106,7 @@ typedef struct	s_player
 	int			player_count;
 	//t_control	control;		// in future with time, clean player struct and put all controls here
 	t_vec2		position;
-	t_vec2		rotation;
+	t_vec2		rotation;	// direction
 	t_vec2		plane;
 	float		speed;
 	float		rotation_speed;
@@ -110,6 +116,8 @@ typedef struct	s_player
 	t_map		*map;
 	int			width_win;
 	int			height_win;
+	double		time;	//time of current frame
+	double		old_time;	//time of previous frame
 }	t_player;
 
 #endif
