@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:07:33 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/23 04:45:54 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/26 04:43:54 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_game	*init_game(void)
 
 double	set_radius(double angle)
 {
-	return ((angle * 3.14159265359) / 180.0);
+	return (angle * 2 * M_PI / 360.0);
 }
 
 t_player	*init_player(t_map *map)
@@ -46,10 +46,10 @@ t_player	*init_player(t_map *map)
 	p->rotation_speed = 1.5f;
 	p->fov = 90;
 	p->looking_angle = 90.0;
-	p->rotation.x = cos(set_radius(90.0));
-	p->rotation.y = -sin(set_radius(90.0));
-	p->plane.x = -p->rotation.y * p->fov;
-	p->plane.y = p->rotation.x * p->fov;
+	p->rotation.x = cos(90.0);
+	p->rotation.y = sin(90.0);
+	p->plane.x = 0;//-p->rotation.y * p->fov;
+	p->plane.y = 0.66; //p->rotation.x * p->fov;
 	p->width_win = 2200;
 	p->height_win = 1000;
 	printf("p->height_win: %d\n", p->height_win);

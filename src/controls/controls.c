@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/06 20:07:07 by iostancu         ###   ########.fr       */
+/*   Updated: 2024/11/26 04:37:56 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,45 @@ double	set_360_rotation(double angle)
 
 void	set_rotation(t_vec2 *rot, double look_angle)
 {
-	rot->x = cos(look_angle * (PI_ / 180));
-	rot->y = -sin(look_angle * (PI_ / 180));
+	rot->x = cos(look_angle * 2 * M_PI / 360.0);
+	rot->y = sin(look_angle * 2 * M_PI / 360.0);
 }
 
 void	rotate_vision(t_player *p, int key)
 {
+	t_vec2	old_plane;
+	double	old_dir;
+
+	old_plane.x = p->plane.x;
+	old_plane.y = p->plane.y;
+	old_dir = p->rotation.x;
 	if (key == MLX_KEY_RIGHT)
+	{
 		p->looking_angle -= p->rotation_speed;
+		p->rotation.x = p->rotation.x * cos(-p->rotation_speed) - p->rotation.y * sin(-p->rotation_speed);
+		p->rotation.y = old_dir * sin(-p->rotation_speed) + p->rotation.y * cos(-p->rotation_speed);
+		// p->plane.x = -p->rotation.y * p->fov;
+		// p->plane.y = p->rotation.x * p->fov;
+		p->plane.x = p->plane.x * cos(-p->rotation_speed) - p->plane.y * sin(-p->rotation_speed);
+		p->plane.y = old_plane.x * sin(-p->rotation_speed) + p->plane.y * cos(-p->rotation_speed);
+	}
 	else
+	{
 		p->looking_angle += p->rotation_speed;
+		p->rotation.x = p->rotation.x * cos(p->rotation_speed) - p->rotation.y * sin(p->rotation_speed);
+		p->rotation.y = old_dir * sin(p->rotation_speed) + p->rotation.y * cos(p->rotation_speed);
+		// p->plane.x = p->rotation.y * p->fov;
+		// p->plane.y = -p->rotation.x * p->fov;
+		p->plane.x = p->plane.x * cos(p->rotation_speed) - p->plane.y * sin(p->rotation_speed);
+		p->plane.y = old_plane.x * sin(p->rotation_speed) + p->plane.y * cos(p->rotation_speed);
+	}
 	p->looking_angle = set_360_rotation(p->looking_angle);
-	set_rotation(&p->rotation, p->looking_angle);
+	// p->plane.x = p->plane.x * cos(set_radius(p->rotation_speed)) - p->plane.y * sin(set_radius(p->rotation_speed));
+	// p->plane.y = old_plane.x * sin(set_radius(p->rotation_speed)) + p->plane.y * cos(set_radius(p->rotation_speed));
+	
+	// p->rotation.x = p->rotation.x * cos(set_radius(p->rotation_speed)) - p->rotation.y * sin(set_radius(p->rotation_speed));
+	// p->rotation.y = old_plane.x * sin(set_radius(p->rotation_speed)) + p->rotation.y * cos(set_radius(p->rotation_speed));
+	//set_rotation(&p->rotation, p->looking_angle);
 }
 
 void my_keyhook(mlx_key_data_t k, void *param)
@@ -51,15 +78,15 @@ void my_keyhook(mlx_key_data_t k, void *param)
 		rotate_vision(p, k.key);
 	if (k.key == MLX_KEY_UP || k.key == MLX_KEY_W)
 	{
-		nxt_pos.x = p->position.x + (p->rotation.x * 0.1f);
-		nxt_pos.y = p->position.y + (p->rotation.y * 0.1f);
+		nxt_pos.x = p->position.x + p->rotation.x * 0.1f;
+		nxt_pos.y = p->position.y + p->rotation.y * 0.1f;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (k.key == MLX_KEY_DOWN || k.key == MLX_KEY_S)
 	{
-		nxt_pos.x = p->position.x - (p->rotation.x * 0.1f);
-		nxt_pos.y = p->position.y - (p->rotation.y * 0.1f);
+		nxt_pos.x = p->position.x - p->rotation.x * 0.1f;
+		nxt_pos.y = p->position.y - p->rotation.y * 0.1f;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
@@ -73,29 +100,29 @@ void	player_controller(mlx_t *mlx, t_player *p)
 		mlx_close_window(p->map->game->mlx);
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_UP) || mlx_is_key_down(p->map->game->mlx, MLX_KEY_W))
 	{
-		nxt_pos.x = p->position.x + (p->rotation.x * p->speed);
-		nxt_pos.y = p->position.y + (p->rotation.y * p->speed);
+		nxt_pos.x = p->position.x + p->rotation.x * p->speed;
+		nxt_pos.y = p->position.y + p->rotation.y * p->speed;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_D)) // move to right
 	{
-		nxt_pos.x = p->position.x - (p->rotation.y * p->speed);
-		nxt_pos.y = p->position.y + (p->rotation.x * p->speed);
+		nxt_pos.x = p->position.x - p->rotation.y * p->speed;
+		nxt_pos.y = p->position.y + p->rotation.x * p->speed;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_DOWN) || mlx_is_key_down(p->map->game->mlx, MLX_KEY_S))
 	{
-		nxt_pos.x = p->position.x - (p->rotation.x * p->speed);
-		nxt_pos.y = p->position.y - (p->rotation.y * p->speed);
+		nxt_pos.x = p->position.x - p->rotation.x * p->speed;
+		nxt_pos.y = p->position.y - p->rotation.y * p->speed;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}
 	if (mlx_is_key_down(p->map->game->mlx, MLX_KEY_A)) // move to left
 	{
-		nxt_pos.x = p->position.x + (p->rotation.y * p->speed);
-		nxt_pos.y = p->position.y - (p->rotation.x * p->speed);
+		nxt_pos.x = p->position.x + p->rotation.y * p->speed;
+		nxt_pos.y = p->position.y - p->rotation.x * p->speed;
 		if (!is_wall(p->map, nxt_pos))
 			p->position = nxt_pos;
 	}

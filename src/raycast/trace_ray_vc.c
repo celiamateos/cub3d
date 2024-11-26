@@ -15,12 +15,21 @@
 t_vec2 get_ray_direction(double angle);
 void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
 // Función para detectar líneas verticales y calcular distancias y alturas
+/**
+ * @brief 
+ * 
+ * @param player 
+ * @param m 
+ * @param mWidth 
+ * @param mHeight 
+ * @param screenHeight 
+ */
 void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, int screenHeight) 
 {
 	t_vec2	ray_dir;
-	float	dist;
+	double	wall_dist;
 	t_vec2	delta_dist;
-	t_vec2	side_dist;
+	t_vec2	nxt_line;	// distance to next grid line
 	int		map_x;
 	int		map_y;
 	double	ray_angle;
@@ -30,20 +39,22 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 	int		wall_line_height;
 	int		step_x;
 	int		step_y;
-	int		hit;
 	int		is_wall;
 	double		dist_to_projection;
 	double		camera;
+	t_vec2		wall;
+	t_vec2		ray;
 
 	i = -1;
 	ray_angle = player->looking_angle - (player->fov / 2);
-	dist_to_projection = (player->width_win / 2) / tan(player->fov / 2 * (PI_ / 180));
+	dist_to_projection = (player->width_win / 2) / tan(player->fov / 2 * (M_PI / 180));
 	while (++i < player->width_win) 
 	{
-		hit = 0;
 		camera = 2 * i / (double)player->width_win - 1;
-		ray_dir.x = cos(player->looking_angle + atan(camera));
-		ray_dir.y = sin(player->looking_angle + atan(camera));
+		// ray_dir.x = cos(player->looking_angle +  tan(camera));
+		// ray_dir.y = sin(player->looking_angle + tan(camera));
+		ray_dir.x = player->rotation.x + player->plane.x * camera;
+		ray_dir.y = player->rotation.y + player->plane.y * camera;
 		//ray_dir = get_ray_direction(ray_angle);
 		map_y = (int)player->position.y;
 		map_x = (int)player->position.x;
@@ -54,60 +65,61 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		if (ray_dir.x < 0)
 		{
 			step_x = -1;
-			side_dist.x = (player->position.x - map_x) * delta_dist.x; 
+			nxt_line.x = (player->position.x - map_x) * delta_dist.x; 
 		}
 		else 
 		{
 			step_x = 1;
-			side_dist.y = (map_x + 1.0 - player->position.x) * delta_dist.x; 
+			nxt_line.y = (map_x + 1.0 - player->position.x) * delta_dist.x; 
 		}
 		if (ray_dir.y < 0) 
 		{
 			step_y = -1;
-			side_dist.y = (player->position.y - map_y) * delta_dist.y;
+			nxt_line.y = (player->position.y - map_y) * delta_dist.y;
 		}
 		else
 		{
 			step_y = 1;     
-			side_dist.y = (map_y + 1.0 - player->position.y) * delta_dist.y;
+			nxt_line.y = (map_y + 1.0 - player->position.y) * delta_dist.y;
 		}
 		// ***** DDA
-		while (hit == 0)
+		while (1)
 		{   
-			if (side_dist.x < side_dist.y) 
+			if (nxt_line.x < nxt_line.y) 
 			{
-				side_dist.x += delta_dist.x;
+				nxt_line.x += delta_dist.x;
 				map_x += step_x;
 				is_wall = 0;
 			}
 			else
 			{
-				side_dist.y += delta_dist.y;
+				nxt_line.y += delta_dist.y;
 				map_y += step_y;
 				is_wall = 1;
-			}  
-			// printf("map height: %d\n", mHeight);
-			// printf("map width: %d\n", mWidth); 
-			// printf("map_x: %d, map_y: %d\n", map_x, map_y);   
-			// printf("m[map_x][map_y]: %d\n", m[map_y][map_x]);  
-				
+			}
 			if (m[map_y][map_x] > 0)
-				hit = 1;
+				break ;
 		}
 		if (is_wall == 0)
-			dist = (map_x - player->position.x + (1 - step_x) / 2) / ray_dir.x;
+			//wall_dist = (map_x - player->position.x + (1 - step_x) / 2) / ray_dir.x;
+			wall_dist = nxt_line.x - delta_dist.x;
 		else 
-			dist = (map_y - player->position.y + (1 - step_y) / 2) / ray_dir.y;
-		dist = dist * cos(player->looking_angle - atan2(ray_dir.y, ray_dir.x));
-		wall_line_height = (int)(dist_to_projection / dist);
+			//wall_dist = (map_y - player->position.y + (1 - step_y) / 2) / ray_dir.y;
+			wall_dist = nxt_line.y - delta_dist.y;
+		//wall_dist = wall_dist * cos(player->looking_angle - atan2(ray_dir.y, ray_dir.x));
+		wall_line_height = (int)(screenHeight / wall_dist);
 		start = (screenHeight / 2) - (wall_line_height / 2);
 		if (start < 0)
 			start = 0;
 		end = (wall_line_height / 2) + (screenHeight / 2);
 		if (end >= screenHeight)
 			end = screenHeight - 1;
-		
-		draw_v_line(player->map->game->screen, i, start, end, dist, m[map_y][map_x]);
+		// if (is_wall == 0)
+		// 	wall.x = player->position.y + wall_dist * ray_dir.y;
+		// else
+		// 	wall.x = player->position.x + wall_dist * ray_dir.y;
+		// wall.x -= floor(wall.x);
+		draw_v_line(player->map->game->screen, i, start, end, wall_dist, m[map_y][map_x]);
 		ray_angle += player->ray_angle;
 	}
 }

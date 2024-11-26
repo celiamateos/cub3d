@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:54:08 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/23 04:24:18 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/23 19:28:46 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ t_vec2 get_ray_direction(double angle)
 {
 	t_vec2  direction;
 
-	direction.x = cos(angle * PI_ / 180.0);
-	direction.y = -sin(angle * PI_ / 180.0);
+	direction.x = cos(angle * 2 * M_PI / 360.0);
+	direction.y = sin(angle * 2 * M_PI / 360.0);
 	return (direction);
 }
 

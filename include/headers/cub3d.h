@@ -22,7 +22,6 @@
 # define SIZE			64
 # define MINIMAP_SIZE	(SIZE / 4)
 # define ROTATION_ANGLE	1
-# define PI_			3.14159265
 # define PROJECTION_DISTANCE	0.5f
 # define SIZE_MULTIPL_HEIGHT	(MINIMAP_SIZE * HEIGHT_WIN)
 

@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:53:24 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/23 04:26:17 by settes           ###   ########.fr       */
+/*   Updated: 2024/11/26 16:20:22 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,7 @@ void do_raycast(void* param)
 	draw_player(p);
 	while (++i < p->width_win)
 	{
-		
  		trace_ray(p->position, ray_angle, p->map, p);	// trace ray, save distance
-// 		detectVerticalLines(p, p->map->grid, p->map->width, p->map->height, p->height_win);
-// 		//printf("dist: %f\n", dist);
-// 		// determinar si es verticval o horizontal segun la distancia? si se puede si no buscar otra forma
-// 		// if (dist >= 0)	// if ray hit something (wall)
-// 		// {
-// 		// 	wall_line_height = (int)(p->height_win / dist);	// get wall height at current point
-// 		// 	wall_start = (p->height_win / 2) - (wall_line_height / 2);
-// 		// 	if (wall_start < 0)
-// 		// 		wall_start = 0;
-// 		// 	wall_end = (p->height_win / 2) + (wall_line_height / 2);
-// 		// 	if (wall_end >= p->height_win)
-// 		// 		wall_end = p->height_win - 1;
-// 		// 	color = get_distance_color(dist);
-// 		// 	j = wall_start;
-// 		// 	//printf("wall start: %d, wall end: %d\n", wall_start, wall_end);
-// 		// 	while (j < wall_end)
-// 		// 	{
-// 		// 		mlx_put_pixel(p->map->game->screen, i, j, color);	//draw wall line
-// 		// 		j++;
-// 		// 	}
-// 		// }
 		ray_angle += p->ray_angle;	// next angle
 	}
 // 	// str2 = ft_itoa(abs(p->looking_angle));
