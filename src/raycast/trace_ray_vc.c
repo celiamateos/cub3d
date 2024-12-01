@@ -13,7 +13,7 @@
 #include <cub3d.h>
 
 t_vec2 get_ray_direction(double angle);
-void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) ;
+void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x);
 // Función para detectar líneas verticales y calcular distancias y alturas
 /**
  * @brief 
@@ -45,8 +45,15 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 	t_vec2		ray;
 	double		step_d;
 	int			texture_n;
+	int			tex_x;
 	double		tex_pos;
 	uint32_t	color;
+	xpm_t* img;
+	double	resize;
+	
+	img = mlx_load_xpm42("/home/settes/cursus/cub3D/textures/wolf/purplestone.xpm42");
+	if (!img)
+       	perror("Error: mlx_load_xpm42\n"), exit(1);
 
 	i = -1;
 	ray_angle = player->looking_angle - (player->fov / 2);
@@ -54,23 +61,23 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 	while (++i < player->width_win) 
 	{
 		camera = 2 * i / (double)player->width_win - 1;
-		// ray_dir.x = cos(player->looking_angle +  tan(camera));
-		// ray_dir.y = sin(player->looking_angle + tan(camera));
-		ray_dir.x = player->rotation.x + player->plane.x * camera;
-		ray_dir.y = player->rotation.y + player->plane.y * camera;
+		ray_dir.x = cos(player->looking_angle + atan(camera));
+		ray_dir.y = sin(player->looking_angle + atan(camera));
+		// ray_dir.x = player->rotation.x + player->plane.x * camera;
+		// ray_dir.y = player->rotation.y + player->plane.y * camera;
 		//ray_dir = get_ray_direction(ray_angle);
 		map.y = (int)player->position.y;
 		map.x = (int)player->position.x;
-		if (ray_dir.x == 0)
-			delta_dist.x = 1e30;
-		else
-			delta_dist.x = fabs(1 / ray_dir.x);
-		if (ray_dir.y == 0)
-			delta_dist.y = 1e30;
-		else
-			delta_dist.y = fabs(1 / ray_dir.y);
-		// delta_dist.x = fabs(1 / ray_dir.x);
-		// delta_dist.y = fabs(1 / ray_dir.y);
+		// if (ray_dir.x == 0)
+		// 	delta_dist.x = 1e30;
+		// else
+		// 	delta_dist.x = fabs(1 / ray_dir.x);
+		// if (ray_dir.y == 0)
+		// 	delta_dist.y = 1e30;
+		// else
+		// 	delta_dist.y = fabs(1 / ray_dir.y);
+		delta_dist.x = fabs(1 / ray_dir.x);
+		delta_dist.y = fabs(1 / ray_dir.y);
 		
 		// distance to the next grid line
 		if (ray_dir.x < 0)
@@ -132,47 +139,76 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		else
 			wall.x = player->position.x + perp_wall_dist * ray_dir.y;
 		wall.x -= floor(wall.x);
-		texture.x = (int)(wall.x * (double)(SIZE));
+		img->texture.width = (int)(wall.x * (double)(SIZE));
 		if(side == 0 && ray_dir.x > 0)
-	  		texture.x = SIZE - texture.x - 1;
+	  		img->texture.width = SIZE - img->texture.width - 1;
       	if(side == 1 && ray_dir.y < 0)
-			texture.x = SIZE - texture.x - 1;
+			img->texture.width = SIZE - img->texture.width - 1;
 		// How much to increase the texture coordinate per screen pixel
 		step_d = 1.0 * SIZE / wall_line_height;
-     
+
+		resize = 1.0 * img->texture.height / (wall_line_height + 1);
+
 		// Starting texture coordinate
 		tex_pos = (start - screenHeight / 2 + wall_line_height / 2) * step_d;
 		//printf("tex_pos: %f\n", tex_pos);
-		for(int y = start; y < end; y++)
+		// get a random specific pixel data from img
+		if (side == 0)
 		{
-			texture.y = (int)tex_pos & (SIZE - 1);
-			tex_pos += step_d;
-			//color = m[texture_n][SIZE * texture.y + texture.x];
-			color = get_distance_color(perp_wall_dist);
-			if(side == 1)
-				//color = (color >> 1) & 8355711;	// 01111111 01111111 01111111
-				color = (color >> 1) & 2139062143;	// 01111111 01111111 01111111 01111111
-		// buffer[y][x] = color;
+			tex_x = (int)(player->position.y + perp_wall_dist * ray_dir.y) % SIZE;
 		}
-		//printf("texture.x: %d, texture.y: %d\n", texture.x, texture.y);
+		else
+		{
+			tex_x = (int)(player->position.x + perp_wall_dist * ray_dir.x) % SIZE;
+		}
+		// for(int y = start; y < end; y++)
+		// {
+		// 	//texture.y = (int)tex_pos & (SIZE - 1);
+		// 	img->texture.height = (int)tex_pos & (SIZE - 1);
+		// 	tex_pos += step_d;
+		// 	//color = m[texture_n][SIZE * img->texture.height + img->texture.width];
+		// 	//color = mlx_get_pixel(img, img->texture.width, img->texture.height);
+		// 	color = get_pixel(&img->texture, start % 64 -1, img->texture.height);
+		// 	//color = get_distance_color(perp_wall_dist);
+		// 	if(side == 1)
+		// 		color = (color >> 1) & 8355711;	// 01111111 01111111 01111111
+		// 		//color = (color >> 1) & 2139062143;	// 01111111 01111111 01111111 01111111
+		// // buffer[y][x] = color;
+		// }
+		//printf("img->texture.width: %d, texture.y: %d\n", img->texture.width, texture.y);
 		// if (side == 1)
 		// 	color = get_distance_color(perp_wall_dist * 1.5);
 		// else
 		// 	color = get_distance_color(perp_wall_dist);
-		draw_v_line(player->map->game->screen, i, start, end, perp_wall_dist, color);
+		
+		draw_v_line(player->map->game->screen, side, i, start, end, perp_wall_dist, &img->texture, tex_x);
 		ray_angle += player->ray_angle;
 	}
 }
 
-void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int color) 
+void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x) 
 {
-    int y;
-
+    int		y;
+	int		texture_y;
+	int		line_height;
+	float	step;	//scale
+	float	texture_pos;
+	int		color;
+	
+	line_height = end - start;
+	step = (float)t->width / line_height;
+	texture_pos = 0.0;
     if (start < 0)
+	{
+		//texture_pos = (float)(-start) / line_height * step;
+		texture_pos = -start * step;
 		start = 0;
+	}
 	if (end >= HEIGHT_WIN)
 		end = HEIGHT_WIN - 1;
-	
+
+	//x = start % SIZE;
+
     //if (side == 1)
     //{
 		
@@ -180,7 +216,12 @@ void draw_v_line(mlx_image_t *screen, int x, int start, int end, float dist, int
     y = start;
     while (y <= end)
     {
+		texture_y = (int)texture_pos & (t->height - 1);
+		color = get_pixel(t, tex_x, texture_y);
+		if(side == 1)
+			color = (color >> 1) & 2139062143;
  		mlx_put_pixel(screen, x, y, color);
+		texture_pos += step;
 		y++;
     }
 }
