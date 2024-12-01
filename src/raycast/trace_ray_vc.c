@@ -135,15 +135,15 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 
 		texture_n = m[map.y][map.x] - 1;
 		if (side == 0)
-			wall.x = player->position.y + perp_wall_dist * ray_dir.y;
+			tex_x = player->position.y + perp_wall_dist * ray_dir.y;
 		else
-			wall.x = player->position.x + perp_wall_dist * ray_dir.y;
-		wall.x -= floor(wall.x);
-		img->texture.width = (int)(wall.x * (double)(SIZE));
+			tex_x = player->position.x + perp_wall_dist * ray_dir.y;
+		tex_x -= floor(tex_x);
+		//img->texture.width = (int)(tex_x * (double)(SIZE));
 		if(side == 0 && ray_dir.x > 0)
-	  		img->texture.width = SIZE - img->texture.width - 1;
+	  		tex_x = SIZE - img->texture.width - 1;
       	if(side == 1 && ray_dir.y < 0)
-			img->texture.width = SIZE - img->texture.width - 1;
+			tex_x = SIZE - img->texture.width - 1;
 		// How much to increase the texture coordinate per screen pixel
 		step_d = 1.0 * SIZE / wall_line_height;
 
@@ -153,14 +153,14 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		tex_pos = (start - screenHeight / 2 + wall_line_height / 2) * step_d;
 		//printf("tex_pos: %f\n", tex_pos);
 		// get a random specific pixel data from img
-		if (side == 0)
-		{
-			tex_x = (int)(player->position.y + perp_wall_dist * ray_dir.y) % SIZE;
-		}
-		else
-		{
-			tex_x = (int)(player->position.x + perp_wall_dist * ray_dir.x) % SIZE;
-		}
+		// if (side == 0)
+		// {
+		// 	tex_x = (int)(player->position.y + perp_wall_dist * ray_dir.y);
+		// }
+		// else
+		// {
+		// 	tex_x = (int)(player->position.x + perp_wall_dist * ray_dir.x);
+		// }
 		// for(int y = start; y < end; y++)
 		// {
 		// 	//texture.y = (int)tex_pos & (SIZE - 1);
@@ -175,11 +175,6 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		// 		//color = (color >> 1) & 2139062143;	// 01111111 01111111 01111111 01111111
 		// // buffer[y][x] = color;
 		// }
-		//printf("img->texture.width: %d, texture.y: %d\n", img->texture.width, texture.y);
-		// if (side == 1)
-		// 	color = get_distance_color(perp_wall_dist * 1.5);
-		// else
-		// 	color = get_distance_color(perp_wall_dist);
 		
 		draw_v_line(player->map->game->screen, side, i, start, end, perp_wall_dist, &img->texture, tex_x);
 		ray_angle += player->ray_angle;
@@ -217,7 +212,7 @@ void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float
     while (y <= end)
     {
 		texture_y = (int)texture_pos & (t->height - 1);
-		color = get_pixel(t, tex_x, texture_y);
+		color = get_pixel(t, tex_x * t->bytes_per_pixel, texture_y);
 		if(side == 1)
 			color = (color >> 1) & 2139062143;
  		mlx_put_pixel(screen, x, y, color);
