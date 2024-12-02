@@ -13,7 +13,7 @@
 #include <cub3d.h>
 
 t_vec2 get_ray_direction(double angle);
-void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x);
+void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x, int tex_y);
 // Función para detectar líneas verticales y calcular distancias y alturas
 /**
  * @brief 
@@ -46,6 +46,7 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 	double		step_d;
 	int			texture_n;
 	int			tex_x;
+	double tex_y;
 	double		tex_pos;
 	uint32_t	color;
 	xpm_t* img;
@@ -134,16 +135,26 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 			end = screenHeight - 1;
 
 		texture_n = m[map.y][map.x] - 1;
+
+		if (wall_line_height > screenHeight)
+		{
+			tex_y = (wall_line_height - screenHeight) / 2 * resize;
+		}
+
+
 		if (side == 0)
 			tex_x = player->position.y + perp_wall_dist * ray_dir.y;
 		else
 			tex_x = player->position.x + perp_wall_dist * ray_dir.y;
-		tex_x -= floor(tex_x);
+		tex_x = fmod(tex_x, 1);
+
+
+
 		//img->texture.width = (int)(tex_x * (double)(SIZE));
 		if(side == 0 && ray_dir.x > 0)
-	  		tex_x = SIZE - img->texture.width - 1;
+	  		tex_x = player->position.y + perp_wall_dist * ray_dir.y;
       	if(side == 1 && ray_dir.y < 0)
-			tex_x = SIZE - img->texture.width - 1;
+			tex_x = player->position.x + perp_wall_dist * ray_dir.x;
 		// How much to increase the texture coordinate per screen pixel
 		step_d = 1.0 * SIZE / wall_line_height;
 
@@ -176,12 +187,13 @@ void detect_vertical_lines(t_player *player, int **m, int mWidth, int mHeight, i
 		// // buffer[y][x] = color;
 		// }
 		
-		draw_v_line(player->map->game->screen, side, i, start, end, perp_wall_dist, &img->texture, tex_x);
+		draw_v_line(player->map->game->screen, side, i, start, end, perp_wall_dist, &img->texture, tex_x, tex_y);
 		ray_angle += player->ray_angle;
 	}
+	mlx_delete_xpm42(img);
 }
 
-void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x) 
+void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float dist, mlx_texture_t *t, int tex_x, int tex_y) 
 {
     int		y;
 	int		texture_y;
@@ -212,7 +224,7 @@ void draw_v_line(mlx_image_t *screen, int side, int x, int start, int end, float
     while (y <= end)
     {
 		texture_y = (int)texture_pos & (t->height - 1);
-		color = get_pixel(t, tex_x * t->bytes_per_pixel, texture_y);
+		color = get_pixel(t, tex_x, tex_y);
 		if(side == 1)
 			color = (color >> 1) & 2139062143;
  		mlx_put_pixel(screen, x, y, color);

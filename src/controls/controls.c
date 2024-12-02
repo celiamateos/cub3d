@@ -6,7 +6,7 @@
 /*   By: settes <settes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 22:08:21 by iostancu          #+#    #+#             */
-/*   Updated: 2024/11/26 04:37:56 by settes           ###   ########.fr       */
+/*   Updated: 2024/12/02 01:00:14 by settes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	rotate_vision(t_player *p, int key)
 	
 	// p->rotation.x = p->rotation.x * cos(set_radius(p->rotation_speed)) - p->rotation.y * sin(set_radius(p->rotation_speed));
 	// p->rotation.y = old_plane.x * sin(set_radius(p->rotation_speed)) + p->rotation.y * cos(set_radius(p->rotation_speed));
-	//set_rotation(&p->rotation, p->looking_angle);
+	set_rotation(&p->rotation, p->looking_angle);
 }
 
 void my_keyhook(mlx_key_data_t k, void *param)
